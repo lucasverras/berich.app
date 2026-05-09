@@ -1,0 +1,28 @@
+.import-area {
+  margin: 24px 0;
+  padding: 24px;
+  border: 2px dashed var(--glass-border);
+  border-radius: 12px;
+  text-align: center;
+  background-color: rgba(61, 186, 106, 0.05);
+}
+
+.import-label {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--green-primary);
+  color: var(--bg-base);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.import-label:hover {
+  background-color: var(--green-dark);
+  transform: translateY(-2px);
+}
+
+.import-label:active {
+  transform: translateY(0);
+}

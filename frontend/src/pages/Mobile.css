@@ -1,0 +1,151 @@
+.mobile-view {
+  margin-left: 0;
+}
+
+.mobile-header {
+  padding: 16px 0;
+  margin-bottom: 16px;
+}
+
+.mobile-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--green-primary);
+}
+
+.mobile-card {
+  margin-bottom: 16px;
+}
+
+.balance-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.balance-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.balance-item .label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.balance-item .value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.balance-item .value.positive {
+  color: var(--positive);
+}
+
+.balance-item .value.negative {
+  color: var(--negative);
+}
+
+.balance-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.balance-total .label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.balance-total .value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.balance-total .value.positive {
+  color: var(--positive);
+}
+
+.balance-total .value.negative {
+  color: var(--negative);
+}
+
+.mobile-lancamentos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.mobile-lancamento {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.lancamento-left {
+  flex: 1;
+}
+
+.lancamento-desc {
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lancamento-date {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.lancamento-valor {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.lancamento-valor.positive {
+  color: var(--positive);
+}
+
+.lancamento-valor.negative {
+  color: var(--negative);
+}
+
+.mobile-actions {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.mobile-actions button {
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .mobile-header h1 {
+    font-size: 20px;
+  }
+
+  .balance-row {
+    gap: 12px;
+  }
+
+  .balance-item .value {
+    font-size: 14px;
+  }
+
+  .balance-total .value {
+    font-size: 18px;
+  }
+}

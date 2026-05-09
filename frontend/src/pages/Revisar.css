@@ -1,0 +1,118 @@
+.revisar-page {
+  margin-left: 240px;
+}
+
+.revisar-page h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.pendentes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 80px;
+}
+
+.pendente-card {
+  padding: 24px;
+}
+
+.pendente-info {
+  margin-bottom: 24px;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.info-row .label {
+  color: var(--text-secondary);
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.info-row.description {
+  align-items: flex-start;
+}
+
+.info-row.description span:last-child {
+  word-break: break-word;
+  flex: 1;
+}
+
+.info-row .positive {
+  color: var(--positive);
+  font-weight: 600;
+}
+
+.info-row .negative {
+  color: var(--negative);
+  font-weight: 600;
+}
+
+.pendente-actions {
+  border-top: 1px solid var(--glass-border);
+  padding-top: 16px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  cursor: pointer;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.button-group button {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .revisar-page {
+    margin-left: 0;
+  }
+
+  .revisar-page h1 {
+    font-size: 24px;
+  }
+
+  .info-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .info-row .label {
+    min-width: auto;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

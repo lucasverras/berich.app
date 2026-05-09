@@ -1,0 +1,33 @@
+.app {
+  display: flex;
+  height: 100vh;
+  background-color: var(--bg-base);
+}
+
+.app.desktop {
+  gap: 0;
+}
+
+.app.mobile {
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app.mobile .main-content {
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+}

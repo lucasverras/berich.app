@@ -1,0 +1,96 @@
+.relatorios-page {
+  margin-left: 240px;
+}
+
+.relatorios-page h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+}
+
+.relatorios-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.card.summary {
+  grid-column: 1 / -1;
+}
+
+.summary-rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+}
+
+.summary-row span:last-child {
+  font-weight: 700;
+}
+
+.summary-row .positive {
+  color: var(--positive);
+}
+
+.summary-row .negative {
+  color: var(--negative);
+}
+
+.card.pie-chart {
+  display: flex;
+  flex-direction: column;
+}
+
+.card.categories table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+}
+
+.card.categories th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.card.categories td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(52, 180, 90, 0.05);
+}
+
+.card.categories tr:last-child td {
+  border-bottom: none;
+}
+
+.card.categories tr:hover {
+  background-color: rgba(61, 186, 106, 0.05);
+}
+
+@media (max-width: 768px) {
+  .relatorios-page {
+    margin-left: 0;
+  }
+
+  .relatorios-page h1 {
+    font-size: 24px;
+  }
+
+  .summary-rows {
+    grid-template-columns: 1fr;
+  }
+}

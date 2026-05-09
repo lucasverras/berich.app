@@ -1,0 +1,99 @@
+.conta {
+  margin-left: 240px;
+}
+
+.conta-content {
+  padding: 32px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.header-left h1 {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.card .value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.card .value.positive {
+  color: var(--positive);
+}
+
+.card .value.negative {
+  color: var(--negative);
+}
+
+.lancamentos-container {
+  margin-bottom: 80px;
+}
+
+.lancamentos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.lancamentos-header h3 {
+  font-size: 18px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.no-data {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 32px;
+}
+
+table tbody tr.positive {
+  color: var(--positive);
+}
+
+table tbody tr.negative {
+  color: var(--negative);
+}
+
+table tbody tr.entrada {
+  color: var(--positive);
+}
+
+table tbody tr.saída {
+  color: var(--negative);
+}
+
+@media (max-width: 768px) {
+  .conta {
+    margin-left: 0;
+  }
+
+  .conta-content {
+    padding: 16px;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .lancamentos-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+}

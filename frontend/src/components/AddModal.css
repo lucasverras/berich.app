@@ -1,0 +1,59 @@
+.tipo-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tipo-tag {
+  background: rgba(12, 32, 16, 0.6);
+  border: 1px solid rgba(52, 180, 90, 0.15);
+  color: var(--text-secondary);
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+  box-shadow: none;
+}
+
+.tipo-tag:hover {
+  border-color: rgba(52, 180, 90, 0.3);
+  box-shadow: none;
+}
+
+.tipo-tag.active {
+  background: rgba(61, 186, 106, 0.15);
+  border-color: #3dba6a;
+  color: #3dba6a;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .modal {
+    max-width: 100%;
+    width: 95%;
+  }
+
+  .form-actions {
+    gap: 8px;
+  }
+
+  .form-actions button {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}

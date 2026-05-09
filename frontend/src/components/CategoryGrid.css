@@ -1,0 +1,54 @@
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.category-card {
+  background: rgba(12, 32, 16, 0.6);
+  border: 1px solid rgba(76, 175, 80, 0.15);
+  border-radius: 14px;
+  padding: 12px 16px;
+  background-image: linear-gradient(135deg, rgba(76, 175, 80, 0.08), transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.category-card:hover {
+  border-color: rgba(76, 175, 80, 0.3);
+  background: rgba(12, 32, 16, 0.7);
+}
+
+.category-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.category-name {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.category-value {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.category-progress {
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.3s ease;
+}

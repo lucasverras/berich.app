@@ -1,0 +1,255 @@
+.onboarding {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.onboarding-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-gradient);
+  background-image: url('../assets/cf001aad4673ca3f655036793278020a.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.onboarding-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(10, 22, 40, 0.85);
+  border: 1px solid rgba(100, 200, 255, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  animation: slideUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.onboarding-hero {
+  margin-bottom: 32px;
+}
+
+.hero-icon {
+  font-size: 80px;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.onboarding-card h1 {
+  font-size: 48px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.onboarding-card h2 {
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.tagline {
+  font-size: 18px;
+  color: var(--primary-light);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.onboarding-content {
+  margin-bottom: 32px;
+}
+
+.feature-icon {
+  font-size: 60px;
+  display: inline-block;
+  margin-bottom: 16px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.features {
+  list-style: none;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.features li {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.15);
+  border-radius: 16px;
+  align-items: flex-start;
+}
+
+.features li span {
+  font-size: 28px;
+  min-width: 40px;
+}
+
+.features li strong {
+  color: #81c784;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.features li p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+
+.onboarding-card input {
+  width: 100%;
+  padding: 14px 20px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1.5px solid rgba(76, 175, 80, 0.2);
+  color: var(--text-primary);
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.onboarding-card input::placeholder {
+  color: var(--text-secondary);
+}
+
+.onboarding-card input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(76, 175, 80, 0.12);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+.onboarding-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.onboarding-actions button {
+  width: 100%;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.onboarding-actions button.secondary {
+  background: transparent;
+  color: #81c784;
+  border: 1.5px solid #81c784;
+}
+
+.onboarding-actions button.secondary:hover {
+  background: rgba(76, 175, 80, 0.1);
+  border-color: var(--primary);
+}
+
+.onboarding-dots {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(100, 200, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 24px;
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  .onboarding-card {
+    padding: 32px 24px;
+    border-radius: 24px;
+  }
+
+  .onboarding-card h1 {
+    font-size: 36px;
+  }
+
+  .onboarding-card h2 {
+    font-size: 24px;
+  }
+
+  .tagline {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .feature-icon {
+    font-size: 48px;
+  }
+
+  .hero-icon {
+    font-size: 64px;
+  }
+
+  .features li {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .features li span {
+    font-size: 24px;
+  }
+}

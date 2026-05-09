@@ -1,0 +1,39 @@
+.bank-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.bank-tabs .tab {
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.bank-tabs .tab:hover {
+  border-color: var(--green-primary);
+}
+
+.bank-tabs .tab.active {
+  background-color: transparent;
+  border-color: var(--green-primary);
+  color: var(--green-primary);
+}
+
+@media (max-width: 768px) {
+  .bank-tabs {
+    gap: 6px;
+  }
+
+  .bank-tabs .tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
