@@ -603,21 +603,21 @@
   color: #4ade80;
 }
 
-.outros-bancos-section {
-  margin-top: 16px;
+.outros-bancos-mobile {
+  margin-top: 20px;
 }
 
-.outros-bancos-header h3 {
+.outros-bancos-mobile h3 {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 12px;
   color: #f0fdf4;
 }
 
-.outro-banco-card {
+.banco-card-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 12px;
   background: rgba(10, 22, 10, 0.65);
   border: 1px solid rgba(34, 197, 94, 0.2);
   border-radius: 16px;
@@ -627,21 +627,16 @@
   transition: all 0.2s ease;
 }
 
-.outro-banco-card:hover {
+.banco-card-item:hover {
   background: rgba(15, 30, 15, 0.75);
   border-color: rgba(34, 197, 94, 0.35);
 }
 
-.outro-banco-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.outro-banco-sigla {
-  width: 40px;
-  height: 40px;
+.banco-avatar {
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -650,28 +645,33 @@
   color: white;
 }
 
-.outro-banco-nome {
+.banco-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.banco-nome {
   font-weight: 600;
   font-size: 15px;
   color: #f0fdf4;
 }
 
-.outro-banco-tipo {
+.banco-sub {
   font-size: 12px;
   color: rgba(120, 180, 120, 0.5);
-  margin-top: 2px;
 }
 
-.outro-banco-saldo {
+.saldo-pos {
   font-weight: 700;
   font-size: 16px;
-}
-
-.outro-banco-saldo.positivo {
   color: #22c55e;
 }
 
-.outro-banco-saldo.negativo {
+.saldo-neg {
+  font-weight: 700;
+  font-size: 16px;
   color: #ef4444;
 }
 

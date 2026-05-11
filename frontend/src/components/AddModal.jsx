@@ -145,34 +145,32 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'cartão' 
       // Se parcelado, criar múltiplos lançamentos
       if (formData.parcelado && parcelas > 1) {
         const valorParcela = lancamentoValor / parcelas
-        const [ano, mes, dia] = formData.data.split('-').map(Number)
-        const dataCompra = new Date(ano, mes - 1, dia)
+        const dataCompra = new Date(formData.data + 'T12:00:00')
+        const diaCompra = dataCompra.getDate()
 
-        // Calcular fatura inicial baseado no ciclo do cartão
-        // Fechamento: dia 1 | Vencimento: dia 10
-        // Se compra <= dia 1: fatura do mês atual
-        // Se compra > dia 1: fatura do próximo mês
-        const calcularFaturaInicial = (data) => {
-          if (data.getDate() <= 1) {
-            return new Date(data.getFullYear(), data.getMonth(), 1)
-          } else {
-            return new Date(data.getFullYear(), data.getMonth() + 1, 1)
+        // Calcular mês da primeira fatura
+        let mesFatura = dataCompra.getMonth()
+        let anoFatura = dataCompra.getFullYear()
+        if (diaCompra > 1) {
+          mesFatura += 1
+          if (mesFatura > 11) {
+            mesFatura = 0
+            anoFatura += 1
           }
         }
 
-        const faturaBase = calcularFaturaInicial(dataCompra)
-
         for (let i = 0; i < parcelas; i++) {
-          // Data da parcela: 1º dia da fatura + i meses
-          const dataParc = new Date(faturaBase.getFullYear(), faturaBase.getMonth() + i, 1)
+          let m = mesFatura + i
+          let a = anoFatura
+          while (m > 11) {
+            m -= 12
+            a += 1
+          }
 
-          const anoParc = dataParc.getFullYear()
-          const mesParc = String(dataParc.getMonth() + 1).padStart(2, '0')
-          const diaParc = String(dataParc.getDate()).padStart(2, '0')
-          const dataFormatada = `${anoParc}-${mesParc}-${diaParc}`
+          const dataParc = `${a}-${String(m + 1).padStart(2, '0')}-01`
 
           await axios.post('/api/lancamentos', {
-            data: dataFormatada,
+            data: dataParc,
             valor: valorParcela,
             tipo: lancamentoTipo,
             categoria: formData.categoria || null,

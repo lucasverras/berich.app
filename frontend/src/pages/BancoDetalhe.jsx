@@ -38,10 +38,10 @@ function BancoDetalhe() {
     try {
       const [resumoRes, lancamentosRes] = await Promise.all([
         axios.get(`/api/bancos/${banco}/resumo`, {
-          params: { mes: mesSelecionado + 1, ano }
+          params: { mes: mesSelecionado + 1, ano, forma_pagamento: 'pix' }
         }),
         axios.get(`/api/bancos/${banco}/lancamentos`, {
-          params: { mes: mesSelecionado + 1, ano }
+          params: { mes: mesSelecionado + 1, ano, forma_pagamento: 'pix' }
         })
       ])
       setResumo(resumoRes.data)

@@ -504,7 +504,7 @@ def get_outros_bancos(db: Session = Depends(get_db)):
     return resultado
 
 @app.get("/api/bancos/{banco_nome}/resumo")
-def get_banco_resumo(banco_nome: str, mes: Optional[int] = None, ano: Optional[int] = None, db: Session = Depends(get_db)):
+def get_banco_resumo(banco_nome: str, mes: Optional[int] = None, ano: Optional[int] = None, forma_pagamento: Optional[str] = None, db: Session = Depends(get_db)):
     """Retorna resumo de entradas, saídas e saldo de um banco"""
     query = db.query(Lancamento).filter(Lancamento.banco == banco_nome)
 
@@ -513,6 +513,9 @@ def get_banco_resumo(banco_nome: str, mes: Optional[int] = None, ano: Optional[i
             (Lancamento.data >= date(ano, mes, 1)) &
             (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
         )
+
+    if forma_pagamento:
+        query = query.filter(Lancamento.forma_pagamento == forma_pagamento)
 
     lancamentos = query.all()
 
@@ -528,7 +531,7 @@ def get_banco_resumo(banco_nome: str, mes: Optional[int] = None, ano: Optional[i
     }
 
 @app.get("/api/bancos/{banco_nome}/lancamentos")
-def get_banco_lancamentos(banco_nome: str, mes: Optional[int] = None, ano: Optional[int] = None, db: Session = Depends(get_db)):
+def get_banco_lancamentos(banco_nome: str, mes: Optional[int] = None, ano: Optional[int] = None, forma_pagamento: Optional[str] = None, db: Session = Depends(get_db)):
     """Lista lançamentos de um banco específico"""
     query = db.query(Lancamento).filter(Lancamento.banco == banco_nome)
 
@@ -537,6 +540,9 @@ def get_banco_lancamentos(banco_nome: str, mes: Optional[int] = None, ano: Optio
             (Lancamento.data >= date(ano, mes, 1)) &
             (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
         )
+
+    if forma_pagamento:
+        query = query.filter(Lancamento.forma_pagamento == forma_pagamento)
 
     lancamentos = query.order_by(Lancamento.data.desc()).all()
 

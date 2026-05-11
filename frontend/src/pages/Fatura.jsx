@@ -6,6 +6,9 @@ import EditLancamentoModal from '../components/EditLancamentoModal'
 import './Fatura.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+const LIMITE_CARTAO = 4800
+const DIA_FECHAMENTO = 1
+const DIA_VENCIMENTO = 10
 
 const fmt = (v) => {
   if (!v) return 'R$ 0,00'
@@ -93,6 +96,16 @@ function Fatura() {
     fetchLancamentos()
   }
 
+  const hoje = new Date()
+  const diaHoje = hoje.getDate()
+  const faturaFechada = diaHoje >= DIA_FECHAMENTO && diaHoje < DIA_VENCIMENTO
+  const diasParaVencer = DIA_VENCIMENTO - diaHoje
+  const percentualFatura = (fatura / LIMITE_CARTAO) * 100
+  const limiteDisponivel = Math.max(0, LIMITE_CARTAO - fatura)
+
+  let corProgresso = '#22c55e'
+  if (percentualFatura > 90) corProgresso = '#ef4444'
+  else if (percentualFatura > 70) corProgresso = '#eab308'
 
   return (
     <div className="fatura-layout">
@@ -127,12 +140,37 @@ function Fatura() {
 
         {/* STATS GRID */}
         <div className="stats-grid single">
-          <div className="stat-card stat-card-glass stat-card-glow">
+          <div className="stat-card stat-card-glass stat-card-glow fatura-card">
             <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
-            <div className="stat-icon stat-icon-red">💳</div>
-            <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
+            <div className="fatura-card-top">
+              <div>
+                <div className="stat-icon stat-icon-red">💳</div>
+                <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
+              </div>
+              <div className="fatura-badges">
+                {faturaFechada && <span className="badge-orange">Fatura fechada</span>}
+                {!faturaFechada && diasParaVencer > 0 && <span className="badge-red">Vence em {diasParaVencer} dia{diasParaVencer > 1 ? 's' : ''}</span>}
+              </div>
+            </div>
             <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
-            <div className="stat-sub">Total a pagar</div>
+
+            <div className="fatura-progress-wrapper">
+              <div className="fatura-progress-bar">
+                <div className="fatura-progress-fill" style={{ width: `${Math.min(percentualFatura, 100)}%`, background: corProgresso }}></div>
+              </div>
+              <span className="fatura-progress-text">{percentualFatura.toFixed(0)}% do limite</span>
+            </div>
+
+            <div className="fatura-info">
+              <div className="info-item">
+                <span className="info-label">Limite disponível</span>
+                <span className="info-value">{fmt(limiteDisponivel)}</span>
+              </div>
+              <div className="info-divider"></div>
+              <div className="info-item">
+                <span className="info-label">Fecha dia {DIA_FECHAMENTO} · Vence dia {DIA_VENCIMENTO}</span>
+              </div>
+            </div>
           </div>
         </div>
 

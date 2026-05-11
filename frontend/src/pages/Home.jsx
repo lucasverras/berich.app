@@ -454,37 +454,29 @@ function Home() {
           )}
 
           {/* D) SEÇÃO OUTROS BANCOS */}
-          <div className="outros-bancos-section">
-            <div className="outros-bancos-header">
-              <h3>Outros Bancos</h3>
-            </div>
+          <div className="outros-bancos-mobile">
+            <h3>Outros Bancos</h3>
 
-            {/* Card Itaú */}
-            <div className="outro-banco-card" onClick={() => navigate('/banco/Itaú')}>
-              <div className="outro-banco-left">
-                <div className="outro-banco-sigla" style={{ background: '#fb923c' }}>IT</div>
-                <div>
-                  <div className="outro-banco-nome">Itaú</div>
-                  <div className="outro-banco-tipo">Conta corrente • PIX</div>
-                </div>
+            <div className="banco-card-item" onClick={() => navigate('/banco/Itaú')}>
+              <div className="banco-avatar" style={{ background: '#fb923c' }}>IT</div>
+              <div className="banco-info">
+                <span className="banco-nome">Itaú</span>
+                <span className="banco-sub">Conta corrente</span>
               </div>
-              <div className={`outro-banco-saldo ${resumoItau.saldo >= 0 ? 'positivo' : 'negativo'}`}>
+              <span className={resumoItau.saldo >= 0 ? 'saldo-pos' : 'saldo-neg'}>
                 {fmt(resumoItau.saldo)}
-              </div>
+              </span>
             </div>
 
-            {/* Card VamoNessa SP */}
-            <div className="outro-banco-card" onClick={() => navigate('/banco/VamoNessa SP')}>
-              <div className="outro-banco-left">
-                <div className="outro-banco-sigla" style={{ background: '#a78bfa' }}>VN</div>
-                <div>
-                  <div className="outro-banco-nome">VamoNessa SP</div>
-                  <div className="outro-banco-tipo">Conta corrente • PIX</div>
-                </div>
+            <div className="banco-card-item" onClick={() => navigate('/banco/VamoNessa SP')}>
+              <div className="banco-avatar" style={{ background: '#a78bfa' }}>VN</div>
+              <div className="banco-info">
+                <span className="banco-nome">VamoNessa SP</span>
+                <span className="banco-sub">Conta corrente</span>
               </div>
-              <div className={`outro-banco-saldo ${resumoVamoNessa.saldo >= 0 ? 'positivo' : 'negativo'}`}>
+              <span className={resumoVamoNessa.saldo >= 0 ? 'saldo-pos' : 'saldo-neg'}>
                 {fmt(resumoVamoNessa.saldo)}
-              </div>
+              </span>
             </div>
           </div>
         </div>
