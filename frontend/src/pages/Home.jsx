@@ -41,45 +41,83 @@ function Home() {
       'Educação': 70
     }
   })
+  const [fatura, setFatura] = useState(0)
+  const [saldoAtual, setSaldoAtual] = useState(0)
+  const [lancamentosCartao, setLancamentosCartao] = useState([])
+  const [lancamentosConta, setLancamentosConta] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
   const [lancamentos, setLancamentos] = useState([])
 
   useEffect(() => {
-    fetchResumo()
-    fetchLancamentos()
+    fetchFatura()
+    fetchSaldo()
+    fetchLancamentosCartao()
+    fetchLancamentosConta()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
 
-  const fetchResumo = async () => {
+  const fetchFatura = async () => {
     try {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: bancoAtivo,
           mes: mesAno.mes,
           ano: mesAno.ano,
+          forma_pagamento: 'cartão',
         }
       })
-      setResumo(response.data || { entradas: 0, saidas: 0, saldo: 0, por_categoria: {} })
+      setFatura(response.data.saidas || 0)
     } catch (error) {
-      console.error('Erro ao buscar resumo:', error)
+      console.error('Erro ao buscar fatura:', error)
     }
   }
 
-  const fetchLancamentos = async () => {
+  const fetchSaldo = async () => {
     try {
-      const response = await axios.get('/api/lancamentos', {
+      const response = await axios.get('/api/resumo', {
         params: {
           banco: bancoAtivo,
           mes: mesAno.mes,
           ano: mesAno.ano,
+          forma_pagamento: 'pix',
+        }
+      })
+      setSaldoAtual(response.data.saldo || 0)
+    } catch (error) {
+      console.error('Erro ao buscar saldo:', error)
+    }
+  }
+
+  const fetchLancamentosCartao = async () => {
+    try {
+      const response = await axios.get('/api/lancamentos', {
+        params: {
+          banco: bancoAtivo,
+          forma_pagamento: 'cartão',
           limit: 5
         }
       })
-      setLancamentos(response.data || [])
+      setLancamentosCartao(response.data || [])
     } catch (error) {
-      console.error('Erro ao buscar lançamentos:', error)
-      setLancamentos([])
+      console.error('Erro ao buscar lançamentos cartão:', error)
+      setLancamentosCartao([])
+    }
+  }
+
+  const fetchLancamentosConta = async () => {
+    try {
+      const response = await axios.get('/api/lancamentos', {
+        params: {
+          banco: bancoAtivo,
+          forma_pagamento: 'pix',
+          limit: 5
+        }
+      })
+      setLancamentosConta(response.data || [])
+    } catch (error) {
+      console.error('Erro ao buscar lançamentos conta:', error)
+      setLancamentosConta([])
     }
   }
 
@@ -185,42 +223,78 @@ function Home() {
         <div className="stats-grid">
           <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/fatura')}>
             <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
-            <div className="stat-icon stat-icon-red">📊</div>
-            <div className="stat-label">Fatura do Mês</div>
-            <div className="stat-value negative">{fmt(Math.abs(resumo.saidas))}</div>
-            <div className="stat-sub">{MESES[mesSelecionado]} · Sem gastos registrados</div>
+            <div className="stat-icon stat-icon-red">💳</div>
+            <div className="stat-label">Fatura do Cartão</div>
+            <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
+            <div className="stat-sub">{MESES[mesSelecionado]} · Pague manualmente</div>
           </div>
 
           <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/conta')}>
             <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
-            <div className="stat-icon stat-icon-blue">$</div>
-            <div className="stat-label">Saldo Atual</div>
-            <div className="stat-value">{fmt(resumo.saldo)}</div>
-            <div className="stat-sub">Movimentação total</div>
+            <div className="stat-icon stat-icon-blue">💰</div>
+            <div className="stat-label">Saldo da Conta</div>
+            <div className="stat-value positive">{fmt(saldoAtual)}</div>
+            <div className="stat-sub">Saldo disponível</div>
           </div>
         </div>
 
-        {/* FATURA SECTION */}
-        <div className="fatura-section">
-          <h2 className="section-title">FATURA</h2>
-          <div className="fatura-indicators">
-            {lancamentos.length > 0 ? (
-              lancamentos.slice(0, 5).map((item, i) => (
-                <div
-                  key={i}
-                  className="fatura-indicator"
-                  style={{ opacity: i === 4 && lancamentos.length >= 5 ? 0.2 : 1 }}
-                  title={item.descricao || 'Lançamento'}
-                ></div>
-              ))
+        {/* ÚLTIMOS LANÇAMENTOS */}
+        <div className="recent-transactions">
+          {/* CARTÃO */}
+          <div className="transactions-card">
+            <div className="card-header">
+              <span className="card-title">Últimos Lançamentos - Cartão</span>
+              <span className="card-badge">{lancamentosCartao.length}</span>
+            </div>
+            {lancamentosCartao.length > 0 ? (
+              <div className="transactions-list">
+                {lancamentosCartao.map(l => (
+                  <div key={l.id} className="transaction-item">
+                    <div className="trans-left">
+                      <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                      <div className="trans-info">
+                        <p className="trans-desc">{l.descricao}</p>
+                        <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                      </div>
+                    </div>
+                    <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
+                  </div>
+                ))}
+              </div>
             ) : (
-              <div className="fatura-empty">Sem lançamentos neste período</div>
+              <div className="empty-state-text">Sem lançamentos neste cartão</div>
+            )}
+          </div>
+
+          {/* CONTA */}
+          <div className="transactions-card">
+            <div className="card-header">
+              <span className="card-title">Últimos Lançamentos - Conta</span>
+              <span className="card-badge">{lancamentosConta.length}</span>
+            </div>
+            {lancamentosConta.length > 0 ? (
+              <div className="transactions-list">
+                {lancamentosConta.map(l => (
+                  <div key={l.id} className="transaction-item">
+                    <div className="trans-left">
+                      <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                      <div className="trans-info">
+                        <p className="trans-desc">{l.descricao}</p>
+                        <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                      </div>
+                    </div>
+                    <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-state-text">Sem lançamentos nesta conta</div>
             )}
           </div>
         </div>
 
         {/* BOTTOM ROW */}
-        <div className="bottom-grid">
+        <div className="bottom-grid" style={{display: 'none'}}>
           {/* CONTAS CARD */}
           <div className="card banks-card">
             <div className="card-header">
