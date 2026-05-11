@@ -164,7 +164,6 @@ function BancoDetalhe() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onLancamentoAdded={handleLancamentoSaved}
-        bancoFixo={banco}
       />
 
       <EditLancamentoModal
