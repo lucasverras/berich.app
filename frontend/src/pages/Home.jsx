@@ -349,7 +349,14 @@ function Home() {
     }
   }
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 768)
+  const isMobile = windowWidth < 768
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
     <div className="home-layout">
