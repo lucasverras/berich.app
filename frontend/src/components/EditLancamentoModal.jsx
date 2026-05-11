@@ -84,6 +84,32 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
 
         <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
           <div className="form-group">
+            <label>Descrição</label>
+            <textarea
+              name="descricao"
+              value={formData.descricao}
+              onChange={handleChange}
+              rows="2"
+              placeholder="O que foi comprado/recebido?"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Valor</label>
+            <div className="valor-input-wrapper">
+              <span className="valor-prefix">R$</span>
+              <input
+                type="number"
+                name="valor"
+                value={formData.valor}
+                onChange={handleChange}
+                step="0.01"
+                placeholder="0,00"
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
             <label>Data</label>
             <input
               type="date"
@@ -94,34 +120,20 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
           </div>
 
           <div className="form-group">
-            <label>Valor</label>
-            <input
-              type="number"
-              name="valor"
-              value={formData.valor}
-              onChange={handleChange}
-              step="0.01"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Descrição</label>
-            <textarea
-              name="descricao"
-              value={formData.descricao}
-              onChange={handleChange}
-              rows="2"
-            />
-          </div>
-
-          <div className="form-group">
             <label>Categoria</label>
-            <select name="categoria" value={formData.categoria} onChange={handleChange}>
-              <option value="">Sem categoria</option>
+            <input
+              type="text"
+              name="categoria"
+              value={formData.categoria}
+              onChange={handleChange}
+              placeholder="Digite ou selecione uma categoria"
+              list="categorias-list"
+            />
+            <datalist id="categorias-list">
               {categorias && categorias.map(cat => (
-                <option key={cat.id} value={cat.nome}>{cat.nome}</option>
+                <option key={cat.id} value={cat.nome} />
               ))}
-            </select>
+            </datalist>
           </div>
 
           <div className="modal-actions">

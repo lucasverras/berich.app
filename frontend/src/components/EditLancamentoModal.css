@@ -1,3 +1,34 @@
+.valor-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.valor-prefix {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #86efac;
+  pointer-events: none;
+}
+
+.valor-input-wrapper input {
+  padding-left: 32px !important;
+  text-align: right;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
 .modal-actions {
   display: flex;
   align-items: center;
