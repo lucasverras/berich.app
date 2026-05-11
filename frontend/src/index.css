@@ -89,6 +89,19 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import './styles/grain-backgrounds.css';
 
@@ -103,6 +116,11 @@ body {
   color: var(--text-primary);
   position: relative;
   letter-spacing: -0.3px;
+  margin: 0;
+  padding: 0;
+  overflow: clip;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -110,10 +128,30 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.5px;
 }
 
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
+html {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #050a05;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #050a05;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 a {
@@ -1038,10 +1076,6 @@ table tbody tr:not(.entrada):not(.saída):not(.positive):not(.negative):hover {
 
 /* Large screens (2560px+) */
 @media (min-width: 2560px) {
-  .main-content {
-    max-width: 1800px;
-  }
-
   body {
     font-size: 16px;
   }

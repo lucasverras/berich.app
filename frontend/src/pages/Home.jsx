@@ -440,9 +440,6 @@ function Home() {
           </div>
         </div>
 
-        {/* OUTROS BANCOS */}
-        <OutrosBancos />
-
         {/* GASTOS POR CATEGORIA */}
         <div className="chart-card-section">
           <div className="card chart-card">
@@ -477,6 +474,9 @@ function Home() {
             )}
           </div>
         </div>
+
+        {/* OUTROS BANCOS */}
+        <OutrosBancos />
 
         {/* INVESTIMENTOS CARD */}
         <div className="investment-card" onClick={() => setIsEditInvestimentoModalOpen(true)}>

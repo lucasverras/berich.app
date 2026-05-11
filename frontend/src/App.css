@@ -1,7 +1,9 @@
 .app {
   display: flex;
+  width: 100vw;
   height: 100vh;
   background-color: var(--bg-base);
+  overflow: hidden;
 }
 
 .app.desktop {
@@ -15,10 +17,18 @@
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: clamp(16px, 4vw, 32px);
-  max-width: 1400px;
-  margin: 0 auto;
+  overflow-x: hidden;
+  padding: 12px;
   width: 100%;
+  min-width: 0;
+  height: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.main-content::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
 }
 
 .app.mobile .main-content {
@@ -32,7 +42,7 @@
   }
 
   .main-content {
-    padding: 16px;
+    padding: 12px;
     max-width: 100%;
     padding-bottom: 100px;
   }
@@ -46,14 +56,14 @@
 /* Responsive: Tablet (768px–1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .main-content {
-    padding: 20px;
+    padding: 16px;
   }
 }
 
 /* Responsive: Desktop (1024px+) */
 @media (min-width: 1024px) {
   .main-content {
-    padding: 32px;
+    padding: 24px;
   }
 }
 

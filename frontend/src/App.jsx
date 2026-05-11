@@ -20,7 +20,18 @@ import './App.css'
 function AppContent() {
   const location = useLocation()
   const [showOnboarding, setShowOnboarding] = useState(!localStorage.getItem('onboardingDone'))
-  const isMobile = location.pathname === '/mobile'
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 768)
+  const isMobile = windowWidth < 768
+
+  React.useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--sidebar-w', isMobile ? '0px' : '160px')
+  }, [isMobile])
 
   const handleOnboardingComplete = () => {
     setShowOnboarding(false)

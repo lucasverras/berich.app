@@ -13,11 +13,11 @@
 .home-layout {
   font-family: 'DM Sans', 'Nunito', sans-serif;
   background: var(--bg-base);
-  min-height: 100vh;
   color: var(--text-primary);
   overflow-x: hidden;
   position: relative;
   width: 100%;
+  height: 100%;
 }
 
 @media (min-width: 768px) {
@@ -60,32 +60,25 @@
   left: 40%;
 }
 
+/* DESKTOP (> 1024px): padding 24px */
 .home-main {
   position: relative;
   z-index: 5;
-  padding: 32px 36px;
-  max-width: 1360px;
-  margin: 0 auto;
+  padding: 24px;
   width: 100%;
 }
 
-@media (max-width: 1400px) {
+/* TABLET (768px - 1024px): padding 16px */
+@media (max-width: 1024px) {
   .home-main {
-    max-width: 100%;
-    padding: 32px 40px;
+    padding: 16px;
   }
 }
 
-@media (max-width: 1200px) {
+/* MOBILE (< 768px): padding 12px */
+@media (max-width: 767px) {
   .home-main {
-    padding: 28px 36px;
-  }
-}
-
-@media (max-width: 768px) {
-  .home-main {
-    padding: 20px 16px;
-    max-width: 100%;
+    padding: 12px;
   }
 }
 
@@ -193,6 +186,7 @@
   transition: all 0.2s;
   position: relative;
   white-space: nowrap;
+  z-index: 50;
 }
 
 .month-picker:hover {
@@ -223,7 +217,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
   margin-top: 8px;
-  z-index: 20;
+  z-index: 50;
   min-width: 200px;
 }
 
@@ -256,17 +250,23 @@
 
 /* STATS GRID */
 /* MAIN GRID - 2 COLUMNS */
-/* Mobile Home Section */
+/* Mobile Home Section - visible only on mobile */
 .mobile-home-section {
   display: none;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
-@media (max-width: 768px) {
+/* MOBILE (< 768px): mostrar mobile layout */
+@media (max-width: 767px) {
   .mobile-home-section {
     display: flex;
+  }
+
+  /* Esconder desktop layout em mobile */
+  .main-grid-2col {
+    display: none;
   }
 }
 
@@ -482,6 +482,7 @@
 }
 
 /* 2 Column Layout with Divider */
+/* DESKTOP (> 1024px): 2 colunas lado a lado */
 .main-grid-2col {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -491,33 +492,21 @@
   position: relative;
 }
 
-@media (max-width: 1200px) {
+/* TABLET (768px - 1024px): 2 colunas menores */
+@media (max-width: 1024px) {
   .main-grid-2col {
-    gap: 24px;
-  }
-}
-
-@media (max-width: 968px) {
-  .main-grid-2col {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 }
 
-@media (max-width: 768px) {
+/* MOBILE (< 768px): 1 coluna, 100% largura */
+@media (max-width: 767px) {
   .main-grid-2col {
-    display: none;
-  }
-}
-
-/* Hide chart and investments on mobile */
-@media (max-width: 768px) {
-  .chart-card-section {
-    display: none;
-  }
-
-  .investimentos-section {
-    display: none;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
   }
 }
 
@@ -759,9 +748,25 @@
   border-radius: 18px;
   padding: 22px 24px;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 0 4px 20px rgba(34, 197, 94, 0.08);
+  max-height: 400px;
+}
+
+/* Esconder scrollbar no transactions-card */
+.transactions-card::-webkit-scrollbar {
+  width: 4px;
+}
+
+.transactions-card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.transactions-card::-webkit-scrollbar-thumb {
+  background: rgba(34, 197, 94, 0.2);
+  border-radius: 2px;
 }
 
 .transactions-card:hover {
@@ -1124,21 +1129,17 @@
   }
 }
 
-@media (max-width: 1200px) {
-  .chart-card {
-    min-height: 400px;
-  }
-
-  .chart-wrapper {
-    height: 320px;
-  }
+/* DESKTOP (> 1024px): 400px height */
+.chart-card {
+  width: 100%;
 }
 
-@media (max-width: 968px) {
-  .chart-card {
-    min-height: 380px;
-  }
+.chart-wrapper {
+  height: 400px;
+}
 
+/* TABLET (768px - 1024px): 300px height */
+@media (max-width: 1024px) {
   .chart-wrapper {
     height: 300px;
   }
@@ -1148,17 +1149,23 @@
   }
 }
 
-@media (max-width: 768px) {
-  .chart-legend {
-    gap: 8px;
+/* MOBILE (< 768px): 250px height */
+@media (max-width: 767px) {
+  .chart-card-section {
+    display: block;
   }
 
   .chart-wrapper {
-    height: 260px;
+    height: 250px;
+  }
+
+  .chart-legend {
+    gap: 8px;
+    flex-direction: column;
   }
 
   .chart-center-val {
-    font-size: 22px;
+    font-size: 20px;
   }
 }
 
