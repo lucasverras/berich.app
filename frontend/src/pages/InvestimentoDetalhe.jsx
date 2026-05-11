@@ -22,10 +22,13 @@ function InvestimentoDetalhe() {
   const [valorAtual, setValorAtual] = useState(investimento?.valor_atual || 2450)
   const [isEditingValor, setIsEditingValor] = useState(false)
   const [novoValor, setNovoValor] = useState(valorAtual)
+  const [isEditingTotal, setIsEditingTotal] = useState(false)
+  const [novoTotal, setNovoTotal] = useState(totalMontante)
 
   const totalMontante = entradas.reduce((sum, e) => sum + e.valor, 0)
-  const ganho = valorAtual - totalMontante
-  const percentual = totalMontante > 0 ? ((ganho / totalMontante) * 100).toFixed(2) : 0
+  const totalInvestidoAtual = isEditingTotal ? parseFloat(novoTotal) || totalMontante : totalMontante
+  const ganho = valorAtual - totalInvestidoAtual
+  const percentual = totalInvestidoAtual > 0 ? ((ganho / totalInvestidoAtual) * 100).toFixed(2) : 0
 
   const handleAdicionarEntrada = (e) => {
     e.preventDefault()
@@ -64,6 +67,20 @@ function InvestimentoDetalhe() {
     setIsEditingValor(false)
   }
 
+  const handleSalvarTotal = () => {
+    if (!novoTotal || parseFloat(novoTotal) < 0) {
+      alert('Preencha um valor válido')
+      return
+    }
+    setNovoTotal(parseFloat(novoTotal))
+    setIsEditingTotal(false)
+  }
+
+  const handleCancelarTotal = () => {
+    setNovoTotal(totalMontante)
+    setIsEditingTotal(false)
+  }
+
   if (!investimento) {
     return (
       <div className="investimento-detalhe">
@@ -99,10 +116,42 @@ function InvestimentoDetalhe() {
       <div className="valores-grid">
         {/* Total Investido */}
         <div className="montante-card card">
-          <h3>Total Investido</h3>
-          <div className="montante-valor">
-            R$ {totalMontante.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <div className="valor-atual-header">
+            <h3>Total Investido</h3>
+            {!isEditingTotal && (
+              <button
+                className="btn-editar-valor"
+                onClick={() => {
+                  setIsEditingTotal(true)
+                  setNovoTotal(totalMontante)
+                }}
+                title="Editar total investido"
+              >
+                ✎
+              </button>
+            )}
           </div>
+
+          {isEditingTotal ? (
+            <div className="valor-atual-edit">
+              <input
+                type="number"
+                value={novoTotal}
+                onChange={(e) => setNovoTotal(e.target.value)}
+                step="0.01"
+                placeholder="0,00"
+                className="input-valor"
+              />
+              <div className="botoes-edit">
+                <button className="btn-cancelar" onClick={handleCancelarTotal}>Cancelar</button>
+                <button className="btn-salvar" onClick={handleSalvarTotal}>Salvar</button>
+              </div>
+            </div>
+          ) : (
+            <div className="montante-valor">
+              R$ {totalMontante.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </div>
+          )}
         </div>
 
         {/* Valor Atual */}
