@@ -5,6 +5,8 @@
   padding-bottom: 6px;
   margin-bottom: 12px;
   scroll-behavior: smooth;
+  width: fit-content;
+  max-width: 100%;
 }
 
 @media (max-width: 768px) {
