@@ -703,6 +703,7 @@
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 0 4px 20px rgba(34, 197, 94, 0.08);
+  cursor: pointer;
 }
 
 .investment-card:hover {

@@ -7,6 +7,7 @@ import { Doughnut } from 'react-chartjs-2'
 import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
+import EditInvestimentoModal from '../components/EditInvestimentoModal'
 import './Home.css'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -53,6 +54,11 @@ function Home() {
   const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
   const [lancamentos, setLancamentos] = useState([])
+  const [isEditInvestimentoModalOpen, setIsEditInvestimentoModalOpen] = useState(false)
+  const [investimentoData, setInvestimentoData] = useState({
+    investido: 16000,
+    valor_atual: 16670,
+  })
 
   useEffect(() => {
     fetchCategorias()
@@ -358,28 +364,30 @@ function Home() {
         </div>
 
         {/* INVESTIMENTOS CARD */}
-        <div className="investment-card">
+        <div className="investment-card" onClick={() => setIsEditInvestimentoModalOpen(true)}>
           <div className="card-header">
             <span className="card-title">Investimentos</span>
-            <span className="card-badge">+4.19%</span>
+            <span className="card-badge">{((((investimentoData.valor_atual - investimentoData.investido) / investimentoData.investido) * 100).toFixed(2))}%</span>
           </div>
 
           <div className="investment-main">
             <div className="inv-metric">
               <div className="inv-metric-label">Investido</div>
-              <div className="inv-metric-value">R$ 16.000</div>
+              <div className="inv-metric-value">{fmt(investimentoData.investido)}</div>
             </div>
             <div className="inv-metric">
               <div className="inv-metric-label">Valor atual</div>
-              <div className="inv-metric-value green">R$ 16.670</div>
+              <div className="inv-metric-value green">{fmt(investimentoData.valor_atual)}</div>
             </div>
             <div className="inv-metric">
               <div className="inv-metric-label">Resultado</div>
-              <div className="inv-metric-value green">+R$ 670</div>
+              <div className={`inv-metric-value ${investimentoData.valor_atual - investimentoData.investido >= 0 ? 'green' : 'red'}`}>
+                {investimentoData.valor_atual - investimentoData.investido >= 0 ? '+' : '−'}R$ {Math.abs(investimentoData.valor_atual - investimentoData.investido).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
             </div>
           </div>
 
-          <div className="inv-cta" onClick={() => navigate('/investimentos')}>
+          <div className="inv-cta" onClick={(e) => { e.stopPropagation(); navigate('/investimentos'); }}>
             Ver investimentos →
           </div>
         </div>
@@ -410,6 +418,19 @@ function Home() {
         }}
         onSaved={handleLancamentoSaved}
         categorias={categorias}
+      />
+
+      {/* EditInvestimentoModal */}
+      <EditInvestimentoModal
+        isOpen={isEditInvestimentoModalOpen}
+        investimento={investimentoData}
+        onClose={() => setIsEditInvestimentoModalOpen(false)}
+        onSaved={(dados) => {
+          setInvestimentoData({
+            investido: dados.investido,
+            valor_atual: dados.valor_atual,
+          })
+        }}
       />
     </div>
   )
