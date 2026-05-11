@@ -130,12 +130,13 @@ function Home() {
 
   const fetchLancamentosCartao = async () => {
     try {
+      console.log('[FETCH CARTAO]', { mes: mesAno.mes, ano: mesAno.ano, tipo: typeof mesAno.mes })
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'cartão',
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes: Number(mesAno.mes),
+          ano: Number(mesAno.ano),
           limit: 5
         }
       })
@@ -148,12 +149,13 @@ function Home() {
 
   const fetchLancamentosConta = async () => {
     try {
+      console.log('[FETCH CONTA]', { mes: mesAno.mes, ano: mesAno.ano, tipo: typeof mesAno.mes })
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'pix',
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes: Number(mesAno.mes),
+          ano: Number(mesAno.ano),
           limit: 5
         }
       })

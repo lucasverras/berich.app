@@ -30,7 +30,8 @@ export const AppProvider = ({ children }) => {
 
   const getMesAno = () => {
     try {
-      return JSON.parse(mesAno);
+      const parsed = JSON.parse(mesAno);
+      return { mes: Number(parsed.mes), ano: Number(parsed.ano) };
     } catch {
       return { mes: new Date().getMonth() + 1, ano: new Date().getFullYear() };
     }

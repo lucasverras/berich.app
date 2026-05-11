@@ -48,6 +48,7 @@ def get_lancamentos(
     forma_pagamento: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
+    print(f"[FILTER] banco={banco} mes={mes} ano={ano} forma={forma_pagamento}")
     query = db.query(Lancamento)
 
     if banco:
@@ -58,10 +59,11 @@ def get_lancamentos(
         query = query.filter(Lancamento.forma_pagamento == forma_pagamento)
 
     if mes and ano:
-        query = query.filter(
-            (Lancamento.data >= date(ano, mes, 1)) &
-            (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
-        )
+        data_inicio = date(ano, mes, 1)
+        data_fim = date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1)
+        query = query.filter(Lancamento.data >= data_inicio)
+        query = query.filter(Lancamento.data < data_fim)
+        print(f"[FILTER] data entre {data_inicio} e {data_fim}")
 
     lancamentos = query.order_by(Lancamento.data.desc()).all()
     return [{
