@@ -186,6 +186,160 @@
 
 /* STATS GRID */
 /* MAIN GRID - 2 COLUMNS */
+/* Mobile Home Section */
+.mobile-home-section {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+  .mobile-home-section {
+    display: flex;
+  }
+}
+
+.mobile-saldo-card {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border-radius: 20px;
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mobile-saldo-card:active {
+  transform: scale(0.98);
+}
+
+.mobile-label {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 500;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.mobile-amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.mobile-fatura-card {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mobile-fatura-card:active {
+  transform: scale(0.98);
+}
+
+.mobile-amount-small {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f87171;
+  font-family: 'Space Grotesk', sans-serif;
+  margin-bottom: 4px;
+}
+
+.mobile-sub {
+  font-size: 12px;
+  color: rgba(248, 113, 113, 0.7);
+}
+
+/* Mobile Transactions */
+.mobile-transactions-section {
+  margin-top: 16px;
+}
+
+.mobile-transactions-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #86efac;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+
+.mobile-transactions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-trans-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: rgba(34, 120, 40, 0.08);
+  border: 1px solid rgba(34, 120, 40, 0.15);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-trans-item:active {
+  transform: scale(0.98);
+}
+
+.mobile-trans-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.mobile-trans-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  flex-shrink: 0;
+}
+
+.mobile-trans-desc {
+  font-size: 13px;
+  color: #dcfce7;
+  font-weight: 500;
+  margin: 0;
+}
+
+.mobile-trans-date {
+  font-size: 11px;
+  color: rgba(120, 180, 120, 0.5);
+  margin: 2px 0 0 0;
+}
+
+.mobile-trans-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4ade80;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.mobile-trans-value.saída {
+  color: #f87171;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -214,6 +368,23 @@
   margin-bottom: 32px;
   padding: 0;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .main-grid-2col {
+    display: none;
+  }
+}
+
+/* Hide chart and investments on mobile */
+@media (max-width: 768px) {
+  .chart-card-section {
+    display: none;
+  }
+
+  .investimentos-section {
+    display: none;
+  }
 }
 
 .main-grid-2col::before {

@@ -251,6 +251,50 @@ function Home() {
           </div>
         </div>
 
+        {/* MOBILE LAYOUT */}
+        <div className="mobile-home-section">
+          {/* Saldo Atual - Grande Card */}
+          <div className="mobile-saldo-card" onClick={() => navigate('/conta')}>
+            <div className="mobile-label">Saldo Atual</div>
+            <div className="mobile-amount">{fmt(saldoAtual)}</div>
+          </div>
+
+          {/* Fatura Atual - Pequeno Card */}
+          <div className="mobile-fatura-card" onClick={() => navigate('/fatura')}>
+            <div className="mobile-label">Fatura do Cartão</div>
+            <div className="mobile-amount-small">{fmt(Math.abs(fatura))}</div>
+            <div className="mobile-sub">{MESES[mesSelecionado]}</div>
+          </div>
+
+          {/* Últimas 5 Transações do Cartão com Opacidade Gradiente */}
+          {lancamentosCartao.length > 0 && (
+            <div className="mobile-transactions-section">
+              <h3>Últimas transações</h3>
+              <div className="mobile-transactions">
+                {lancamentosCartao.slice(0, 5).map((l, idx) => (
+                  <div
+                    key={l.id}
+                    className="mobile-trans-item"
+                    onClick={() => handleEditLancamento(l)}
+                    style={{ opacity: 1 - (idx * 0.15) }}
+                  >
+                    <div className="mobile-trans-left">
+                      <div className="mobile-trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                      <div>
+                        <div className="mobile-trans-desc">{l.descricao}</div>
+                        <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                      </div>
+                    </div>
+                    <div className={`mobile-trans-value ${l.tipo}`}>
+                      {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* MAIN GRID - 2 COLUMNS WITH DIVIDER */}
         <div className="main-grid-2col">
           {/* BOX ESQUERDA - CARTÃO */}
