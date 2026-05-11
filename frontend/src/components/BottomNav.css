@@ -28,8 +28,8 @@
 
 /* Navigation Buttons */
 .nav-btn {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 16px;
   background: transparent;
   border: none;
@@ -95,7 +95,8 @@
 }
 
 .nav-add-btn svg {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
   color: inherit;
 }
