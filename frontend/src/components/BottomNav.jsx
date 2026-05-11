@@ -18,6 +18,19 @@ function BottomNav() {
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
 
+  // Determinar defaultTipo baseado na página atual
+  const getDefaultTipo = () => {
+    if (location.pathname.startsWith('/fatura')) return 'cartão'
+    if (location.pathname.startsWith('/conta')) return 'saída'
+    return 'cartão' // padrão: cartão para /home e outras
+  }
+
+  const handleAddClick = () => {
+    // Armazenar o defaultTipo na sessão para o AddModal usar
+    sessionStorage.setItem('addModalDefaultTipo', getDefaultTipo())
+    setIsAddModalOpen(true)
+  }
+
   return (
     <nav className="bottom-nav-new">
       {routes.map(route => (
@@ -33,7 +46,7 @@ function BottomNav() {
 
       <button
         className="nav-add-btn"
-        onClick={() => setIsAddModalOpen(true)}
+        onClick={handleAddClick}
         title="Adicionar"
       >
         <Plus size={28} />

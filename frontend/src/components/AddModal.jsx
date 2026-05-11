@@ -3,9 +3,22 @@ import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import './AddModal.css'
 
-function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }) {
+function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'cartão' }) {
   const { bancoAtivo, mesAno } = useContext(AppContext)
-  const [tipo, setTipo] = useState(defaultTipo)
+
+  // Verificar se há defaultTipo no sessionStorage (vem do BottomNav)
+  const getInitialTipo = () => {
+    if (isOpen) {
+      const stored = sessionStorage.getItem('addModalDefaultTipo')
+      if (stored) {
+        sessionStorage.removeItem('addModalDefaultTipo')
+        return stored
+      }
+    }
+    return defaultTipo
+  }
+
+  const [tipo, setTipo] = useState(getInitialTipo())
   const [categorias, setCategorias] = useState([])
   const [categoriaSuggestions, setCategoriaSuggestions] = useState([])
   const [formData, setFormData] = useState({
@@ -133,19 +146,26 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
       if (formData.parcelado && parcelas > 1) {
         const valorParcela = lancamentoValor / parcelas
         const [ano, mes, dia] = formData.data.split('-').map(Number)
+        const dataCompra = new Date(ano, mes - 1, dia)
+
+        // Calcular fatura inicial baseado no ciclo do cartão
+        // Fechamento: dia 1 | Vencimento: dia 10
+        // Se compra <= dia 1: fatura do mês atual
+        // Se compra > dia 1: fatura do próximo mês
+        const calcularFaturaInicial = (data) => {
+          if (data.getDate() <= 1) {
+            return new Date(data.getFullYear(), data.getMonth(), 1)
+          } else {
+            return new Date(data.getFullYear(), data.getMonth() + 1, 1)
+          }
+        }
+
+        const faturaBase = calcularFaturaInicial(dataCompra)
 
         for (let i = 0; i < parcelas; i++) {
-          // Data incrementa mês a mês a partir da data original
-          let mesParcela = mes + i
-          let anoParcela = ano
+          // Data da parcela: 1º dia da fatura + i meses
+          const dataParc = new Date(faturaBase.getFullYear(), faturaBase.getMonth() + i, 1)
 
-          // Ajustar ano se passar de 12 meses
-          while (mesParcela > 12) {
-            mesParcela -= 12
-            anoParcela += 1
-          }
-
-          const dataParc = new Date(anoParcela, mesParcela - 1, dia)
           const anoParc = dataParc.getFullYear()
           const mesParc = String(dataParc.getMonth() + 1).padStart(2, '0')
           const diaParc = String(dataParc.getDate()).padStart(2, '0')

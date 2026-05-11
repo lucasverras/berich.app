@@ -49,17 +49,10 @@ function Home() {
   const { bancoAtivo, mesAno, updateMesAno, isAddModalOpen, setIsAddModalOpen } = useContext(AppContext)
   const navigate = useNavigate()
   const [resumo, setResumo] = useState({
-    entradas: 5400,
-    saidas: 3200,
-    saldo: 8750,
-    por_categoria: {
-      'Alimentação': 890,
-      'Transporte': 340,
-      'Moradia': 1200,
-      'Saúde': 280,
-      'Lazer': 420,
-      'Educação': 70
-    }
+    entradas: 0,
+    saidas: 0,
+    saldo: 0,
+    por_categoria: {}
   })
   const [fatura, setFatura] = useState(0)
   const [saldoAtual, setSaldoAtual] = useState(0)
@@ -85,6 +78,7 @@ function Home() {
     fetchCategorias()
     fetchFatura()
     fetchSaldo()
+    fetchChartData()
     fetchLancamentosCartao()
     fetchLancamentosConta()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
@@ -163,6 +157,31 @@ function Home() {
     } catch (error) {
       console.error('Erro ao buscar lançamentos conta:', error)
       setLancamentosConta([])
+    }
+  }
+
+  const fetchChartData = async () => {
+    try {
+      const response = await axios.get('/api/lancamentos', {
+        params: {
+          banco: bancoAtivo,
+          mes: mesAno.mes,
+          ano: mesAno.ano,
+        }
+      })
+      const lancamentos = response.data || []
+      const byCategory = {}
+      lancamentos.forEach(l => {
+        if (l.categoria) {
+          byCategory[l.categoria] = (byCategory[l.categoria] || 0) + Math.abs(l.valor)
+        }
+      })
+      setResumo(prev => ({
+        ...prev,
+        por_categoria: byCategory
+      }))
+    } catch (error) {
+      console.error('Erro ao buscar dados do gráfico:', error)
     }
   }
 
@@ -327,24 +346,24 @@ function Home() {
 
         {/* MOBILE LAYOUT */}
         <div className="mobile-home-section">
-          {/* Saldo Atual - Grande Card com Fatura dentro */}
+          {/* A) CARD DE SALDO ATUAL */}
           <div className="mobile-saldo-card">
             <div className="mobile-label">Saldo Atual</div>
             <div className="mobile-amount">{fmt(saldoAtual)}</div>
+          </div>
 
-            {/* Fatura do Cartão - Sub-card dentro */}
-            <div className="mobile-fatura-subcard" onClick={() => navigate('/fatura')}>
-              <div className="fatura-sub-left">
-                <span className="fatura-label">Fatura do Cartão</span>
-                <span className="fatura-amount">{fmt(Math.abs(fatura))}</span>
-              </div>
-              <div className="fatura-sub-right">
-                <span className="fatura-month">{MESES[mesSelecionado]}</span>
-              </div>
+          {/* B) CARD DE FATURA DO CARTÃO (separado) */}
+          <div className="mobile-fatura-card" onClick={() => navigate('/fatura')}>
+            <div className="mobile-fatura-left">
+              <span className="mobile-fatura-label">Fatura do Cartão</span>
+              <span className="mobile-fatura-amount">{fmt(Math.abs(fatura))}</span>
+            </div>
+            <div className="mobile-fatura-right">
+              <span className="mobile-fatura-month">{MESES[mesSelecionado]}</span>
             </div>
           </div>
 
-          {/* Transações do Cartão agrupadas por categoria */}
+          {/* C) SEÇÃO TRANSAÇÕES */}
           {lancamentosCartao.length > 0 && (
             <div className="mobile-transactions-section">
               <div className="mobile-section-header">
@@ -359,73 +378,39 @@ function Home() {
               />
 
               <div className="mobile-transactions">
-                {selectedCategoryCartao === 'Todas' ? (
-                  // Exibir agrupado por categoria
-                  getTransactionsByCategory('cartao').length > 0 ? (
-                    getTransactionsByCategory('cartao').map(({ cat, items }) => (
-                      <div key={cat} className="transaction-category-group">
-                        <div className="category-group-header">{cat}</div>
-                        {items.map(l => {
-                          const IconComponent = CATEGORY_ICONS[l.categoria]
-                          return (
-                            <div
-                              key={l.id}
-                              className="mobile-trans-item"
-                              onClick={() => handleEditLancamento(l)}
-                            >
-                              <div className="mobile-trans-left">
-                                <div className={`mobile-trans-icon ${l.tipo}`}>
-                                  {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
-                                </div>
-                                <div className="mobile-trans-info">
-                                  <div className="mobile-trans-desc">{l.descricao}</div>
-                                  <div className="mobile-trans-meta">{l.categoria} • {new Date(l.data).toLocaleDateString('pt-BR')}</div>
-                                </div>
-                              </div>
-                              <div className={`mobile-trans-value ${l.tipo}`}>
-                                {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    ))
-                  ) : (
-                    <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
-                  )
-                ) : (
-                  // Exibir com filtro
-                  getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
-                    getFilteredTransactions(selectedCategoryCartao, 'cartao').map(l => {
-                      const IconComponent = CATEGORY_ICONS[l.categoria]
-                      return (
-                        <div
-                          key={l.id}
-                          className="mobile-trans-item"
-                          onClick={() => handleEditLancamento(l)}
-                        >
-                          <div className="mobile-trans-left">
-                            <div className={`mobile-trans-icon ${l.tipo}`}>
-                              {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
-                            </div>
-                            <div className="mobile-trans-info">
-                              <div className="mobile-trans-desc">{l.descricao}</div>
-                              <div className="mobile-trans-meta">{l.categoria} • {new Date(l.data).toLocaleDateString('pt-BR')}</div>
-                            </div>
+                {getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
+                  getFilteredTransactions(selectedCategoryCartao, 'cartao').map(l => {
+                    const IconComponent = CATEGORY_ICONS[l.categoria]
+                    return (
+                      <div
+                        key={l.id}
+                        className="mobile-trans-item"
+                        onClick={() => handleEditLancamento(l)}
+                      >
+                        <div className="mobile-trans-left">
+                          <div className={`mobile-trans-icon ${l.tipo}`}>
+                            {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
                           </div>
-                          <div className={`mobile-trans-value ${l.tipo}`}>
-                            {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                          <div className="mobile-trans-info">
+                            <div className="mobile-trans-desc">{l.descricao}</div>
+                            <div className="mobile-trans-meta">{l.categoria} • {new Date(l.data).toLocaleDateString('pt-BR')}</div>
                           </div>
                         </div>
-                      )
-                    })
-                  ) : (
-                    <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
-                  )
+                        <div className={`mobile-trans-value ${l.tipo}`}>
+                          {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                        </div>
+                      </div>
+                    )
+                  })
+                ) : (
+                  <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
                 )}
               </div>
             </div>
           )}
+
+          {/* D) SEÇÃO OUTROS BANCOS */}
+          <OutrosBancos />
         </div>
 
 
