@@ -1,7 +1,7 @@
 .sidebar {
   width: 160px;
   height: 100vh;
-  padding: 12px 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -32,13 +32,13 @@
 }
 
 .sidebar-header {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
-  padding: 0 4px;
-  gap: 4px;
+  padding: 0;
+  gap: 0;
 }
 
 .logo {
@@ -99,7 +99,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0;
 }
 
 .sidebar-divider {
@@ -115,11 +115,11 @@
 }
 
 .nav-section {
-  padding: 0 4px;
+  padding: 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0;
 }
 
 .nav-label {
@@ -128,25 +128,26 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   color: rgba(120, 180, 120, 0.4);
-  padding: 0 4px;
-  margin-bottom: 2px;
-  margin-top: 2px;
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 
 .nav-item {
-  padding: 4px 6px;
-  border-radius: 6px;
+  padding: 0;
+  border-radius: 4px;
   margin-bottom: 0;
   color: rgba(180, 220, 180, 0.55);
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0;
   position: relative;
   min-height: auto;
   font-size: 12px;
   font-weight: 400;
   cursor: pointer;
+  height: fit-content;
 }
 
 .nav-label {
@@ -252,41 +253,40 @@
 }
 
 .sidebar-bottom {
-  padding: 0 4px;
+  padding: 0;
 }
 
 .sidebar-footer {
-  padding: 0 4px;
+  padding: 0;
 }
 
 .mobile-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 6px;
-  border-radius: 6px;
+  gap: 4px;
+  padding: 0;
+  border-radius: 4px;
   font-size: 11px;
   color: rgba(120, 180, 120, 0.5);
   cursor: pointer;
-  border: 1px solid rgba(40, 100, 40, 0.2);
+  border: none;
   transition: all 0.2s ease;
 }
 
 .mobile-btn:hover {
-  background: rgba(34, 120, 40, 0.1);
   color: rgba(120, 180, 120, 0.8);
 }
 
 .mobile-link {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 6px;
-  border-radius: 6px;
+  gap: 4px;
+  padding: 0;
+  border-radius: 4px;
   font-size: 11px;
   color: rgba(120, 180, 120, 0.5);
   cursor: pointer;
-  border: 1px solid rgba(40, 100, 40, 0.2);
+  border: none;
   transition: all 0.2s ease;
   text-decoration: none;
 }
