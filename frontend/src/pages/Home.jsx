@@ -198,14 +198,6 @@ function Home() {
             <div className="stat-value">{fmt(resumo.saldo)}</div>
             <div className="stat-sub">Movimentação total</div>
           </div>
-
-          <div className="stat-card stat-card-glass stat-card-glow">
-            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #22c55e, transparent)' }}></div>
-            <div className="stat-icon stat-icon-green">↑</div>
-            <div className="stat-label">Entradas</div>
-            <div className="stat-value positive">+{fmt(resumo.entradas)}</div>
-            <div className="stat-sub">Receitas do período</div>
-          </div>
         </div>
 
         {/* FATURA SECTION */}
