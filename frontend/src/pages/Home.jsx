@@ -245,79 +245,80 @@ function Home() {
           </div>
         </div>
 
-        {/* STATS GRID */}
-        <div className="stats-grid">
-          <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/fatura')}>
-            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
-            <div className="stat-icon stat-icon-red">💳</div>
-            <div className="stat-label">Fatura do Cartão</div>
-            <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
-            <div className="stat-sub">{MESES[mesSelecionado]} · Pague manualmente</div>
-          </div>
-
-          <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/conta')}>
-            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
-            <div className="stat-icon stat-icon-blue">💰</div>
-            <div className="stat-label">Saldo da Conta</div>
-            <div className="stat-value positive">{fmt(saldoAtual)}</div>
-            <div className="stat-sub">Saldo disponível</div>
-          </div>
-        </div>
-
-        {/* ÚLTIMOS LANÇAMENTOS */}
-        <div className="recent-transactions">
-          {/* CARTÃO */}
-          <div className="transactions-card">
-            <div className="card-header">
-              <span className="card-title">Últimos Lançamentos - Cartão</span>
-              <span className="card-badge">{lancamentosCartao.length}</span>
+        {/* MAIN GRID - 2 COLUMNS */}
+        <div className="main-grid">
+          {/* COLUNA ESQUERDA - CARTÃO */}
+          <div className="grid-column column-cartao">
+            <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/fatura')}>
+              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
+              <div className="stat-icon stat-icon-red">💳</div>
+              <div className="stat-label">Fatura do Cartão</div>
+              <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
+              <div className="stat-sub">{MESES[mesSelecionado]} · Pague manualmente</div>
             </div>
-            {lancamentosCartao.length > 0 ? (
-              <div className="transactions-list">
-                {lancamentosCartao.map(l => (
-                  <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
-                    <div className="trans-left">
-                      <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
-                      <div className="trans-info">
-                        <p className="trans-desc">{l.descricao}</p>
-                        <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                      </div>
-                    </div>
-                    <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
-                    <div className="trans-delete">✕</div>
-                  </div>
-                ))}
+
+            <div className="transactions-card">
+              <div className="card-header">
+                <span className="card-title">Últimos Lançamentos - Cartão</span>
+                <span className="card-badge">{lancamentosCartao.length}</span>
               </div>
-            ) : (
-              <div className="empty-state-text">Sem lançamentos neste cartão</div>
-            )}
+              {lancamentosCartao.length > 0 ? (
+                <div className="transactions-list">
+                  {lancamentosCartao.map(l => (
+                    <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
+                      <div className="trans-left">
+                        <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                        <div className="trans-info">
+                          <p className="trans-desc">{l.descricao}</p>
+                          <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                        </div>
+                      </div>
+                      <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
+                      <div className="trans-delete">✕</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state-text">Sem lançamentos neste cartão</div>
+              )}
+            </div>
           </div>
 
-          {/* CONTA */}
-          <div className="transactions-card conta">
-            <div className="card-header">
-              <span className="card-title">Últimos Lançamentos - Conta</span>
-              <span className="card-badge">{lancamentosConta.length}</span>
+          {/* COLUNA DIREITA - CONTA */}
+          <div className="grid-column column-conta">
+            <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/conta')}>
+              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
+              <div className="stat-icon stat-icon-blue">💰</div>
+              <div className="stat-label">Saldo da Conta</div>
+              <div className="stat-value positive">{fmt(saldoAtual)}</div>
+              <div className="stat-sub">Saldo disponível</div>
             </div>
-            {lancamentosConta.length > 0 ? (
-              <div className="transactions-list">
-                {lancamentosConta.map(l => (
-                  <div key={l.id} className={`transaction-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
-                    <div className="trans-left">
-                      <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
-                      <div className="trans-info">
-                        <p className="trans-desc">{l.descricao}</p>
-                        <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                      </div>
-                    </div>
-                    <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
-                    <div className="trans-delete">✕</div>
-                  </div>
-                ))}
+
+            <div className="transactions-card conta">
+              <div className="card-header">
+                <span className="card-title">Últimos Lançamentos - Conta</span>
+                <span className="card-badge">{lancamentosConta.length}</span>
               </div>
-            ) : (
-              <div className="empty-state-text">Sem lançamentos nesta conta</div>
-            )}
+              {lancamentosConta.length > 0 ? (
+                <div className="transactions-list">
+                  {lancamentosConta.map(l => (
+                    <div key={l.id} className={`transaction-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
+                      <div className="trans-left">
+                        <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                        <div className="trans-info">
+                          <p className="trans-desc">{l.descricao}</p>
+                          <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                        </div>
+                      </div>
+                      <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
+                      <div className="trans-delete">✕</div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state-text">Sem lançamentos nesta conta</div>
+              )}
+            </div>
           </div>
         </div>
 
