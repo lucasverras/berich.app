@@ -73,6 +73,8 @@ function Home() {
   const [selectedCategoryConta, setSelectedCategoryConta] = useState('Todas')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [lancamentoToDelete, setLancamentoToDelete] = useState(null)
+  const [resumoItau, setResumoItau] = useState({ entradas: 0, saidas: 0, saldo: 0 })
+  const [resumoVamoNessa, setResumoVamoNessa] = useState({ entradas: 0, saidas: 0, saldo: 0 })
 
   useEffect(() => {
     fetchCategorias()
@@ -81,6 +83,8 @@ function Home() {
     fetchChartData()
     fetchLancamentosCartao()
     fetchLancamentosConta()
+    fetchResumoItau()
+    fetchResumoVamoNessa()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
 
   const fetchCategorias = async () => {
@@ -182,6 +186,46 @@ function Home() {
       }))
     } catch (error) {
       console.error('Erro ao buscar dados do gráfico:', error)
+    }
+  }
+
+  const fetchResumoItau = async () => {
+    try {
+      const response = await axios.get('/api/resumo', {
+        params: {
+          banco: 'Itaú',
+          mes: mesAno.mes,
+          ano: mesAno.ano,
+          forma_pagamento: 'pix',
+        }
+      })
+      setResumoItau({
+        entradas: response.data.entradas || 0,
+        saidas: response.data.saidas || 0,
+        saldo: response.data.saldo || 0,
+      })
+    } catch (error) {
+      console.error('Erro ao buscar resumo Itaú:', error)
+    }
+  }
+
+  const fetchResumoVamoNessa = async () => {
+    try {
+      const response = await axios.get('/api/resumo', {
+        params: {
+          banco: 'VamoNessa SP',
+          mes: mesAno.mes,
+          ano: mesAno.ano,
+          forma_pagamento: 'pix',
+        }
+      })
+      setResumoVamoNessa({
+        entradas: response.data.entradas || 0,
+        saidas: response.data.saidas || 0,
+        saldo: response.data.saldo || 0,
+      })
+    } catch (error) {
+      console.error('Erro ao buscar resumo VamoNessa:', error)
     }
   }
 
@@ -410,7 +454,39 @@ function Home() {
           )}
 
           {/* D) SEÇÃO OUTROS BANCOS */}
-          <OutrosBancos />
+          <div className="outros-bancos-section">
+            <div className="outros-bancos-header">
+              <h3>Outros Bancos</h3>
+            </div>
+
+            {/* Card Itaú */}
+            <div className="outro-banco-card" onClick={() => navigate('/banco/Itaú')}>
+              <div className="outro-banco-left">
+                <div className="outro-banco-sigla" style={{ background: '#fb923c' }}>IT</div>
+                <div>
+                  <div className="outro-banco-nome">Itaú</div>
+                  <div className="outro-banco-tipo">Conta corrente • PIX</div>
+                </div>
+              </div>
+              <div className={`outro-banco-saldo ${resumoItau.saldo >= 0 ? 'positivo' : 'negativo'}`}>
+                {fmt(resumoItau.saldo)}
+              </div>
+            </div>
+
+            {/* Card VamoNessa SP */}
+            <div className="outro-banco-card" onClick={() => navigate('/banco/VamoNessa SP')}>
+              <div className="outro-banco-left">
+                <div className="outro-banco-sigla" style={{ background: '#a78bfa' }}>VN</div>
+                <div>
+                  <div className="outro-banco-nome">VamoNessa SP</div>
+                  <div className="outro-banco-tipo">Conta corrente • PIX</div>
+                </div>
+              </div>
+              <div className={`outro-banco-saldo ${resumoVamoNessa.saldo >= 0 ? 'positivo' : 'negativo'}`}>
+                {fmt(resumoVamoNessa.saldo)}
+              </div>
+            </div>
+          </div>
         </div>
 
 
