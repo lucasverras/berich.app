@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import Icons from '../components/Icons'
-import BankTabs from '../components/BankTabs'
 import './Revisar.css'
+
+const fmt = (v) => {
+  if (!v) return 'R$ 0,00'
+  return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 function Revisar() {
   const [pendentes, setPendentes] = useState([])
@@ -20,10 +23,12 @@ function Revisar() {
         axios.get('/api/import/pendentes'),
         axios.get('/api/categorias'),
       ])
-      setPendentes(pendentesRes.data)
-      setCategorias(categoriasRes.data)
+      setPendentes(pendentesRes.data || [])
+      setCategorias(categoriasRes.data || [])
     } catch (error) {
       console.error('Erro ao buscar pendentes:', error)
+      setPendentes([])
+      setCategorias([])
     }
   }
 
@@ -62,6 +67,7 @@ function Revisar() {
       })
     } catch (error) {
       console.error('Erro ao categorizar:', error)
+      alert('Erro ao categorizar lançamento')
     }
   }
 
@@ -91,75 +97,101 @@ function Revisar() {
   }
 
   return (
-    <div className="revisar-page">
-      <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <Icons.Eye size={32} style={{ color: 'var(--primary-light)' }} />
-        Revisar Lançamentos
-      </h1>
-      <BankTabs />
-
-      {pendentes.length === 0 ? (
-        <div className="card empty-state" style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', padding: '32px' }}>
-          <Icons.CheckCircle size={24} style={{ color: 'var(--primary-light)' }} />
-          <p>Nenhum lançamento pendente</p>
+    <div className="revisar-layout">
+      <div className="revisar-main">
+        {/* HEADER */}
+        <div className="header">
+          <div className="header-left">
+            <h1>
+              <span className="header-icon">👁️</span>
+              Revisar
+            </h1>
+            <p>Categorize lançamentos pendentes</p>
+          </div>
         </div>
-      ) : (
-        <div className="pendentes-list">
-          {pendentes.map(pendente => (
-            <div key={pendente.id} className={`pendente-card card ${pendente.tipo}`}>
-              <div className="pendente-info">
-                <div className="info-row">
-                  <span className="label">Data:</span>
-                  <span>{new Date(pendente.data).toLocaleDateString('pt-BR')}</span>
-                </div>
-                <div className="info-row">
-                  <span className="label">Banco:</span>
-                  <span>{pendente.banco}</span>
-                </div>
-                <div className="info-row">
-                  <span className="label">Valor:</span>
-                  <span className={pendente.tipo === 'entrada' ? 'positive' : 'negative'}>
-                    {pendente.tipo === 'entrada' ? '+' : '-'}R$ {pendente.valor.toFixed(2)}
-                  </span>
-                </div>
-                <div className="info-row description">
-                  <span className="label">Descrição:</span>
-                  <span>{pendente.descricao}</span>
-                </div>
-              </div>
 
-              <div className="pendente-actions">
-                <div className="form-group">
-                  <label>Categoria</label>
-                  <select value={selecionados[pendente.id] || ''} onChange={(e) => handleCategoriaChange(pendente.id, e.target.value)}>
-                    <option value="">Selecione uma categoria</option>
-                    {categorias.map(cat => (
-                      <option key={cat.id} value={cat.nome}>{cat.nome}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="checkbox-group">
-                  <input
-                    type="checkbox"
-                    id={`regra-${pendente.id}`}
-                    checked={regrasPendentes[pendente.id] || false}
-                    onChange={(e) => handleRegraChange(pendente.id, e.target.checked)}
-                  />
-                  <label htmlFor={`regra-${pendente.id}`}>Sempre usar essa regra</label>
-                </div>
-
-                <div className="button-group">
-                  <button onClick={() => handleCategorizar(pendente.id)}>Categorizar</button>
-                  <button onClick={() => handleCategorizarSimilares(pendente.id)} className="secondary">
-                    Categorizar similares
-                  </button>
-                </div>
-              </div>
+        {/* STATUS */}
+        {pendentes.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">✓</div>
+            <h2>Nenhum lançamento pendente</h2>
+            <p>Todos os lançamentos foram categorizados</p>
+          </div>
+        ) : (
+          <>
+            {/* COUNT BADGE */}
+            <div className="pending-badge">
+              <span className="badge-number">{pendentes.length}</span>
+              <span className="badge-label">lançamentos pendentes</span>
             </div>
-          ))}
-        </div>
-      )}
+
+            {/* PENDENTES LIST */}
+            <div className="pendentes-list">
+              {pendentes.map(pendente => (
+                <div key={pendente.id} className="pendente-card">
+                  <div className="card-left">
+                    <div className={`pendente-icon ${pendente.tipo}`}>
+                      {pendente.tipo === 'entrada' ? '↓' : '↑'}
+                    </div>
+                    <div className="pendente-info">
+                      <p className="pend-desc">{pendente.descricao}</p>
+                      <div className="pend-meta">
+                        <span className="pend-date">{new Date(pendente.data).toLocaleDateString('pt-BR')}</span>
+                        <span className="pend-sep">•</span>
+                        <span className="pend-banco">{pendente.banco}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="card-right">
+                    <span className={`pend-valor ${pendente.tipo}`}>
+                      {pendente.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(pendente.valor))}
+                    </span>
+                  </div>
+
+                  <div className="card-actions">
+                    <div className="form-group">
+                      <select
+                        value={selecionados[pendente.id] || ''}
+                        onChange={(e) => handleCategoriaChange(pendente.id, e.target.value)}
+                      >
+                        <option value="">Selecione categoria</option>
+                        {categorias.map(cat => (
+                          <option key={cat.id} value={cat.nome}>{cat.nome}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={regrasPendentes[pendente.id] || false}
+                        onChange={(e) => handleRegraChange(pendente.id, e.target.checked)}
+                      />
+                      <span>Criar regra</span>
+                    </label>
+
+                    <div className="action-buttons">
+                      <button
+                        className="btn-primary"
+                        onClick={() => handleCategorizar(pendente.id)}
+                      >
+                        Categorizar
+                      </button>
+                      <button
+                        className="btn-secondary"
+                        onClick={() => handleCategorizarSimilares(pendente.id)}
+                      >
+                        Similares
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   )
 }

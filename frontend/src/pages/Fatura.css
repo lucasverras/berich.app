@@ -1,237 +1,512 @@
-.fatura {
-  margin-left: var(--sidebar-w, 220px);
+.fatura-layout {
+  font-family: 'DM Sans', 'Nunito', sans-serif;
+  background: #050a05;
+  min-height: 100vh;
+  color: #f0fdf4;
+  overflow-x: hidden;
+  position: relative;
 }
 
-.fatura-content {
-  padding: clamp(20px, 4vw, 40px);
+@media (min-width: 768px) {
+  .fatura-layout {
+    margin-left: var(--sidebar-w, 220px);
+  }
 }
 
-.dashboard-header {
+.fatura-main {
+  position: relative;
+  z-index: 5;
+  padding: 32px 36px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .fatura-main {
+    padding: 20px 16px;
+  }
+}
+
+/* HEADER */
+.header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: clamp(28px, 5vw, 40px);
-  gap: clamp(16px, 4vw, 24px);
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 20px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 .header-left h1 {
-  font-size: clamp(28px, 5vw, 36px);
-  margin-bottom: 8px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: clamp(16px, 3vw, 24px);
-  margin-bottom: clamp(32px, 6vw, 48px);
-}
-
-.card-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.card-header-row h3 {
-  margin: 0;
-}
-
-.badge-fechada {
-  display: inline-block;
-  background: rgba(239, 83, 80, 0.2);
-  border: 1px solid rgba(239, 83, 80, 0.4);
-  color: #ef5350;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 11px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-/* Card Fechar Fatura */
-.fechar-fatura-card {
-  background: linear-gradient(135deg, rgba(239, 83, 80, 0.08) 0%, rgba(61, 186, 106, 0.02) 100%);
-  border: 1px solid rgba(239, 83, 80, 0.2);
-  margin-bottom: 32px;
-}
-
-.fechar-fatura-card:hover {
-  border-color: rgba(239, 83, 80, 0.35);
-  background: linear-gradient(135deg, rgba(239, 83, 80, 0.12) 0%, rgba(61, 186, 106, 0.04) 100%);
-}
-
-.fechar-card-content {
+  color: #f0fdf0;
+  letter-spacing: -0.5px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 16px;
-}
-
-.fechar-card-text h3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #fff;
+  gap: 10px;
   margin: 0 0 4px 0;
 }
 
-.fechar-card-text p {
+.header-left p {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.65);
-  margin: 0;
+  color: rgba(120, 180, 120, 0.5);
+  letter-spacing: 0.2px;
 }
 
-.fechar-card-btn {
-  padding: 10px 20px;
-  background: linear-gradient(135deg, #ef5350, #d32f2f);
-  border: none;
-  color: #fff;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 13px;
+.header-icon {
+  font-size: 20px;
+}
+
+.month-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 24, 10, 0.7);
+  border: 1px solid rgba(40, 100, 40, 0.3);
+  border-radius: 12px;
+  padding: 10px 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+  position: relative;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(239, 83, 80, 0.2);
 }
 
-.fechar-card-btn:hover {
-  background: linear-gradient(135deg, #f44336, #ef5350);
-  box-shadow: 0 6px 16px rgba(239, 83, 80, 0.3);
+.month-picker:hover {
+  border-color: rgba(40, 100, 40, 0.5);
+  background: rgba(16, 40, 16, 0.8);
+}
+
+.month-picker span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #86efac;
+}
+
+.month-picker .chevron {
+  color: rgba(120, 180, 120, 0.5);
+  font-size: 12px;
+}
+
+.month-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(7, 20, 7, 0.95);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-radius: 12px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-top: 8px;
+  z-index: 20;
+  min-width: 200px;
+}
+
+.month-option {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid transparent;
+  color: rgba(187, 247, 208, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.month-option:hover {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.month-option.selected {
+  background: rgba(34, 197, 94, 0.35);
+  border-color: rgba(61, 220, 106, 0.5);
+  color: #22c55e;
+  font-weight: 600;
+}
+
+/* STATS GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stats-grid.single {
+  grid-template-columns: 1fr;
+  max-width: 400px;
+}
+
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  position: relative;
+  border-radius: 18px;
+  padding: 22px 24px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.stat-card:hover {
   transform: translateY(-2px);
 }
 
-.fechar-card-btn:active {
-  transform: translateY(0);
+.stat-card-glass {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
 }
 
-.card {
-  background: linear-gradient(135deg, rgba(61, 186, 106, 0.08) 0%, rgba(61, 186, 106, 0.02) 100%);
-  border: 1px solid rgba(61, 186, 106, 0.2);
-  border-radius: 16px;
-  padding: 24px;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+.stat-card-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(34, 120, 40, 0.08) 0%, transparent 60%);
+  border-radius: inherit;
+}
+
+.stat-corner-decoration {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0.06;
+}
+
+.stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-icon-red {
+  background: rgba(248, 113, 113, 0.2);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+.stat-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(120, 180, 120, 0.45);
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: #dcfce7;
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+}
+
+.stat-value.negative {
+  color: #f87171;
+}
+
+.stat-sub {
+  font-size: 11.5px;
+  color: rgba(120, 180, 120, 0.4);
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.badge-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-status.fechada {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* FECHAR FATURA */
+.fechar-fatura-card {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
+  border-radius: 18px;
+  padding: 22px 24px;
+  margin-bottom: 32px;
   position: relative;
   overflow: hidden;
 }
 
-.card::before {
+.fechar-fatura-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(61, 186, 106, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.3), transparent);
 }
 
-.card:hover {
-  border-color: rgba(61, 186, 106, 0.35);
-  background: linear-gradient(135deg, rgba(61, 186, 106, 0.12) 0%, rgba(61, 186, 106, 0.04) 100%);
-  box-shadow: 0 8px 24px rgba(61, 186, 106, 0.1);
-}
-
-.card h3 {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 12px;
-}
-
-.card .value {
-  font-size: 32px;
-  font-weight: 700;
-  margin-top: 8px;
-  letter-spacing: -0.5px;
-}
-
-.card .value.positive {
-  color: #4caf50;
-}
-
-.card .value.negative {
-  color: #ef5350;
-}
-
-.lancamentos-container {
-  margin-bottom: 80px;
-}
-
-.lancamentos-header {
+.fechar-card-content {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
 }
 
-.lancamentos-header h3 {
-  font-size: 18px;
-  color: var(--text-primary);
+@media (max-width: 640px) {
+  .fechar-card-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.fechar-card-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #dcfce7;
+  margin: 0 0 4px 0;
+}
+
+.fechar-card-text p {
+  font-size: 13px;
+  color: rgba(120, 180, 120, 0.6);
   margin: 0;
 }
 
-.no-data {
-  color: var(--text-secondary);
+.fechar-card-btn {
+  padding: 11px 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(34, 120, 40, 0.35);
+  background: rgba(34, 120, 40, 0.15);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #4ade80;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.fechar-card-btn:hover {
+  background: rgba(34, 120, 40, 0.25);
+  border-color: rgba(34, 120, 40, 0.5);
+}
+
+/* TRANSAÇÕES */
+.transacoes-section {
+  margin-top: 32px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(120, 180, 120, 0.5);
+  margin: 0;
+}
+
+.section-count {
+  font-size: 12px;
+  color: rgba(120, 180, 120, 0.6);
+  background: rgba(34, 197, 94, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.card {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
+  border-radius: 18px;
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
   text-align: center;
-  padding: 32px;
 }
 
-table tbody tr {
-  transition: all 0.2s ease;
-  border-radius: 8px;
+.card.empty-state p {
+  color: rgba(120, 180, 120, 0.4);
+  font-size: 14px;
+  margin: 0;
 }
 
-table tbody tr:hover {
-  background-color: rgba(61, 186, 106, 0.05) !important;
+.transacoes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-table tbody tr.positive {
-  color: var(--positive);
-  background-color: rgba(61, 186, 106, 0.08);
-  border: 1px solid rgba(61, 186, 106, 0.15);
+.transacao-item {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
 }
 
-table tbody tr.positive:hover {
-  background-color: rgba(61, 186, 106, 0.12) !important;
-  border-color: rgba(61, 186, 106, 0.25);
+.transacao-item:hover {
+  border-color: rgba(40, 100, 40, 0.4);
+  background: rgba(10, 22, 10, 0.75);
 }
 
-table tbody tr.negative {
-  color: var(--negative);
-  background-color: rgba(239, 83, 80, 0.08);
-  border: 1px solid rgba(239, 83, 80, 0.15);
+.tra-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
-table tbody tr.negative:hover {
-  background-color: rgba(239, 83, 80, 0.12) !important;
-  border-color: rgba(239, 83, 80, 0.25);
+.tra-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: rgba(248, 113, 113, 0.2);
+  flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-  .fatura {
-    margin-left: 0;
-  }
+.tra-info {
+  flex: 1;
+  min-width: 0;
+}
 
-  .fatura-content {
-    padding: 16px;
-  }
+.tra-desc {
+  font-size: 14px;
+  font-weight: 500;
+  color: #dcfce7;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .cards-container {
-    grid-template-columns: 1fr;
-  }
+.tra-date {
+  font-size: 12px;
+  color: rgba(120, 180, 120, 0.5);
+  margin: 0;
+}
 
-  .lancamentos-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+.tra-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #86efac;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.tra-value.negative {
+  color: #f87171;
+}
+
+/* FAB */
+.fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(34, 197, 94, 0.35), 0 0 0 1px rgba(34, 197, 94, 0.2);
+  transition: all 0.2s;
+  z-index: 100;
+  font-size: 24px;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  font-family: inherit;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 30px rgba(34, 197, 94, 0.45);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 640px) {
+  .fab {
+    bottom: 20px;
+    right: 20px;
   }
 }

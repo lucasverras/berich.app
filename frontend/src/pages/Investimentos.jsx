@@ -1,32 +1,30 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Icons from '../components/Icons'
-import AddModal from '../components/AddModal'
 import './Investimentos.css'
+
+const CATEGORIAS_ICONS = {
+  'Criptomoedas': '₿',
+  'Renda Fixa': '📊',
+  'Títulos Públicos': '🏛️',
+  'Poupança': '💾',
+  'Fundos': '🏢',
+  'Ações': '📈',
+  'Conta Corrente': '🏦'
+}
+
+const fmt = (v) => {
+  if (!v) return 'R$ 0,00'
+  return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 function Investimentos() {
   const navigate = useNavigate()
 
-  const getIconForCategoria = (categoria) => {
-    const iconMap = {
-      'Criptomoedas': Icons.TrendingUp,
-      'Renda Fixa': Icons.BarChart,
-      'Títulos Públicos': Icons.Bank,
-      'Poupança': Icons.DollarSign,
-      'Fundos': Icons.PieChart,
-      'Ações': Icons.TrendingUp,
-      'Conta Corrente': Icons.CreditCard
-    }
-    return iconMap[categoria] || Icons.Briefcase
-  }
-
-  // Dados fictícios de investimentos
   const investimentos = [
     {
       id: 1,
       nome: 'Bitcoin',
       categoria: 'Criptomoedas',
-      icone: '₿',
       investido: 2000,
       valor_atual: 2450,
       primeiro_aporte: '10/03/2026',
@@ -37,7 +35,6 @@ function Investimentos() {
       id: 2,
       nome: 'CDB Itaú',
       categoria: 'Renda Fixa',
-      icone: '📊',
       investido: 5000,
       valor_atual: 5180,
       primeiro_aporte: '02/01/2026',
@@ -48,7 +45,6 @@ function Investimentos() {
       id: 3,
       nome: 'Tesouro Selic',
       categoria: 'Títulos Públicos',
-      icone: '🏛️',
       investido: 3500,
       valor_atual: 3610,
       primeiro_aporte: '15/02/2026',
@@ -59,7 +55,6 @@ function Investimentos() {
       id: 4,
       nome: 'Reserva de Emergência',
       categoria: 'Poupança',
-      icone: '💾',
       investido: 4000,
       valor_atual: 4080,
       primeiro_aporte: '01/01/2026',
@@ -70,7 +65,6 @@ function Investimentos() {
       id: 5,
       nome: 'Fundo Imobiliário',
       categoria: 'Fundos',
-      icone: '🏢',
       investido: 2500,
       valor_atual: 2410,
       primeiro_aporte: '15/03/2026',
@@ -81,7 +75,6 @@ function Investimentos() {
       id: 6,
       nome: 'Ações (IBOV)',
       categoria: 'Ações',
-      icone: '📈',
       investido: 3000,
       valor_atual: 3150,
       primeiro_aporte: '01/04/2026',
@@ -92,7 +85,6 @@ function Investimentos() {
       id: 7,
       nome: 'C6 Bank',
       categoria: 'Conta Corrente',
-      icone: '🟦',
       investido: 5000,
       valor_atual: 5000,
       primeiro_aporte: '15/01/2026',
@@ -103,7 +95,6 @@ function Investimentos() {
       id: 8,
       nome: 'Itaú',
       categoria: 'Conta Corrente',
-      icone: '🟪',
       investido: 2500,
       valor_atual: 2500,
       primeiro_aporte: '10/02/2026',
@@ -114,7 +105,6 @@ function Investimentos() {
       id: 9,
       nome: 'Nubank',
       categoria: 'Conta Corrente',
-      icone: '🟥',
       investido: 1500,
       valor_atual: 1500,
       primeiro_aporte: '20/03/2026',
@@ -123,70 +113,97 @@ function Investimentos() {
     }
   ]
 
-  // Cálculos
   const totalInvestido = investimentos.reduce((sum, inv) => sum + inv.investido, 0)
+  const totalAtual = investimentos.reduce((sum, inv) => sum + inv.valor_atual, 0)
+  const rendimento = totalAtual - totalInvestido
 
   const handleInvestimentoClick = (investimento) => {
     navigate(`/investimentos/${investimento.id}`, { state: { investimento } })
   }
 
   return (
-    <div className="investimentos">
-      {/* Header */}
-      <div className="investimentos-header">
-        <div className="header-content">
-          <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Icons.Briefcase size={32} style={{ color: 'var(--primary-light)' }} />
-            Investimentos
-          </h1>
-          <p className="header-subtitle">Acompanhe seus ativos, aplicações e evolução patrimonial</p>
+    <div className="investimentos-layout">
+      <div className="investimentos-main">
+        {/* HEADER */}
+        <div className="header">
+          <div className="header-left">
+            <h1>
+              <span className="header-icon">📈</span>
+              Investimentos
+            </h1>
+            <p>Acompanhe seus ativos e evolução patrimonial</p>
+          </div>
         </div>
-      </div>
 
-      {/* Card Principal - Resumo Geral */}
-      <div className="resumo-geral card">
-        <h2>Resumo de Investimentos</h2>
-        <div className="resumo-grid">
-          <div className="resumo-item">
-            <span className="label">Total Investido</span>
-            <span className="valor">R$ {totalInvestido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+        {/* STATS GRID */}
+        <div className="stats-grid">
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #9c27b0, transparent)' }}></div>
+            <div className="stat-icon stat-icon-purple">💰</div>
+            <div className="stat-label">Total Investido</div>
+            <div className="stat-value">{fmt(totalInvestido)}</div>
+            <div className="stat-sub">Capital inicial</div>
+          </div>
+
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
+            <div className="stat-icon stat-icon-blue">💎</div>
+            <div className="stat-label">Valor Atual</div>
+            <div className="stat-value">{fmt(totalAtual)}</div>
+            <div className="stat-sub">Patrimônio total</div>
+          </div>
+
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: `radial-gradient(circle, ${rendimento >= 0 ? '#4ade80' : '#f87171'}, transparent)` }}></div>
+            <div className={`stat-icon ${rendimento >= 0 ? 'stat-icon-green' : 'stat-icon-red'}`}>📊</div>
+            <div className="stat-label">Rendimento</div>
+            <div className={`stat-value ${rendimento >= 0 ? 'positive' : 'negative'}`}>{rendimento >= 0 ? '+' : '−'}{fmt(Math.abs(rendimento))}</div>
+            <div className="stat-sub">{((rendimento / totalInvestido) * 100).toFixed(2)}% ganho</div>
+          </div>
+        </div>
+
+        {/* INVESTIMENTOS */}
+        <div className="investimentos-section">
+          <div className="section-header">
+            <h2 className="section-title">Meus Investimentos</h2>
+            <span className="section-count">{investimentos.length} ativos</span>
+          </div>
+
+          <div className="investimentos-grid">
+            {investimentos.map((inv) => {
+              const rendInv = inv.valor_atual - inv.investido
+              const pctInv = ((rendInv / inv.investido) * 100).toFixed(2)
+              return (
+                <div
+                  key={inv.id}
+                  className="investimento-card"
+                  onClick={() => handleInvestimentoClick(inv)}
+                  role="button"
+                >
+                  <div className="inv-icon">{CATEGORIAS_ICONS[inv.categoria] || '📈'}</div>
+                  <h3 className="inv-nome">{inv.nome}</h3>
+                  <p className="inv-categoria">{inv.categoria}</p>
+
+                  <div className="inv-valores">
+                    <div className="inv-val">
+                      <span className="inv-label">Investido</span>
+                      <span className="inv-number">{fmt(inv.investido)}</span>
+                    </div>
+                    <div className="inv-val">
+                      <span className="inv-label">Atual</span>
+                      <span className={`inv-number ${rendInv >= 0 ? 'positive' : 'negative'}`}>{fmt(inv.valor_atual)}</span>
+                    </div>
+                  </div>
+
+                  <div className={`inv-badge ${rendInv >= 0 ? 'positive' : 'negative'}`}>
+                    {rendInv >= 0 ? '+' : '−'}{fmt(Math.abs(rendInv))} ({pctInv}%)
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
-
-      {/* Seção de Investimentos */}
-      <div className="investimentos-section">
-        <h2>Meus Investimentos</h2>
-        <div className="investimentos-list">
-          {investimentos.map((investimento) => {
-            const IconComponent = getIconForCategoria(investimento.categoria)
-            return (
-              <button
-                key={investimento.id}
-                className="investimento-card"
-                onClick={() => handleInvestimentoClick(investimento)}
-              >
-                <div className="header-left">
-                  <div className="icone" style={{ color: 'var(--primary-light)' }}>
-                    <IconComponent size={24} />
-                  </div>
-                  <div className="info">
-                    <h3>{investimento.nome}</h3>
-                    <span className="categoria">{investimento.categoria}</span>
-                  </div>
-                </div>
-                <div className="header-right">
-                  <div className="valor-atual">
-                    R$ {investimento.investido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  </div>
-                  <Icons.ArrowRight size={20} style={{ color: 'var(--text-secondary)' }} />
-                </div>
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
     </div>
   )
 }

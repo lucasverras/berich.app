@@ -1,12 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
-import Icons from '../components/Icons'
-import MonthSelector from '../components/MonthSelector'
-import CategoryGrid from '../components/CategoryGrid'
 import AddModal from '../components/AddModal'
 import FecharFaturaModal from '../components/FecharFaturaModal'
 import './Fatura.css'
+
+const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+const fmt = (v) => {
+  if (!v) return 'R$ 0,00'
+  return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 function Fatura() {
   const { bancoAtivo, mesAno, updateMesAno } = useContext(AppContext)
@@ -16,6 +20,8 @@ function Fatura() {
   const [isFecharModalOpen, setIsFecharModalOpen] = useState(false)
   const [faturasFechadas, setFaturasFechadas] = useState({})
   const [isFechada, setIsFechada] = useState(false)
+  const [dropdownAberto, setDropdownAberto] = useState(false)
+  const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
 
   useEffect(() => {
     fetchFatura()
@@ -48,18 +54,17 @@ function Fatura() {
           forma_pagamento: 'cartão',
         }
       })
-      setLancamentos(response.data)
+      setLancamentos(response.data || [])
     } catch (error) {
       console.error('Erro ao buscar lançamentos:', error)
+      setLancamentos([])
     }
   }
 
-  const handleMesChange = (mes) => {
-    updateMesAno(mes, mesAno.ano)
-  }
-
-  const handleAnoChange = (ano) => {
-    updateMesAno(mesAno.mes, ano)
+  const handleMesChange = (novoMes) => {
+    setMesSelecionado(novoMes)
+    updateMesAno(novoMes + 1, mesAno.ano)
+    setDropdownAberto(false)
   }
 
   const handleAddLancamento = () => {
@@ -69,7 +74,6 @@ function Fatura() {
   }
 
   const handleFecharFatura = () => {
-    // Marcar fatura como fechada
     const chave = `${mesAno.ano}-${mesAno.mes}`
     setFaturasFechadas(prev => ({
       ...prev,
@@ -77,7 +81,6 @@ function Fatura() {
     }))
     setIsFechada(true)
 
-    // Calcular próximo mês
     let proximoMes = mesAno.mes + 1
     let proximoAno = mesAno.ano
     if (proximoMes > 12) {
@@ -85,49 +88,61 @@ function Fatura() {
       proximoAno += 1
     }
 
-    // Atualizar para próximo mês
     updateMesAno(proximoMes, proximoAno)
-
-    // Fechar o modal
     setIsFecharModalOpen(false)
   }
 
-  // Verificar se fatura está fechada ao carregar
   useEffect(() => {
     const chave = `${mesAno.ano}-${mesAno.mes}`
     setIsFechada(faturasFechadas[chave] || false)
   }, [mesAno, faturasFechadas])
 
-  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-
   return (
-    <div className="fatura">
-      <div className="fatura-content">
-        <div className="dashboard-header">
+    <div className="fatura-layout">
+      <div className="fatura-main">
+        {/* HEADER */}
+        <div className="header">
           <div className="header-left">
-            <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <Icons.CreditCard size={32} style={{ color: 'var(--primary-light)' }} />
+            <h1>
+              <span className="header-icon">💳</span>
               Fatura
             </h1>
+            <p>Fatura do cartão — {MESES[mesSelecionado]} {mesAno.ano}</p>
+          </div>
+          <div className="month-picker" onClick={() => setDropdownAberto(!dropdownAberto)}>
+            <span>{MESES[mesSelecionado].slice(0, 3)} {mesAno.ano}</span>
+            <span className="chevron">⌄</span>
+            {dropdownAberto && (
+              <div className="month-dropdown">
+                {MESES.map((m, i) => (
+                  <button
+                    key={m}
+                    className={`month-option ${i === mesSelecionado ? 'selected' : ''}`}
+                    onClick={() => handleMesChange(i)}
+                  >
+                    {m.slice(0, 3)}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        <MonthSelector mesAno={mesAno} onMesChange={handleMesChange} onAnoChange={handleAnoChange} />
-
-        <div className="cards-container">
-          <div className="card negative">
-            <div className="card-header-row">
-              <h3>Fatura de {monthNames[mesAno.mes - 1]}</h3>
-              {isFechada && <span className="badge-fechada">Fechada</span>}
-            </div>
-            <div className={`value negative`}>
-              R$ {Math.abs(fatura).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </div>
+        {/* STATS GRID */}
+        <div className="stats-grid single">
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
+            <div className="stat-icon stat-icon-red">💳</div>
+            <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
+            <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
+            <div className="stat-sub">Total a pagar</div>
+            {isFechada && <span className="badge-status fechada">Fechada</span>}
           </div>
         </div>
 
+        {/* AÇÃO FECHAR */}
         {!isFechada && (
-          <div className="fechar-fatura-card card">
+          <div className="fechar-fatura-card">
             <div className="fechar-card-content">
               <div className="fechar-card-text">
                 <h3>Fechar Fatura</h3>
@@ -137,47 +152,47 @@ function Fatura() {
                 className="fechar-card-btn"
                 onClick={() => setIsFecharModalOpen(true)}
               >
-                Fechar
+                Fechar Fatura
               </button>
             </div>
           </div>
         )}
 
-        <CategoryGrid banco={bancoAtivo} mes={mesAno.mes} ano={mesAno.ano} />
-
-        <div className="lancamentos-container">
-          <div className="lancamentos-header">
-            <h3>Transações do Cartão</h3>
+        {/* TRANSAÇÕES */}
+        <div className="transacoes-section">
+          <div className="section-header">
+            <h2 className="section-title">Transações</h2>
+            <span className="section-count">{lancamentos.length} itens</span>
           </div>
 
           {lancamentos.length === 0 ? (
-            <p className="no-data">Sem transações para este período</p>
+            <div className="card empty-state">
+              <p>Sem transações para este período</p>
+            </div>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Data</th>
-                  <th>Descrição</th>
-                  <th>Categoria</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {lancamentos.map(l => (
-                  <tr key={l.id} className="negative">
-                    <td>{new Date(l.data).toLocaleDateString('pt-BR')}</td>
-                    <td>{l.descricao}</td>
-                    <td>{l.categoria || '—'}</td>
-                    <td>R$ {Math.abs(l.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="transacoes-list">
+              {lancamentos.map(l => (
+                <div key={l.id} className="transacao-item">
+                  <div className="tra-left">
+                    <div className="tra-icon">📌</div>
+                    <div className="tra-info">
+                      <p className="tra-desc">{l.descricao}</p>
+                      <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                    </div>
+                  </div>
+                  <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
 
-      <button className="fab" onClick={() => setIsAddModalOpen(true)}>+</button>
+      {/* FAB */}
+      <button className="fab" onClick={() => setIsAddModalOpen(true)} title="Adicionar transação">
+        +
+      </button>
+
       <AddModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
