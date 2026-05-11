@@ -74,26 +74,25 @@
 }
 
 .categoria-tag {
-  background: rgba(34, 197, 94, 0.1);
-  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: transparent;
+  border: 1px solid rgba(34, 197, 94, 0.2);
   color: #86efac;
   padding: 8px 14px;
-  border-radius: 20px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 600;
-  transition: all 0.2s ease;
+  font-weight: 500;
+  transition: border-color 0.2s ease;
   min-width: auto;
   white-space: nowrap;
 }
 
 .categoria-tag:hover {
-  border-color: rgba(34, 197, 94, 0.6);
-  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.4);
 }
 
 .categoria-tag.active {
-  background: #22c55e;
+  background: transparent;
   border-color: #22c55e;
-  color: #052e0f;
+  color: #22c55e;
 }
