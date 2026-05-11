@@ -130,28 +130,14 @@
   text-align: right;
 }
 
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 16px;
-}
-
-.checkbox-label {
+.checkbox-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 14px;
-  font-weight: 500;
-  color: #f0fdf4;
-  text-transform: none;
-  letter-spacing: 0;
-  margin: 0;
+  justify-content: flex-start;
 }
 
-.checkbox-label input[type="checkbox"] {
+.checkbox-wrapper input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -165,22 +151,32 @@
   justify-content: center;
   min-height: auto;
   padding: 0;
+  flex-shrink: 0;
 }
 
-.checkbox-label input[type="checkbox"]:hover {
+.checkbox-wrapper input[type="checkbox"]:hover {
   border-color: rgba(34, 197, 94, 0.5);
   background: rgba(34, 197, 94, 0.1);
 }
 
-.checkbox-label input[type="checkbox"]:checked {
+.checkbox-wrapper input[type="checkbox"]:checked {
   background: #22c55e;
   border-color: #22c55e;
 }
 
-.checkbox-label input[type="checkbox"]:checked::after {
+.checkbox-wrapper input[type="checkbox"]:checked::after {
   content: '✓';
   color: #052e0f;
   font-weight: 600;
+}
+
+.checkbox-wrapper .checkbox-label {
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #f0fdf4;
+  margin: 0;
 }
 
 .installment-info {

@@ -255,16 +255,20 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
             </datalist>
           </div>
 
-          <div className="form-group checkbox-group">
-            <label className="checkbox-label">
+          <div className="form-group">
+            <label>Parcelado</label>
+            <div className="checkbox-wrapper">
               <input
                 type="checkbox"
+                id="parcelado"
                 name="parcelado"
                 checked={formData.parcelado}
                 onChange={handleCheckChange}
               />
-              <span>Parcelado</span>
-            </label>
+              <label htmlFor="parcelado" className="checkbox-label">
+                Marcar como parcelado
+              </label>
+            </div>
           </div>
 
           {formData.parcelado && (
