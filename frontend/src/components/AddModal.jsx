@@ -240,6 +240,13 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
 
           <div className="form-group">
             <label>Categoria</label>
+            <input
+              type="text"
+              name="categoria"
+              value={formData.categoria}
+              onChange={handleChange}
+              placeholder="Digite uma categoria"
+            />
             <div className="categoria-tags">
               {categorias && categorias.map(cat => (
                 <button
@@ -252,13 +259,6 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
                 </button>
               ))}
             </div>
-            <input
-              type="text"
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleChange}
-              placeholder="Ou digite uma categoria customizada"
-            />
           </div>
 
           <div className="form-group">
