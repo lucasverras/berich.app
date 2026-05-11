@@ -101,13 +101,14 @@
 
 /* Add Button */
 .nav-add-btn {
-  background: linear-gradient(135deg, #92fe9d 0%, #6ebf76 100%);
+  background: none;
 }
 
 .nav-add-btn .add-icon {
   font-size: 28px;
   font-weight: 600;
-  color: #000;
+  color: #92fe9d;
+  transition: all 0.2s ease;
 }
 
 /* Responsive - Mobile */
