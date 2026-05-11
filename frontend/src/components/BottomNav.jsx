@@ -27,7 +27,7 @@ function BottomNav() {
           onClick={() => navigate(route.path)}
           title={route.label}
         >
-          <route.icon size={26} />
+          <route.icon size={28} />
         </button>
       ))}
 
@@ -36,7 +36,7 @@ function BottomNav() {
         onClick={() => setIsAddModalOpen(true)}
         title="Adicionar"
       >
-        <Plus size={32} />
+        <Plus size={36} />
       </button>
     </nav>
   )
