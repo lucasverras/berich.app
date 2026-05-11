@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import Icons from './Icons'
+import { Home, CreditCard, Wallet, TrendingUp, Eye, Settings, ChevronRight, X, Smartphone } from 'lucide-react'
 import './Sidebar.css'
 
 function Sidebar() {
@@ -13,7 +13,7 @@ function Sidebar() {
 
   useEffect(() => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-    document.documentElement.style.setProperty('--sidebar-w', isMobile ? '70px' : '160px')
+    document.documentElement.style.setProperty('--sidebar-w', isMobile ? 'auto' : '160px')
   }, [sidebarOpen])
 
   useEffect(() => {
@@ -33,69 +33,66 @@ function Sidebar() {
 
   const isActive = (path) => location.pathname === path
 
+  const menuItems = [
+    { path: '/home', icon: Home, label: 'Início' },
+    { path: '/fatura', icon: CreditCard, label: 'Fatura' },
+    { path: '/conta', icon: Wallet, label: 'Conta' },
+    { path: '/investimentos', icon: TrendingUp, label: 'Investimentos' },
+  ]
+
+  const otherItems = [
+    { path: '/revisar', icon: Eye, label: 'Revisar', badge: pendentes > 0 ? pendentes : null },
+    { path: '/config', icon: Settings, label: 'Configurações' },
+  ]
+
   return (
-    <aside className={`sidebar glass ${!sidebarOpen ? 'collapsed' : ''}`}>
+    <aside className={`sidebar ${!sidebarOpen ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
         <div className="logo">
-          {sidebarOpen ? (
-            <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg" className="logo-icon">
-              <text x="10" y="48" fontFamily="Space Grotesk, sans-serif" fontSize="48" fontWeight="700" letterSpacing="-2" fill="url(#logoGradient)">BE.RICH</text>
-              <defs>
-                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%">
-                  <stop offset="0%" stopColor="#5df575" />
-                  <stop offset="50%" stopColor="#22c55e" />
-                  <stop offset="100%" stopColor="#16a34a" />
-                </linearGradient>
-              </defs>
-            </svg>
-          ) : (
-            <div className="logo-short">B</div>
-          )}
+          <span className="logo-text">BE.RICH</span>
         </div>
-        <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)} title={sidebarOpen ? 'Recolher' : 'Expandir'}>
-          {sidebarOpen ? <Icons.ChevronDown size={18} /> : <Icons.Menu size={18} />}
+        <button className="sidebar-close" onClick={() => setSidebarOpen(!sidebarOpen)} title={sidebarOpen ? 'Fechar' : 'Abrir'}>
+          {sidebarOpen ? <X size={20} /> : <ChevronRight size={20} />}
         </button>
       </div>
 
       <nav className="sidebar-nav">
         <div className="nav-section">
-          <div className="nav-label">Principal</div>
+          <div className="nav-label">PRINCIPAL</div>
+          {menuItems.map(item => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
+            >
+              <item.icon size={24} className="nav-icon" />
+              <span className="nav-text">{item.label}</span>
+            </Link>
+          ))}
+        </div>
 
-          <Link to="/home" className={`nav-item ${isActive('/home') ? 'active' : ''}`} data-label="Início">
-            <div className="nav-icon">🏠</div>
-            <span className="nav-label">Início</span>
-          </Link>
-          <Link to="/fatura" className={`nav-item ${isActive('/fatura') ? 'active' : ''}`} data-label="Fatura">
-            <div className="nav-icon">💳</div>
-            <span className="nav-label">Fatura</span>
-          </Link>
-          <Link to="/conta" className={`nav-item ${isActive('/conta') ? 'active' : ''}`} data-label="Conta">
-            <div className="nav-icon">💰</div>
-            <span className="nav-label">Conta</span>
-          </Link>
-          <Link to="/investimentos" className={`nav-item ${isActive('/investimentos') ? 'active' : ''}`} data-label="Investimentos">
-            <div className="nav-icon">📈</div>
-            <span className="nav-label">Investimentos</span>
-          </Link>
-
-          <div className="sidebar-divider" />
-          <div className="nav-label">Outros</div>
-
-          <Link to="/revisar" className={`nav-item ${isActive('/revisar') ? 'active' : ''}`} data-label="Revisar">
-            <div className="nav-icon">👁️</div>
-            <span className="nav-label">Revisar {pendentes > 0 && <span className="counter">{pendentes}</span>}</span>
-          </Link>
-          <Link to="/config" className={`nav-item ${isActive('/config') ? 'active' : ''}`} data-label="Configurações">
-            <div className="nav-icon">⚙️</div>
-            <span className="nav-label">Configurações</span>
-          </Link>
+        <div className="nav-section">
+          <div className="nav-label">OUTROS</div>
+          {otherItems.map(item => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
+            >
+              <item.icon size={24} className="nav-icon" />
+              <span className="nav-text">
+                {item.label}
+                {item.badge && <span className="badge">{item.badge}</span>}
+              </span>
+            </Link>
+          ))}
         </div>
       </nav>
 
       <div className="sidebar-footer">
         <a href="/mobile" target="_blank" rel="noopener noreferrer" className="mobile-link">
-          <Icons.Smartphone size={18} />
-          Versão Mobile
+          <Smartphone size={16} />
+          <span>Versão Mobile</span>
         </a>
       </div>
     </aside>
