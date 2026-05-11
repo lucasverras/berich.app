@@ -27,9 +27,19 @@
 
 /* Responsive: Mobile (320px–767px) */
 @media (max-width: 767px) {
+  .app {
+    flex-direction: column;
+  }
+
   .main-content {
     padding: 16px;
     max-width: 100%;
+    padding-bottom: 80px;
+  }
+
+  /* Ensure content doesn't hide behind bottom nav */
+  .main-content > * {
+    margin-bottom: 0;
   }
 }
 

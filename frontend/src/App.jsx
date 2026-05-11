@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AppContext } from './context/AppContext'
 import Sidebar from './components/Sidebar'
+import BottomNav from './components/BottomNav'
 import Home from './pages/Home'
 import Fatura from './pages/Fatura'
 import Conta from './pages/Conta'
@@ -46,6 +47,7 @@ function AppContent() {
           <Route path="/historico" element={<Historico />} />
         </Routes>
       </main>
+      <BottomNav />
     </div>
   )
 }
