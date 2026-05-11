@@ -19,16 +19,13 @@ function InvestimentoDetalhe() {
     data: ''
   })
 
+  const totalMontante = entradas.reduce((sum, e) => sum + e.valor, 0)
+
   const [valorAtual, setValorAtual] = useState(investimento?.valor_atual || 2450)
   const [isEditingValor, setIsEditingValor] = useState(false)
   const [novoValor, setNovoValor] = useState(valorAtual)
   const [isEditingTotal, setIsEditingTotal] = useState(false)
   const [novoTotal, setNovoTotal] = useState(totalMontante)
-
-  const totalMontante = entradas.reduce((sum, e) => sum + e.valor, 0)
-  const totalInvestidoAtual = isEditingTotal ? parseFloat(novoTotal) || totalMontante : totalMontante
-  const ganho = valorAtual - totalInvestidoAtual
-  const percentual = totalInvestidoAtual > 0 ? ((ganho / totalInvestidoAtual) * 100).toFixed(2) : 0
 
   const handleAdicionarEntrada = (e) => {
     e.preventDefault()
@@ -192,17 +189,6 @@ function InvestimentoDetalhe() {
               R$ {valorAtual.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
           )}
-        </div>
-
-        {/* Ganho/Perda */}
-        <div className={`montante-card card ${ganho >= 0 ? 'positivo' : 'negativo'}`}>
-          <h3>Ganho/Perda</h3>
-          <div className={`montante-valor ${ganho >= 0 ? 'positivo' : 'negativo'}`}>
-            {ganho >= 0 ? '+' : '−'}R$ {Math.abs(ganho).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-          </div>
-          <div className="percentual">
-            {ganho >= 0 ? '+' : '−'}{percentual}%
-          </div>
         </div>
       </div>
 

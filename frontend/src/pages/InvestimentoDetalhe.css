@@ -72,7 +72,7 @@
 /* Grid de Valores */
 .valores-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 32px;
 }
@@ -284,16 +284,10 @@
   color: #ef5350;
   width: 32px;
   height: 32px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
   font-weight: 700;
-  transition: all 0.2s ease;
   margin-left: 12px;
-}
-
-.btn-remover:hover {
-  background: rgba(239, 83, 80, 0.25);
-  border-color: rgba(239, 83, 80, 0.5);
 }
 
 /* Formulário */
