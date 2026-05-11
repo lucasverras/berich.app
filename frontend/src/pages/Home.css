@@ -367,11 +367,43 @@
   background: rgba(34, 120, 40, 0.05);
   border: 1px solid rgba(40, 100, 40, 0.1);
   transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
 }
 
 .transaction-item:hover {
   background: rgba(34, 120, 40, 0.1);
   border-color: rgba(40, 100, 40, 0.2);
+}
+
+.trans-delete {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: rgba(248, 113, 113, 0);
+  opacity: 0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.1), transparent);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.transaction-item:hover .trans-delete {
+  opacity: 1;
+  color: rgba(248, 113, 113, 0.6);
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.2), rgba(248, 113, 113, 0.05));
+}
+
+.transaction-item:hover .trans-delete:hover {
+  color: #f87171;
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.3), rgba(248, 113, 113, 0.1));
 }
 
 .trans-left {

@@ -6,6 +6,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
+import EditLancamentoModal from '../components/EditLancamentoModal'
 import './Home.css'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -45,17 +46,30 @@ function Home() {
   const [saldoAtual, setSaldoAtual] = useState(0)
   const [lancamentosCartao, setLancamentosCartao] = useState([])
   const [lancamentosConta, setLancamentosConta] = useState([])
+  const [categorias, setCategorias] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [editingLancamento, setEditingLancamento] = useState(null)
   const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
   const [lancamentos, setLancamentos] = useState([])
 
   useEffect(() => {
+    fetchCategorias()
     fetchFatura()
     fetchSaldo()
     fetchLancamentosCartao()
     fetchLancamentosConta()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
+
+  const fetchCategorias = async () => {
+    try {
+      const response = await axios.get('/api/categorias')
+      setCategorias(response.data || [])
+    } catch (error) {
+      console.error('Erro ao buscar categorias:', error)
+    }
+  }
 
   const fetchFatura = async () => {
     try {
@@ -132,6 +146,18 @@ function Home() {
     setMesSelecionado(novoMes)
     updateMesAno(novoMes + 1, mesAno.ano)
     setDropdownAberto(false)
+  }
+
+  const handleEditLancamento = (lancamento) => {
+    setEditingLancamento(lancamento)
+    setIsEditModalOpen(true)
+  }
+
+  const handleLancamentoSaved = () => {
+    fetchFatura()
+    fetchSaldo()
+    fetchLancamentosCartao()
+    fetchLancamentosConta()
   }
 
   const chartData = resumo.por_categoria
@@ -249,7 +275,7 @@ function Home() {
             {lancamentosCartao.length > 0 ? (
               <div className="transactions-list">
                 {lancamentosCartao.map(l => (
-                  <div key={l.id} className="transaction-item">
+                  <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
                     <div className="trans-left">
                       <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
                       <div className="trans-info">
@@ -258,6 +284,7 @@ function Home() {
                       </div>
                     </div>
                     <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
+                    <div className="trans-delete">✕</div>
                   </div>
                 ))}
               </div>
@@ -275,7 +302,7 @@ function Home() {
             {lancamentosConta.length > 0 ? (
               <div className="transactions-list">
                 {lancamentosConta.map(l => (
-                  <div key={l.id} className="transaction-item">
+                  <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
                     <div className="trans-left">
                       <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
                       <div className="trans-info">
@@ -284,6 +311,7 @@ function Home() {
                       </div>
                     </div>
                     <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
+                    <div className="trans-delete">✕</div>
                   </div>
                 ))}
               </div>
@@ -391,10 +419,21 @@ function Home() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onLancamentoAdded={() => {
-          fetchResumo()
-          fetchLancamentos()
+          handleLancamentoSaved()
           setIsAddModalOpen(false)
         }}
+      />
+
+      {/* EditLancamentoModal */}
+      <EditLancamentoModal
+        isOpen={isEditModalOpen}
+        lancamento={editingLancamento}
+        onClose={() => {
+          setIsEditModalOpen(false)
+          setEditingLancamento(null)
+        }}
+        onSaved={handleLancamentoSaved}
+        categorias={categorias}
       />
     </div>
   )
