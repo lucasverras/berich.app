@@ -334,11 +334,32 @@
   align-items: center;
   justify-content: space-between;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .movimentacao-item:hover {
   border-color: rgba(40, 100, 40, 0.4);
   background: rgba(10, 22, 10, 0.75);
+}
+
+.movimentacao-item.entrada {
+  background: rgba(74, 222, 128, 0.08);
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+.movimentacao-item.entrada:hover {
+  background: rgba(74, 222, 128, 0.15);
+  border-color: rgba(74, 222, 128, 0.35);
+}
+
+.movimentacao-item.saida {
+  background: rgba(248, 113, 113, 0.08);
+  border-color: rgba(248, 113, 113, 0.2);
+}
+
+.movimentacao-item.saida:hover {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: rgba(248, 113, 113, 0.35);
 }
 
 .mov-left {

@@ -406,6 +406,27 @@
   background: linear-gradient(135deg, rgba(248, 113, 113, 0.3), rgba(248, 113, 113, 0.1));
 }
 
+/* Cores para a seção de Conta */
+.transactions-card.conta .transaction-item.entrada {
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.2);
+}
+
+.transactions-card.conta .transaction-item.entrada:hover {
+  background: rgba(74, 222, 128, 0.18);
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.transactions-card.conta .transaction-item.saida {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.2);
+}
+
+.transactions-card.conta .transaction-item.saida:hover {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.3);
+}
+
 .trans-left {
   display: flex;
   align-items: center;

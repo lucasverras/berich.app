@@ -294,7 +294,7 @@ function Home() {
           </div>
 
           {/* CONTA */}
-          <div className="transactions-card">
+          <div className="transactions-card conta">
             <div className="card-header">
               <span className="card-title">Últimos Lançamentos - Conta</span>
               <span className="card-badge">{lancamentosConta.length}</span>
@@ -302,7 +302,7 @@ function Home() {
             {lancamentosConta.length > 0 ? (
               <div className="transactions-list">
                 {lancamentosConta.map(l => (
-                  <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
+                  <div key={l.id} className={`transaction-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
                     <div className="trans-left">
                       <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
                       <div className="trans-info">

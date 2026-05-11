@@ -172,7 +172,7 @@ function Conta() {
           ) : (
             <div className="movimentacoes-list">
               {lancamentos.map(l => (
-                <div key={l.id} className="movimentacao-item" onClick={() => handleEditLancamento(l)}>
+                <div key={l.id} className={`movimentacao-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
                   <div className="mov-left">
                     <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
                       {l.tipo === 'entrada' ? '↓' : '↑'}
