@@ -1,6 +1,9 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './BottomNav.css'
+import homeIcon from '../assets/icons/home-1 1.svg'
+import faturasIcon from '../assets/icons/cartões.svg'
+import saldoIcon from '../assets/icons/saldo.svg'
 
 function BottomNav() {
   const navigate = useNavigate()
@@ -8,9 +11,9 @@ function BottomNav() {
   const [showAddMenu, setShowAddMenu] = React.useState(false)
 
   const routes = [
-    { path: '/home', icon: '🏠', label: 'Home' },
-    { path: '/fatura', icon: '💳', label: 'Fatura' },
-    { path: '/conta', icon: '💰', label: 'Saldo' },
+    { path: '/home', icon: homeIcon, label: 'Home' },
+    { path: '/fatura', icon: faturasIcon, label: 'Fatura' },
+    { path: '/conta', icon: saldoIcon, label: 'Saldo' },
     { path: '/investimentos', icon: '📈', label: 'Investimentos' },
   ]
 
@@ -29,7 +32,11 @@ function BottomNav() {
             }}
             title={route.label}
           >
-            <span className="nav-icon">{route.icon}</span>
+            {typeof route.icon === 'string' && route.icon.includes('svg') ? (
+              <img src={route.icon} alt={route.label} className="nav-icon-svg" />
+            ) : (
+              <span className="nav-icon">{route.icon}</span>
+            )}
           </button>
         ))}
       </nav>
