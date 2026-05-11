@@ -10,6 +10,7 @@ import EditLancamentoModal from '../components/EditLancamentoModal'
 import EditInvestimentoModal from '../components/EditInvestimentoModal'
 import CategoryFilters from '../components/CategoryFilters'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal'
+import MonthCarousel from '../components/MonthCarousel'
 import OutrosBancos from '../components/OutrosBancos'
 import { UtensilsCrossed, Car, Home as HomeIcon, Heart, Gamepad2, BookOpen, ShoppingBag, Film, Plane, Zap } from 'lucide-react'
 import logo from '../assets/logo/logo.svg'
@@ -61,7 +62,6 @@ function Home() {
   const [categorias, setCategorias] = useState([])
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
-  const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
   const [lancamentos, setLancamentos] = useState([])
   const [isEditInvestimentoModalOpen, setIsEditInvestimentoModalOpen] = useState(false)
@@ -369,24 +369,15 @@ function Home() {
               <p>Visão geral das suas finanças — {MESES[mesSelecionado]} {mesAno.ano}</p>
             </div>
           </div>
-          <div className="month-picker" onClick={() => setDropdownAberto(!dropdownAberto)}>
-            <span>{MESES[mesSelecionado]} {mesAno.ano}</span>
-            <span className="chevron">⌄</span>
-            {dropdownAberto && (
-              <div className="month-dropdown">
-                {MESES.map((m, i) => (
-                  <button
-                    key={m}
-                    className={`month-option ${i === mesSelecionado ? 'selected' : ''}`}
-                    onClick={() => handleMesChange(i)}
-                  >
-                    {m.slice(0, 3)}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
+
+        <MonthCarousel
+          mesSelecionado={mesSelecionado}
+          onChange={(novoMes) => {
+            setMesSelecionado(novoMes)
+            updateMesAno(novoMes + 1, mesAno.ano)
+          }}
+        />
 
         {/* MOBILE LAYOUT */}
         <div className="mobile-home-section">

@@ -5,6 +5,7 @@ import { ChevronLeft } from 'lucide-react'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal'
+import MonthCarousel from '../components/MonthCarousel'
 import './BancoDetalhe.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -16,7 +17,6 @@ function BancoDetalhe() {
   const [resumo, setResumo] = useState({ total_entradas: 0, total_saidas: 0, saldo: 0 })
   const [mesSelecionado, setMesSelecionado] = useState(new Date().getMonth())
   const [ano, setAno] = useState(new Date().getFullYear())
-  const [dropdownAberto, setDropdownAberto] = useState(false)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -83,27 +83,10 @@ function BancoDetalhe() {
       </div>
 
       {/* Month Selector */}
-      <div className="month-selector">
-        <button onClick={() => setDropdownAberto(!dropdownAberto)}>
-          {MESES[mesSelecionado]} {ano}
-        </button>
-        {dropdownAberto && (
-          <div className="month-dropdown">
-            {MESES.map((m, i) => (
-              <button
-                key={m}
-                className={i === mesSelecionado ? 'selected' : ''}
-                onClick={() => {
-                  setMesSelecionado(i)
-                  setDropdownAberto(false)
-                }}
-              >
-                {m}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+      <MonthCarousel
+        mesSelecionado={mesSelecionado}
+        onChange={(novoMes) => setMesSelecionado(novoMes)}
+      />
 
       {/* Resumo Cards */}
       <div className="resumo-cards">

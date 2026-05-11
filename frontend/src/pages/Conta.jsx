@@ -5,6 +5,7 @@ import axios from 'axios'
 import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
+import MonthCarousel from '../components/MonthCarousel'
 import './Conta.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -22,7 +23,6 @@ function Conta() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
-  const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
   const [categorias, setCategorias] = useState([])
 
@@ -112,24 +112,12 @@ function Conta() {
             </h1>
             <p>Movimentação da conta — {MESES[mesSelecionado]} {mesAno.ano}</p>
           </div>
-          <div className="month-picker" onClick={() => setDropdownAberto(!dropdownAberto)}>
-            <span>{MESES[mesSelecionado].slice(0, 3)} {mesAno.ano}</span>
-            <span className="chevron">⌄</span>
-            {dropdownAberto && (
-              <div className="month-dropdown">
-                {MESES.map((m, i) => (
-                  <button
-                    key={m}
-                    className={`month-option ${i === mesSelecionado ? 'selected' : ''}`}
-                    onClick={() => handleMesChange(i)}
-                  >
-                    {m.slice(0, 3)}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
+
+        <MonthCarousel
+          mesSelecionado={mesSelecionado}
+          onChange={(novoMes) => handleMesChange(novoMes)}
+        />
 
         {/* STATS GRID */}
         <div className="stats-grid">
