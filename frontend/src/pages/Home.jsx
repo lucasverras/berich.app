@@ -321,32 +321,8 @@ function Home() {
           </div>
         </div>
 
-        {/* BOTTOM ROW */}
-        <div className="bottom-grid" style={{display: 'none'}}>
-          {/* CONTAS CARD */}
-          <div className="card banks-card">
-            <div className="card-header">
-              <span className="card-title">Contas vinculadas</span>
-              <span className="card-badge">{BANKS.length} bancos</span>
-            </div>
-
-            {BANKS.map((bank) => (
-              <div key={bank.sigla} className="bank-item">
-                <div className="bank-left">
-                  <div className="bank-avatar" style={{ background: `linear-gradient(135deg, ${bank.bgColor}, ${bank.bgColor}dd)`, color: '#fff', border: `1px solid ${bank.bgColor}33` }}>
-                    {bank.sigla}
-                  </div>
-                  <div>
-                    <div className="bank-name">{bank.nome}</div>
-                    <div className="bank-type">{bank.tipo}</div>
-                  </div>
-                </div>
-                <div className="bank-value">{fmt(bank.saldo)}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* GASTOS POR CATEGORIA */}
+        {/* GASTOS POR CATEGORIA */}
+        <div className="chart-card-section">
           <div className="card chart-card">
             <p className="card-title">Gastos por categoria</p>
             {chartData.length > 0 ? (

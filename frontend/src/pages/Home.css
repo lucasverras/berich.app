@@ -547,21 +547,9 @@
 }
 
 /* BOTTOM GRID */
-.bottom-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+/* CHART CARD SECTION */
+.chart-card-section {
   margin-bottom: 20px;
-}
-
-@media (max-width: 1024px) {
-  .bottom-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* BANKS CARD */
-.banks-card {
 }
 
 .bank-item {
