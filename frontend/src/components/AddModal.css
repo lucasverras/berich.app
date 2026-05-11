@@ -170,14 +170,6 @@
   font-weight: 600;
 }
 
-.checkbox-wrapper .checkbox-label {
-  cursor: pointer;
-  user-select: none;
-  font-size: 14px;
-  font-weight: 500;
-  color: #f0fdf4;
-  margin: 0;
-}
 
 .installment-info {
   background: rgba(34, 197, 94, 0.05);

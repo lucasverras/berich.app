@@ -265,9 +265,6 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
                 checked={formData.parcelado}
                 onChange={handleCheckChange}
               />
-              <label htmlFor="parcelado" className="checkbox-label">
-                Marcar como parcelado
-              </label>
             </div>
           </div>
 
