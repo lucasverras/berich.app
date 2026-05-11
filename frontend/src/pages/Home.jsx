@@ -10,6 +10,7 @@ import EditLancamentoModal from '../components/EditLancamentoModal'
 import EditInvestimentoModal from '../components/EditInvestimentoModal'
 import CategoryFilters from '../components/CategoryFilters'
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal'
+import OutrosBancos from '../components/OutrosBancos'
 import logo from '../assets/logo/logo.svg'
 import './Home.css'
 
@@ -438,6 +439,9 @@ function Home() {
             </div>
           </div>
         </div>
+
+        {/* OUTROS BANCOS */}
+        <OutrosBancos />
 
         {/* GASTOS POR CATEGORIA */}
         <div className="chart-card-section">

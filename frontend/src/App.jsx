@@ -8,6 +8,7 @@ import Fatura from './pages/Fatura'
 import Conta from './pages/Conta'
 import Investimentos from './pages/Investimentos'
 import InvestimentoDetalhe from './pages/InvestimentoDetalhe'
+import BancoDetalhe from './pages/BancoDetalhe'
 import Revisar from './pages/Revisar'
 import Mobile from './pages/Mobile'
 import Config from './pages/Config'
@@ -40,6 +41,7 @@ function AppContent() {
           <Route path="/conta" element={<Conta />} />
           <Route path="/investimentos" element={<Investimentos />} />
           <Route path="/investimentos/:id" element={<InvestimentoDetalhe />} />
+          <Route path="/banco/:banco" element={<BancoDetalhe />} />
           <Route path="/revisar" element={<Revisar />} />
           <Route path="/config" element={<Config />} />
           <Route path="/mobile" element={<Mobile />} />
