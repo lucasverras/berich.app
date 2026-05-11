@@ -145,32 +145,27 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'cartão' 
       // Se parcelado, criar múltiplos lançamentos
       if (formData.parcelado && parcelas > 1) {
         const valorParcela = lancamentoValor / parcelas
+
         const dataCompra = new Date(formData.data + 'T12:00:00')
         const diaCompra = dataCompra.getDate()
 
-        // Calcular mês da primeira fatura
-        let mesFatura = dataCompra.getMonth()
-        let anoFatura = dataCompra.getFullYear()
+        // Regra C6: compra após dia 1 → cai na fatura do mês seguinte
+        let mesFaturaBase = dataCompra.getMonth()   // 0-11
+        let anoFaturaBase = dataCompra.getFullYear()
         if (diaCompra > 1) {
-          mesFatura += 1
-          if (mesFatura > 11) {
-            mesFatura = 0
-            anoFatura += 1
-          }
+          mesFaturaBase++
+          if (mesFaturaBase > 11) { mesFaturaBase = 0; anoFaturaBase++ }
         }
 
         for (let i = 0; i < parcelas; i++) {
-          let m = mesFatura + i
-          let a = anoFatura
-          while (m > 11) {
-            m -= 12
-            a += 1
-          }
+          let m = mesFaturaBase + i
+          let a = anoFaturaBase
+          while (m > 11) { m -= 12; a++ }
 
-          const dataParc = `${a}-${String(m + 1).padStart(2, '0')}-01`
+          const dataFormatada = `${a}-${String(m + 1).padStart(2, '0')}-01`
 
           await axios.post('/api/lancamentos', {
-            data: dataParc,
+            data: dataFormatada,
             valor: valorParcela,
             tipo: lancamentoTipo,
             categoria: formData.categoria || null,
