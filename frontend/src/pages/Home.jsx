@@ -8,6 +8,7 @@ import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
 import EditInvestimentoModal from '../components/EditInvestimentoModal'
+import logo from '../assets/logo/logo.svg'
 import './Home.css'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -226,11 +227,14 @@ function Home() {
         {/* HEADER */}
         <div className="header">
           <div className="header-left">
-            <h1>
-              <span className="header-icon">👋</span>
-              {getSaudacao()}, Lucas
-            </h1>
-            <p>Visão geral das suas finanças — {MESES[mesSelecionado]} {mesAno.ano}</p>
+            <img src={logo} alt="BE.RICH" className="logo-icon" />
+            <div>
+              <h1>
+                <span className="header-icon">👋</span>
+                {getSaudacao()}, Lucas
+              </h1>
+              <p>Visão geral das suas finanças — {MESES[mesSelecionado]} {mesAno.ano}</p>
+            </div>
           </div>
           <div className="month-picker" onClick={() => setDropdownAberto(!dropdownAberto)}>
             <span>{MESES[mesSelecionado]} {mesAno.ano}</span>

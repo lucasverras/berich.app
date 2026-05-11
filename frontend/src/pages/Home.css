@@ -88,6 +88,18 @@
   }
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-icon {
+  height: 40px;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
 .header-left h1 {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 28px;
@@ -577,6 +589,14 @@
 }
 
 @media (max-width: 480px) {
+  .logo-icon {
+    height: 32px;
+  }
+
+  .header-left {
+    gap: 12px;
+  }
+
   .stat-icon {
     width: 32px;
     height: 32px;
