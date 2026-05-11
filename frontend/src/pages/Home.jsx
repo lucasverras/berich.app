@@ -251,10 +251,10 @@ function Home() {
           </div>
         </div>
 
-        {/* MAIN GRID - 2 COLUMNS */}
-        <div className="main-grid">
-          {/* COLUNA ESQUERDA - CARTÃO */}
-          <div className="grid-column column-cartao">
+        {/* MAIN GRID - 2 COLUMNS WITH DIVIDER */}
+        <div className="main-grid-2col">
+          {/* BOX ESQUERDA - CARTÃO */}
+          <div className="main-box column-cartao">
             <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/fatura')}>
               <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
               <div className="stat-icon stat-icon-red">💳</div>
@@ -265,7 +265,7 @@ function Home() {
 
             <div className="transactions-card">
               <div className="card-header">
-                <span className="card-title">Últimos Lançamentos - Cartão</span>
+                <span className="card-title">Últimos Lançamentos</span>
                 <span className="card-badge">{lancamentosCartao.length}</span>
               </div>
               {lancamentosCartao.length > 0 ? (
@@ -290,8 +290,8 @@ function Home() {
             </div>
           </div>
 
-          {/* COLUNA DIREITA - CONTA */}
-          <div className="grid-column column-conta">
+          {/* BOX DIREITA - CONTA */}
+          <div className="main-box column-conta">
             <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/conta')}>
               <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
               <div className="stat-icon stat-icon-blue">💰</div>
@@ -302,7 +302,7 @@ function Home() {
 
             <div className="transactions-card conta">
               <div className="card-header">
-                <span className="card-title">Últimos Lançamentos - Conta</span>
+                <span className="card-title">Últimos Lançamentos</span>
                 <span className="card-badge">{lancamentosConta.length}</span>
               </div>
               {lancamentosConta.length > 0 ? (
