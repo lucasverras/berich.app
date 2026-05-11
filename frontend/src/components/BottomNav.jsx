@@ -18,7 +18,7 @@ function BottomNav() {
 
   return (
     <>
-      <nav className="bottom-nav">
+      <nav className="bottom-nav-glass">
         {routes.map(route => (
           <button
             key={route.path}
@@ -30,18 +30,17 @@ function BottomNav() {
             title={route.label}
           >
             <span className="nav-icon">{route.icon}</span>
-            <span className="nav-label">{route.label}</span>
           </button>
         ))}
-
-        <button
-          className="nav-item nav-add"
-          onClick={() => setShowAddMenu(!showAddMenu)}
-          title="Adicionar"
-        >
-          <span className="nav-icon">➕</span>
-        </button>
       </nav>
+
+      <button
+        className="nav-add-floating"
+        onClick={() => setShowAddMenu(!showAddMenu)}
+        title="Adicionar"
+      >
+        <span>➕</span>
+      </button>
 
       {showAddMenu && (
         <div className="add-menu">
@@ -52,7 +51,7 @@ function BottomNav() {
               setShowAddMenu(false)
             }}
           >
-            <span>➕</span> Entrada
+            <span>↓</span> Entrada
           </button>
           <button
             className="add-option saida"
@@ -61,7 +60,7 @@ function BottomNav() {
               setShowAddMenu(false)
             }}
           >
-            <span>➖</span> Saída
+            <span>↑</span> Saída
           </button>
         </div>
       )}
