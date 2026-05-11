@@ -83,6 +83,7 @@
   flex-shrink: 0;
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+  margin: 0 auto;
 }
 
 .nav-add-btn:active {
