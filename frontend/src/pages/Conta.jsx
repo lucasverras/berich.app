@@ -192,17 +192,7 @@ function Conta() {
         </div>
       </div>
 
-      {/* FAB */}
-      <button className="fab" onClick={() => setIsAddModalOpen(true)} title="Adicionar movimentação">
-        +
-      </button>
-
-      <AddModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onLancamentoAdded={handleAddLancamento}
-        defaultTipo="saída"
-      />
+      {/* AddModal removed - use universal FAB from BottomNav */}
       <EditLancamentoModal
         isOpen={isEditModalOpen}
         lancamento={editingLancamento}

@@ -186,8 +186,7 @@ function Dashboard() {
         </table>
       </div>
 
-      <button className="fab" onClick={() => setIsAddModalOpen(true)}>+</button>
-      <AddModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onLancamentoAdded={fetchDados} />
+      {/* AddModal removed - use universal FAB from BottomNav */}
     </div>
   )
 }

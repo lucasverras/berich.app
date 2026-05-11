@@ -31,17 +31,23 @@ function Config() {
   }
 
   const handleAddCategoria = async () => {
-    if (!novaCategoria.trim()) return
+    if (!novaCategoria.trim()) {
+      alert('Digite um nome para a categoria')
+      return
+    }
 
     try {
-      await axios.post('/api/categorias', {
-        nome: novaCategoria.toUpperCase(),
-        ordem: Math.max(...categorias.map(c => c.ordem), 0) + 1
+      const ordem = categorias.length > 0 ? Math.max(...categorias.map(c => c.ordem || 0), 0) + 1 : 1
+      const response = await axios.post('/api/categorias', {
+        nome: novaCategoria.trim(),
+        ordem: ordem
       })
+      console.log('Categoria criada:', response.data)
       setNovaCategoria('')
       fetchDados()
     } catch (error) {
-      alert('Erro ao adicionar categoria')
+      console.error('Erro ao adicionar categoria:', error.response?.data || error.message)
+      alert(`Erro ao adicionar categoria: ${error.response?.data?.message || error.message}`)
     }
   }
 
@@ -57,14 +63,19 @@ function Config() {
   }
 
   const handleAddBanco = async () => {
-    if (!novoBanco.trim()) return
+    if (!novoBanco.trim()) {
+      alert('Digite um nome para o banco')
+      return
+    }
 
     try {
-      await axios.post('/api/bancos', { nome: novoBanco })
+      const response = await axios.post('/api/bancos', { nome: novoBanco.trim() })
+      console.log('Banco criado:', response.data)
       setNovoBanco('')
       fetchDados()
     } catch (error) {
-      alert('Erro ao adicionar banco')
+      console.error('Erro ao adicionar banco:', error.response?.data || error.message)
+      alert(`Erro ao adicionar banco: ${error.response?.data?.message || error.message}`)
     }
   }
 
@@ -140,6 +151,7 @@ function Config() {
                   type="text"
                   value={novaCategoria}
                   onChange={(e) => setNovaCategoria(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddCategoria()}
                   placeholder="Nova categoria"
                 />
                 <button onClick={handleAddCategoria}>Adicionar</button>

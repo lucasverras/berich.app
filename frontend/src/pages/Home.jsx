@@ -136,6 +136,8 @@ function Home() {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'cartão',
+          mes: mesAno.mes,
+          ano: mesAno.ano,
           limit: 5
         }
       })
@@ -152,6 +154,8 @@ function Home() {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'pix',
+          mes: mesAno.mes,
+          ano: mesAno.ano,
           limit: 5
         }
       })
@@ -424,106 +428,6 @@ function Home() {
           )}
         </div>
 
-        {/* MAIN GRID - 2 COLUMNS WITH DIVIDER */}
-        <div className="main-grid-2col">
-          {/* BOX ESQUERDA - CARTÃO */}
-          <div className="main-box column-cartao">
-            <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/fatura')}>
-              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
-              <div className="stat-icon stat-icon-red">💳</div>
-              <div className="stat-label">Fatura do Cartão</div>
-              <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
-              <div className="stat-sub">{MESES[mesSelecionado]} · Pague manualmente</div>
-            </div>
-
-            <div className="transactions-card">
-              <div className="card-header">
-                <span className="card-title">Últimos Lançamentos</span>
-                <a href="/fatura" className="card-see-all">Ver todos →</a>
-              </div>
-
-              <CategoryFilters
-                categories={getCategoriesByUsage()}
-                selectedCategory={selectedCategoryCartao}
-                onCategoryChange={setSelectedCategoryCartao}
-              />
-
-              {getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
-                <div className="transactions-list">
-                  {getFilteredTransactions(selectedCategoryCartao, 'cartao').map(l => {
-                    const IconComponent = CATEGORY_ICONS[l.categoria]
-                    return (
-                      <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
-                        <div className="trans-left">
-                          <div className={`trans-icon ${l.tipo}`}>
-                            {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
-                          </div>
-                          <div className="trans-info">
-                            <p className="trans-desc">{l.descricao}</p>
-                            <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                          </div>
-                        </div>
-                        <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
-                        <div className="trans-delete" onClick={(e) => { e.stopPropagation(); setLancamentoToDelete(l); setIsDeleteModalOpen(true); }} title="Deletar lançamento">✕</div>
-                      </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="empty-state-text">Nenhum lançamento no cartão. Use o botão + para adicionar.</div>
-              )}
-            </div>
-          </div>
-
-          {/* BOX DIREITA - CONTA */}
-          <div className="main-box column-conta">
-            <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/conta')}>
-              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
-              <div className="stat-icon stat-icon-blue">💰</div>
-              <div className="stat-label">Saldo da Conta</div>
-              <div className="stat-value positive">{fmt(saldoAtual)}</div>
-              <div className="stat-sub">Saldo disponível</div>
-            </div>
-
-            <div className="transactions-card conta">
-              <div className="card-header">
-                <span className="card-title">Últimos Lançamentos</span>
-                <a href="/conta" className="card-see-all">Ver todos →</a>
-              </div>
-
-              <CategoryFilters
-                categories={getCategoriesByUsage()}
-                selectedCategory={selectedCategoryConta}
-                onCategoryChange={setSelectedCategoryConta}
-              />
-
-              {getFilteredTransactions(selectedCategoryConta, 'conta').length > 0 ? (
-                <div className="transactions-list">
-                  {getFilteredTransactions(selectedCategoryConta, 'conta').map(l => {
-                    const IconComponent = CATEGORY_ICONS[l.categoria]
-                    return (
-                      <div key={l.id} className={`transaction-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
-                        <div className="trans-left">
-                          <div className={`trans-icon ${l.tipo}`}>
-                            {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
-                          </div>
-                          <div className="trans-info">
-                            <p className="trans-desc">{l.descricao}</p>
-                            <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                          </div>
-                        </div>
-                        <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
-                        <div className="trans-delete" onClick={(e) => { e.stopPropagation(); setLancamentoToDelete(l); setIsDeleteModalOpen(true); }} title="Deletar lançamento">✕</div>
-                      </div>
-                    )
-                  })}
-                </div>
-              ) : (
-                <div className="empty-state-text">Nenhum lançamento na conta. Use o botão + para adicionar.</div>
-              )}
-            </div>
-          </div>
-        </div>
 
         {/* GASTOS POR CATEGORIA */}
         <div className="chart-card-section">

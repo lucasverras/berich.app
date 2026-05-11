@@ -7,6 +7,7 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
   const { bancoAtivo, mesAno } = useContext(AppContext)
   const [tipo, setTipo] = useState(defaultTipo)
   const [categorias, setCategorias] = useState([])
+  const [categoriaSuggestions, setCategoriaSuggestions] = useState([])
   const [formData, setFormData] = useState({
     valor: '',
     data: new Date().toISOString().split('T')[0],
@@ -43,7 +44,10 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
   const formatCurrency = (value) => {
     if (!value) return ''
     const numValue = value.replace(/\D/g, '')
-    const floatValue = parseInt(numValue, 10) / 100
+    if (numValue.length === 0) return ''
+    // Preenche de 0 à esquerda até ter pelo menos 3 dígitos (para formato XX,XX)
+    const paddedValue = numValue.padStart(3, '0')
+    const floatValue = parseInt(paddedValue, 10) / 100
     return floatValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
   }
 
@@ -59,6 +63,15 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
       setFormData(prev => ({
         ...prev,
         [name]: numericValue
+      }))
+    } else if (name === 'categoria') {
+      const filtered = categorias.filter(cat =>
+        cat.nome.toLowerCase().includes(value.toLowerCase())
+      )
+      setCategoriaSuggestions(filtered)
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
       }))
     } else {
       setFormData(prev => ({
@@ -110,7 +123,7 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
         lancamentoTipo = 'entrada'
         formaPagamento = 'pix'
         lancamentoValor = Math.abs(valor)
-      } else {
+      } else if (tipo === 'saída') {
         lancamentoTipo = 'saída'
         formaPagamento = 'pix'
         lancamentoValor = Math.abs(valor)
@@ -119,12 +132,27 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
       // Se parcelado, criar múltiplos lançamentos
       if (formData.parcelado && parcelas > 1) {
         const valorParcela = lancamentoValor / parcelas
+        const [ano, mes, dia] = formData.data.split('-').map(Number)
+
         for (let i = 0; i < parcelas; i++) {
-          const dataParc = new Date(formData.data)
-          dataParc.setMonth(dataParc.getMonth() + i)
+          // Data incrementa mês a mês a partir da data original
+          let mesParcela = mes + i
+          let anoParcela = ano
+
+          // Ajustar ano se passar de 12 meses
+          while (mesParcela > 12) {
+            mesParcela -= 12
+            anoParcela += 1
+          }
+
+          const dataParc = new Date(anoParcela, mesParcela - 1, dia)
+          const anoParc = dataParc.getFullYear()
+          const mesParc = String(dataParc.getMonth() + 1).padStart(2, '0')
+          const diaParc = String(dataParc.getDate()).padStart(2, '0')
+          const dataFormatada = `${anoParc}-${mesParc}-${diaParc}`
 
           await axios.post('/api/lancamentos', {
-            data: dataParc.toISOString().split('T')[0],
+            data: dataFormatada,
             valor: valorParcela,
             tipo: lancamentoTipo,
             categoria: formData.categoria || null,
@@ -190,14 +218,14 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
             className={`tipo-tag ${tipo === 'entrada' ? 'active' : ''}`}
             onClick={() => handleTipoChange('entrada')}
           >
-            Entrada
+            Entrada Pix
           </button>
           <button
             type="button"
             className={`tipo-tag ${tipo === 'saída' ? 'active' : ''}`}
             onClick={() => handleTipoChange('saída')}
           >
-            Saída
+            Saída Pix
           </button>
         </div>
 
@@ -240,24 +268,28 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
 
           <div className="form-group">
             <label>Categoria</label>
-            <input
-              type="text"
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleChange}
-              placeholder="Digite uma categoria"
-            />
-            <div className="categoria-tags">
-              {categorias && categorias.map(cat => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className={`categoria-tag ${formData.categoria === cat.nome ? 'active' : ''}`}
-                  onClick={() => setFormData(prev => ({ ...prev, categoria: cat.nome }))}
-                >
-                  {cat.nome}
-                </button>
-              ))}
+            <div className="categoria-input-wrapper">
+              <input
+                type="text"
+                name="categoria"
+                value={formData.categoria}
+                onChange={handleChange}
+                placeholder="Digite uma categoria (ex: beb, gan, ali...)"
+              />
+              {formData.categoria && categoriaSuggestions.length > 0 && (
+                <div className="categoria-suggestions">
+                  {categoriaSuggestions.map(cat => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      className="categoria-suggestion"
+                      onClick={() => setFormData(prev => ({ ...prev, categoria: cat.nome })) || setCategoriaSuggestions([])}
+                    >
+                      {cat.nome}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

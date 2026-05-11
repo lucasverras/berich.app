@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Trash2, X, Check } from 'lucide-react'
 import './EditLancamentoModal.css'
 
 function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias }) {
@@ -9,6 +10,7 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
     descricao: '',
     categoria: '',
   })
+  const [categoriaSuggestions, setCategoriaSuggestions] = useState([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -24,6 +26,15 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
 
   const handleChange = (e) => {
     const { name, value } = e.target
+
+    if (name === 'categoria') {
+      // Filtrar categorias para autocomplete
+      const filtered = categorias.filter(cat =>
+        cat.nome.toLowerCase().includes(value.toLowerCase())
+      )
+      setCategoriaSuggestions(filtered)
+    }
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -121,39 +132,61 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
 
           <div className="form-group">
             <label>Categoria</label>
-            <input
-              type="text"
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleChange}
-              placeholder="Digite uma categoria"
-            />
-            <div className="categoria-tags">
-              {categorias && categorias.map(cat => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className={`categoria-tag ${formData.categoria === cat.nome ? 'active' : ''}`}
-                  onClick={() => setFormData(prev => ({ ...prev, categoria: cat.nome }))}
-                >
-                  {cat.nome}
-                </button>
-              ))}
+            <div className="categoria-input-wrapper">
+              <input
+                type="text"
+                name="categoria"
+                value={formData.categoria}
+                onChange={handleChange}
+                placeholder="Digite uma categoria"
+              />
+              {formData.categoria && categoriaSuggestions.length > 0 && (
+                <div className="categoria-suggestions">
+                  {categoriaSuggestions.map(cat => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      className="categoria-suggestion"
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, categoria: cat.nome }))
+                        setCategoriaSuggestions([])
+                      }}
+                    >
+                      {cat.nome}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="modal-actions">
-            <button type="button" onClick={handleDelete} className="delete-btn" disabled={loading}>
-              Deletar
+          <div className="modal-actions-icons">
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="action-icon-btn delete"
+              disabled={loading}
+              title="Deletar"
+            >
+              <Trash2 size={28} color="#ef4444" />
             </button>
-            <div className="button-group">
-              <button type="button" onClick={onClose} className="secondary" disabled={loading}>
-                Cancelar
-              </button>
-              <button type="submit" disabled={loading}>
-                {loading ? 'Salvando...' : 'Salvar'}
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="action-icon-btn cancel"
+              disabled={loading}
+              title="Cancelar"
+            >
+              <X size={28} color="#808080" />
+            </button>
+            <button
+              type="submit"
+              className="action-icon-btn save"
+              disabled={loading}
+              title="Salvar"
+            >
+              <Check size={28} color="#22c55e" />
+            </button>
           </div>
         </form>
       </div>

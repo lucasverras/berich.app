@@ -3,7 +3,6 @@ import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
-import FecharFaturaModal from '../components/FecharFaturaModal'
 import './Fatura.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -20,9 +19,6 @@ function Fatura() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
-  const [isFecharModalOpen, setIsFecharModalOpen] = useState(false)
-  const [faturasFechadas, setFaturasFechadas] = useState({})
-  const [isFechada, setIsFechada] = useState(false)
   const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
   const [categorias, setCategorias] = useState([])
@@ -97,29 +93,6 @@ function Fatura() {
     fetchLancamentos()
   }
 
-  const handleFecharFatura = () => {
-    const chave = `${mesAno.ano}-${mesAno.mes}`
-    setFaturasFechadas(prev => ({
-      ...prev,
-      [chave]: true
-    }))
-    setIsFechada(true)
-
-    let proximoMes = mesAno.mes + 1
-    let proximoAno = mesAno.ano
-    if (proximoMes > 12) {
-      proximoMes = 1
-      proximoAno += 1
-    }
-
-    updateMesAno(proximoMes, proximoAno)
-    setIsFecharModalOpen(false)
-  }
-
-  useEffect(() => {
-    const chave = `${mesAno.ano}-${mesAno.mes}`
-    setIsFechada(faturasFechadas[chave] || false)
-  }, [mesAno, faturasFechadas])
 
   return (
     <div className="fatura-layout">
@@ -164,24 +137,6 @@ function Fatura() {
           </div>
         </div>
 
-        {/* AÇÃO FECHAR */}
-        {!isFechada && (
-          <div className="fechar-fatura-card">
-            <div className="fechar-card-content">
-              <div className="fechar-card-text">
-                <h3>Fechar Fatura</h3>
-                <p>Encerrar este ciclo e iniciar o próximo mês</p>
-              </div>
-              <button
-                className="fechar-card-btn"
-                onClick={() => setIsFecharModalOpen(true)}
-              >
-                Fechar Fatura
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* TRANSAÇÕES */}
         <div className="transacoes-section">
           <div className="section-header">
@@ -212,17 +167,7 @@ function Fatura() {
         </div>
       </div>
 
-      {/* FAB */}
-      <button className="fab" onClick={() => setIsAddModalOpen(true)} title="Adicionar transação">
-        +
-      </button>
-
-      <AddModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onLancamentoAdded={handleAddLancamento}
-        defaultTipo="cartão"
-      />
+      {/* AddModal removed - use universal FAB from BottomNav */}
       <EditLancamentoModal
         isOpen={isEditModalOpen}
         lancamento={editingLancamento}
@@ -232,12 +177,6 @@ function Fatura() {
         }}
         onSaved={handleLancamentoSaved}
         categorias={categorias}
-      />
-      <FecharFaturaModal
-        isOpen={isFecharModalOpen}
-        mesAtual={mesAno.mes}
-        onClose={() => setIsFecharModalOpen(false)}
-        onConfirm={handleFecharFatura}
       />
     </div>
   )

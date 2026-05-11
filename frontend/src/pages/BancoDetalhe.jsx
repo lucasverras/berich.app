@@ -154,17 +154,7 @@ function BancoDetalhe() {
         )}
       </div>
 
-      {/* FAB */}
-      <button className="fab" onClick={() => setIsAddModalOpen(true)}>
-        +
-      </button>
-
-      {/* Modals */}
-      <AddModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onLancamentoAdded={handleLancamentoSaved}
-      />
+      {/* AddModal removed - use universal FAB from BottomNav */}
 
       <EditLancamentoModal
         isOpen={isEditModalOpen}

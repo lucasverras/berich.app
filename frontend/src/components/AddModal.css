@@ -205,9 +205,9 @@
 .tipo-tag {
   background: rgba(12, 32, 16, 0.6);
   border: 1px solid rgba(52, 180, 90, 0.15);
-  color: var(--text-secondary);
-  padding: 8px 20px;
-  border-radius: 20px;
+  color: rgba(187, 247, 208, 0.7);
+  padding: 10px 16px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
@@ -268,6 +268,43 @@
   border-color: rgba(34, 197, 94, 0.35);
 }
 
+.categoria-input-wrapper {
+  position: relative;
+}
+
+.categoria-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(8, 18, 8, 0.95);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-top: none;
+  border-radius: 0 0 11px 11px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.categoria-suggestion {
+  display: block;
+  width: 100%;
+  padding: 12px 15px;
+  background: transparent;
+  border: none;
+  color: #86efac;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.categoria-suggestion:hover {
+  background: rgba(34, 197, 94, 0.08);
+}
+
 .categoria-tags {
   display: flex;
   flex-wrap: wrap;
@@ -317,5 +354,14 @@
   .categoria-tag {
     font-size: 12px;
     padding: 6px 12px;
+  }
+
+  .tipo-tags {
+    flex-direction: column;
+  }
+
+  .tipo-tag {
+    flex: 1;
+    width: 100%;
   }
 }

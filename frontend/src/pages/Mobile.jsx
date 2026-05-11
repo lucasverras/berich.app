@@ -110,9 +110,7 @@ function Mobile() {
         </button>
       </div>
 
-      <button className="fab" onClick={() => setIsAddModalOpen(true)}>+</button>
-
-      <AddModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onLancamentoAdded={fetchDados} />
+      {/* AddModal removed - use universal FAB from BottomNav */}
       <ImportModal isOpen={isImportModalOpen} onClose={() => setIsImportModalOpen(false)} onImportSuccess={fetchDados} />
     </div>
   )
