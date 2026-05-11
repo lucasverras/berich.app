@@ -355,3 +355,106 @@
   color: #f87171;
   border: 1px solid rgba(248, 113, 113, 0.3);
 }
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+  .investimentos-main {
+    padding: 16px;
+  }
+
+  .header-left h1 {
+    font-size: 22px;
+  }
+
+  .header-left p {
+    font-size: 12px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .stat-card:hover {
+    transform: none;
+  }
+
+  .stat-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .stat-sub {
+    font-size: 11px;
+  }
+
+  .section-header {
+    gap: 12px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .investimentos-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .investimento-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .investimento-card:hover {
+    transform: none;
+  }
+
+  .inv-icon {
+    font-size: 28px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .inv-nome {
+    font-size: 14px;
+  }
+
+  .inv-categoria {
+    font-size: 12px;
+  }
+
+  .inv-valores {
+    gap: 12px;
+  }
+
+  .inv-label {
+    font-size: 9px;
+  }
+
+  .inv-number {
+    font-size: 12px;
+  }
+
+  .inv-badge {
+    font-size: 11px;
+    padding: 6px 10px;
+    margin: 8px;
+  }
+}

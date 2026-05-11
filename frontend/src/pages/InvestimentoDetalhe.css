@@ -418,3 +418,135 @@
     font-size: 24px;
   }
 }
+
+/* Mobile Optimizations */
+@media (max-width: 480px) {
+  .investimento-detalhe {
+    padding: 16px;
+    padding-bottom: 80px;
+  }
+
+  .header-voltar {
+    margin-bottom: 16px;
+  }
+
+  .btn-voltar {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .detalhe-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .icone-grande {
+    font-size: 40px;
+    min-width: auto;
+  }
+
+  .titulo-info h1 {
+    font-size: 20px;
+  }
+
+  .titulo-info .categoria {
+    font-size: 12px;
+  }
+
+  .valores-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .montante-card {
+    padding: 16px;
+    border-radius: 14px;
+    min-height: 120px;
+  }
+
+  .montante-card h3 {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .montante-valor {
+    font-size: 24px;
+  }
+
+  .btn-editar-valor {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .entrada-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .entrada-info {
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .entrada-data {
+    font-size: 11px;
+  }
+
+  .entrada-descricao {
+    font-size: 13px;
+  }
+
+  .entrada-valor {
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .btn-remover {
+    width: 24px;
+    height: 24px;
+    margin-left: 0;
+  }
+
+  .entradas-section h2 {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .formulario-section {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .formulario-section h2 {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-group {
+    gap: 6px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .btn-adicionar {
+    padding: 10px 16px;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+}
