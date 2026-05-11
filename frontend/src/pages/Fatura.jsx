@@ -17,20 +17,20 @@ const fmt = (v) => {
 }
 
 function Fatura() {
-  const { bancoAtivo, mesAno, updateMesAno } = useContext(AppContext)
+  const { bancoAtivo, mes, ano, updateMesAno } = useContext(AppContext)
   const [fatura, setFatura] = useState(0)
   const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
-  const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
+  const [mesSelecionado, setMesSelecionado] = useState(mes - 1)
   const [categorias, setCategorias] = useState([])
 
   useEffect(() => {
     fetchCategorias()
     fetchFatura()
     fetchLancamentos()
-  }, [bancoAtivo, mesAno.mes, mesAno.ano])
+  }, [bancoAtivo, mes, ano])
 
   const fetchCategorias = async () => {
     try {
@@ -46,8 +46,8 @@ function Fatura() {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'cartão',
         }
       })
@@ -62,8 +62,8 @@ function Fatura() {
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'cartão',
         }
       })
@@ -76,8 +76,7 @@ function Fatura() {
 
   const handleMesChange = (novoMes) => {
     setMesSelecionado(novoMes)
-    updateMesAno(novoMes + 1, mesAno.ano)
-    setDropdownAberto(false)
+    updateMesAno(novoMes + 1, ano)
   }
 
   const handleAddLancamento = () => {
@@ -117,7 +116,7 @@ function Fatura() {
               <span className="header-icon">💳</span>
               Fatura
             </h1>
-            <p>Fatura do cartão — {MESES[mesSelecionado]} {mesAno.ano}</p>
+            <p>Fatura do cartão — {MESES[mesSelecionado]} {ano}</p>
           </div>
         </div>
 

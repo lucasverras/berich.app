@@ -16,7 +16,7 @@ function BancoDetalhe() {
   const [lancamentos, setLancamentos] = useState([])
   const [resumo, setResumo] = useState({ total_entradas: 0, total_saidas: 0, saldo: 0 })
   const [mesSelecionado, setMesSelecionado] = useState(new Date().getMonth())
-  const [ano, setAno] = useState(new Date().getFullYear())
+  const [anoLocal, setAnoLocal] = useState(new Date().getFullYear())
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -32,16 +32,16 @@ function BancoDetalhe() {
   useEffect(() => {
     fetchData()
     fetchCategorias()
-  }, [banco, mesSelecionado, ano])
+  }, [banco, mesSelecionado, anoLocal])
 
   const fetchData = async () => {
     try {
       const [resumoRes, lancamentosRes] = await Promise.all([
         axios.get(`/api/bancos/${banco}/resumo`, {
-          params: { mes: mesSelecionado + 1, ano, forma_pagamento: 'pix' }
+          params: { mes: mesSelecionado + 1, ano: anoLocal, forma_pagamento: 'pix' }
         }),
         axios.get(`/api/bancos/${banco}/lancamentos`, {
-          params: { mes: mesSelecionado + 1, ano, forma_pagamento: 'pix' }
+          params: { mes: mesSelecionado + 1, ano: anoLocal, forma_pagamento: 'pix' }
         })
       ])
       setResumo(resumoRes.data)

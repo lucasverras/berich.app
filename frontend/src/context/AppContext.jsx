@@ -7,12 +7,22 @@ export const AppProvider = ({ children }) => {
     return localStorage.getItem('bancoAtivo') || 'C6 Bank';
   });
 
-  const [mesAno, setMesAno] = useState(() => {
-    const agora = new Date();
-    return localStorage.getItem('mesAno') || JSON.stringify({
-      mes: agora.getMonth() + 1,
-      ano: agora.getFullYear(),
-    });
+  const [mes, setMes] = useState(() => {
+    const stored = localStorage.getItem('mes');
+    if (stored) {
+      const parsed = parseInt(stored, 10);
+      return isNaN(parsed) ? new Date().getMonth() + 1 : parsed;
+    }
+    return new Date().getMonth() + 1;
+  });
+
+  const [ano, setAno] = useState(() => {
+    const stored = localStorage.getItem('ano');
+    if (stored) {
+      const parsed = parseInt(stored, 10);
+      return isNaN(parsed) ? new Date().getFullYear() : parsed;
+    }
+    return new Date().getFullYear();
   });
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -22,26 +32,23 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('bancoAtivo', banco);
   }, []);
 
-  const updateMesAno = useCallback((mes, ano) => {
-    const mesAnoObj = { mes, ano };
-    setMesAno(JSON.stringify(mesAnoObj));
-    localStorage.setItem('mesAno', JSON.stringify(mesAnoObj));
-  }, []);
+  const updateMesAno = useCallback((newMes, newAno) => {
+    const mesInt = parseInt(newMes, 10);
+    const anoInt = parseInt(newAno, 10);
 
-  const getMesAno = () => {
-    try {
-      const parsed = JSON.parse(mesAno);
-      return { mes: Number(parsed.mes), ano: Number(parsed.ano) };
-    } catch {
-      return { mes: new Date().getMonth() + 1, ano: new Date().getFullYear() };
-    }
-  };
+    if (!isNaN(mesInt)) setMes(mesInt);
+    if (!isNaN(anoInt)) setAno(anoInt);
+
+    if (!isNaN(mesInt)) localStorage.setItem('mes', String(mesInt));
+    if (!isNaN(anoInt)) localStorage.setItem('ano', String(anoInt));
+  }, []);
 
   return (
     <AppContext.Provider value={{
       bancoAtivo,
       updateBanco,
-      mesAno: getMesAno(),
+      mes,
+      ano,
       updateMesAno,
       isAddModalOpen,
       setIsAddModalOpen,

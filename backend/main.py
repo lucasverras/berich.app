@@ -48,7 +48,6 @@ def get_lancamentos(
     forma_pagamento: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    print(f"[FILTER] banco={banco} mes={mes} ano={ano} forma={forma_pagamento}")
     query = db.query(Lancamento)
 
     if banco:
@@ -59,11 +58,15 @@ def get_lancamentos(
         query = query.filter(Lancamento.forma_pagamento == forma_pagamento)
 
     if mes and ano:
-        data_inicio = date(ano, mes, 1)
-        data_fim = date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1)
-        query = query.filter(Lancamento.data >= data_inicio)
-        query = query.filter(Lancamento.data < data_fim)
-        print(f"[FILTER] data entre {data_inicio} e {data_fim}")
+        try:
+            mes_int = int(mes)
+            ano_int = int(ano)
+            data_inicio = date(ano_int, mes_int, 1)
+            data_fim = date(ano_int if mes_int < 12 else ano_int + 1, mes_int + 1 if mes_int < 12 else 1, 1)
+            query = query.filter(Lancamento.data >= data_inicio)
+            query = query.filter(Lancamento.data < data_fim)
+        except (ValueError, TypeError) as e:
+            print(f"[ERROR] Invalid mes or ano: {mes}, {ano} - {e}")
 
     lancamentos = query.order_by(Lancamento.data.desc()).all()
     return [{
@@ -288,10 +291,15 @@ def get_resumo(banco: Optional[str] = None, mes: Optional[int] = None, ano: Opti
         query = query.filter(Lancamento.forma_pagamento == forma_pagamento)
 
     if mes and ano:
-        query = query.filter(
-            (Lancamento.data >= date(ano, mes, 1)) &
-            (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
-        )
+        try:
+            mes_int = int(mes)
+            ano_int = int(ano)
+            query = query.filter(
+                (Lancamento.data >= date(ano_int, mes_int, 1)) &
+                (Lancamento.data < date(ano_int if mes_int < 12 else ano_int + 1, mes_int + 1 if mes_int < 12 else 1, 1))
+            )
+        except (ValueError, TypeError) as e:
+            print(f"[ERROR] Invalid mes or ano in /resumo: {mes}, {ano} - {e}")
 
     lancamentos = query.all()
 
@@ -322,10 +330,15 @@ def get_resumo_categorias(banco: Optional[str] = None, mes: Optional[int] = None
         query = query.filter(Lancamento.banco == banco)
 
     if mes and ano:
-        query = query.filter(
-            (Lancamento.data >= date(ano, mes, 1)) &
-            (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
-        )
+        try:
+            mes_int = int(mes)
+            ano_int = int(ano)
+            query = query.filter(
+                (Lancamento.data >= date(ano_int, mes_int, 1)) &
+                (Lancamento.data < date(ano_int if mes_int < 12 else ano_int + 1, mes_int + 1 if mes_int < 12 else 1, 1))
+            )
+        except (ValueError, TypeError) as e:
+            print(f"[ERROR] Invalid mes or ano in /resumo/categorias: {mes}, {ano} - {e}")
 
     lancamentos = query.all()
 

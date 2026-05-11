@@ -47,7 +47,7 @@ const fmt = (v) => {
 }
 
 function Home() {
-  const { bancoAtivo, mesAno, updateMesAno, isAddModalOpen, setIsAddModalOpen } = useContext(AppContext)
+  const { bancoAtivo, mes, ano, updateMesAno, isAddModalOpen, setIsAddModalOpen } = useContext(AppContext)
   const navigate = useNavigate()
   const [resumo, setResumo] = useState({
     entradas: 0,
@@ -62,7 +62,7 @@ function Home() {
   const [categorias, setCategorias] = useState([])
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
-  const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
+  const [mesSelecionado, setMesSelecionado] = useState(mes - 1)
   const [lancamentos, setLancamentos] = useState([])
   const [isEditInvestimentoModalOpen, setIsEditInvestimentoModalOpen] = useState(false)
   const [investimentoData, setInvestimentoData] = useState({
@@ -85,7 +85,7 @@ function Home() {
     fetchLancamentosConta()
     fetchResumoItau()
     fetchResumoVamoNessa()
-  }, [bancoAtivo, mesAno.mes, mesAno.ano])
+  }, [bancoAtivo, mes, ano])
 
   const fetchCategorias = async () => {
     try {
@@ -101,8 +101,8 @@ function Home() {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'cartão',
         }
       })
@@ -117,8 +117,8 @@ function Home() {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'pix',
         }
       })
@@ -130,13 +130,12 @@ function Home() {
 
   const fetchLancamentosCartao = async () => {
     try {
-      console.log('[FETCH CARTAO]', { mes: mesAno.mes, ano: mesAno.ano, tipo: typeof mesAno.mes })
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'cartão',
-          mes: Number(mesAno.mes),
-          ano: Number(mesAno.ano),
+          mes,
+          ano,
           limit: 5
         }
       })
@@ -149,13 +148,12 @@ function Home() {
 
   const fetchLancamentosConta = async () => {
     try {
-      console.log('[FETCH CONTA]', { mes: mesAno.mes, ano: mesAno.ano, tipo: typeof mesAno.mes })
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'pix',
-          mes: Number(mesAno.mes),
-          ano: Number(mesAno.ano),
+          mes,
+          ano,
           limit: 5
         }
       })
@@ -171,8 +169,8 @@ function Home() {
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
         }
       })
       const lancamentos = response.data || []
@@ -196,8 +194,8 @@ function Home() {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: 'Itaú',
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'pix',
         }
       })
@@ -216,8 +214,8 @@ function Home() {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: 'VamoNessa SP',
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'pix',
         }
       })
@@ -240,8 +238,7 @@ function Home() {
 
   const handleMesChange = (novoMes) => {
     setMesSelecionado(novoMes)
-    updateMesAno(novoMes + 1, mesAno.ano)
-    setDropdownAberto(false)
+    updateMesAno(novoMes + 1, ano)
   }
 
   const handleEditLancamento = (lancamento) => {
@@ -368,7 +365,7 @@ function Home() {
                 <span className="header-icon">👋</span>
                 {getSaudacao()}, Lucas
               </h1>
-              <p>Visão geral das suas finanças — {MESES[mesSelecionado]} {mesAno.ano}</p>
+              <p>Visão geral das suas finanças — {MESES[mesSelecionado]} {ano}</p>
             </div>
           </div>
         </div>
@@ -377,7 +374,7 @@ function Home() {
           mesSelecionado={mesSelecionado}
           onChange={(novoMes) => {
             setMesSelecionado(novoMes)
-            updateMesAno(novoMes + 1, mesAno.ano)
+            updateMesAno(novoMes + 1, ano)
           }}
         />
 

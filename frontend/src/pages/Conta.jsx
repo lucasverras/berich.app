@@ -16,21 +16,21 @@ const fmt = (v) => {
 }
 
 function Conta() {
-  const { bancoAtivo, mesAno, updateMesAno } = useContext(AppContext)
+  const { bancoAtivo, mes, ano, updateMesAno } = useContext(AppContext)
   const navigate = useNavigate()
   const [resumo, setResumo] = useState({ entradas: 0, saidas: 0, saldo: 0 })
   const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
-  const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
+  const [mesSelecionado, setMesSelecionado] = useState(mes - 1)
   const [categorias, setCategorias] = useState([])
 
   useEffect(() => {
     fetchCategorias()
     fetchResumo()
     fetchLancamentos()
-  }, [bancoAtivo, mesAno.mes, mesAno.ano])
+  }, [bancoAtivo, mes, ano])
 
   const fetchCategorias = async () => {
     try {
@@ -46,8 +46,8 @@ function Conta() {
       const response = await axios.get('/api/resumo', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'pix',
         }
       })
@@ -66,8 +66,8 @@ function Conta() {
       const response = await axios.get('/api/lancamentos', {
         params: {
           banco: bancoAtivo,
-          mes: mesAno.mes,
-          ano: mesAno.ano,
+          mes,
+          ano,
           forma_pagamento: 'pix',
         }
       })
@@ -80,8 +80,7 @@ function Conta() {
 
   const handleMesChange = (novoMes) => {
     setMesSelecionado(novoMes)
-    updateMesAno(novoMes + 1, mesAno.ano)
-    setDropdownAberto(false)
+    updateMesAno(novoMes + 1, ano)
   }
 
   const handleAddLancamento = () => {
@@ -110,7 +109,7 @@ function Conta() {
               <span className="header-icon">🏦</span>
               Conta
             </h1>
-            <p>Movimentação da conta — {MESES[mesSelecionado]} {mesAno.ano}</p>
+            <p>Movimentação da conta — {MESES[mesSelecionado]} {ano}</p>
           </div>
         </div>
 
