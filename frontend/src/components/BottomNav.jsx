@@ -1,10 +1,8 @@
 import React, { useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
+import { Home, CreditCard, User, Activity, Plus } from 'lucide-react'
 import './BottomNav.css'
-import homeIcon from '../assets/icons/home-1 1.svg'
-import faturasIcon from '../assets/icons/cartões.svg'
-import saldoIcon from '../assets/icons/saldo.svg'
 
 function BottomNav() {
   const navigate = useNavigate()
@@ -12,42 +10,33 @@ function BottomNav() {
   const { setIsAddModalOpen } = useContext(AppContext)
 
   const routes = [
-    { path: '/home', icon: homeIcon, label: 'Home' },
-    { path: '/fatura', icon: faturasIcon, label: 'Fatura' },
-    { path: '/conta', icon: saldoIcon, label: 'Saldo' },
-    { path: '/investimentos', icon: '📈', label: 'Investimentos' },
+    { path: '/home', icon: Home, label: 'Home' },
+    { path: '/fatura', icon: Activity, label: 'Fatura' },
+    { path: '/conta', icon: CreditCard, label: 'Conta' },
+    { path: '/config', icon: User, label: 'Perfil' },
   ]
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
 
   return (
-    <nav className="bottom-nav-glass">
+    <nav className="bottom-nav-new">
       {routes.map(route => (
         <button
           key={route.path}
-          className={`nav-item ${isActive(route.path) ? 'active' : ''}`}
-          onClick={() => {
-            navigate(route.path)
-            setShowAddMenu(false)
-          }}
+          className={`nav-btn ${isActive(route.path) ? 'active' : ''}`}
+          onClick={() => navigate(route.path)}
           title={route.label}
         >
-          <div className="nav-item-content">
-            {typeof route.icon === 'string' && route.icon.includes('svg') ? (
-              <img src={route.icon} alt={route.label} className="nav-icon-svg" />
-            ) : (
-              <span className="nav-icon">{route.icon}</span>
-            )}
-          </div>
+          <route.icon size={24} />
         </button>
       ))}
 
       <button
-        className="nav-item nav-add-btn"
+        className="nav-add-btn"
         onClick={() => setIsAddModalOpen(true)}
         title="Adicionar"
       >
-        <span className="add-icon">+</span>
+        <Plus size={28} />
       </button>
     </nav>
   )

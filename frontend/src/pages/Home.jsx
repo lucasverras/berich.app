@@ -344,7 +344,8 @@ function Home() {
           {lancamentosCartao.length > 0 && (
             <div className="mobile-transactions-section">
               <div className="mobile-section-header">
-                <h3>Últimos Lançamentos</h3>
+                <h3>Transações</h3>
+                <a href="/fatura" className="mobile-see-all">Ver todos →</a>
               </div>
 
               <CategoryFilters
@@ -370,11 +371,11 @@ function Home() {
                             >
                               <div className="mobile-trans-left">
                                 <div className={`mobile-trans-icon ${l.tipo}`}>
-                                  {IconComponent ? <IconComponent size={18} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
+                                  {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
                                 </div>
-                                <div>
+                                <div className="mobile-trans-info">
                                   <div className="mobile-trans-desc">{l.descricao}</div>
-                                  <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                                  <div className="mobile-trans-meta">{l.categoria} • {new Date(l.data).toLocaleDateString('pt-BR')}</div>
                                 </div>
                               </div>
                               <div className={`mobile-trans-value ${l.tipo}`}>
@@ -401,11 +402,11 @@ function Home() {
                         >
                           <div className="mobile-trans-left">
                             <div className={`mobile-trans-icon ${l.tipo}`}>
-                              {IconComponent ? <IconComponent size={18} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
+                              {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
                             </div>
-                            <div>
+                            <div className="mobile-trans-info">
                               <div className="mobile-trans-desc">{l.descricao}</div>
-                              <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                              <div className="mobile-trans-meta">{l.categoria} • {new Date(l.data).toLocaleDateString('pt-BR')}</div>
                             </div>
                           </div>
                           <div className={`mobile-trans-value ${l.tipo}`}>
