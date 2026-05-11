@@ -203,6 +203,17 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
+            <label>Descrição</label>
+            <textarea
+              name="motivo"
+              value={formData.motivo}
+              onChange={handleChange}
+              placeholder="O que foi comprado/recebido?"
+              rows="2"
+            />
+          </div>
+
+          <div className="form-group">
             <label>Valor</label>
             <div className="input-currency">
               <span className="currency-prefix">R$</span>
@@ -228,24 +239,20 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
           </div>
 
           <div className="form-group">
-            <label>Descrição</label>
-            <textarea
-              name="motivo"
-              value={formData.motivo}
-              onChange={handleChange}
-              placeholder="O que foi comprado/recebido?"
-              rows="2"
-            />
-          </div>
-
-          <div className="form-group">
             <label>Categoria</label>
-            <select name="categoria" value={formData.categoria} onChange={handleChange}>
-              <option value="">Selecione uma categoria</option>
-              {categorias.map(cat => (
-                <option key={cat.id} value={cat.nome}>{cat.nome}</option>
+            <input
+              type="text"
+              name="categoria"
+              value={formData.categoria}
+              onChange={handleChange}
+              placeholder="Digite ou selecione uma categoria"
+              list="categorias-list"
+            />
+            <datalist id="categorias-list">
+              {categorias && categorias.map(cat => (
+                <option key={cat.id} value={cat.nome} />
               ))}
-            </select>
+            </datalist>
           </div>
 
           <div className="form-group checkbox-group">
