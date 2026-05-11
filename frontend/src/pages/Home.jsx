@@ -12,17 +12,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
-const CATEGORIA_CORES = {
-  'Alimentação': '#ef5350',
-  'Transporte': '#2196f3',
-  'Moradia': '#9c27b0',
-  'Saúde': '#00bcd4',
-  'Lazer': '#e91e63',
-  'Educação': '#ffc107',
-  'Outros': '#78909c'
-}
-
-const CORES_PIZZA = ['#ef5350', '#2196f3', '#9c27b0', '#00bcd4', '#e91e63', '#ffc107', '#78909c']
+const CORES_PIZZA = ['#22c55e', '#16a34a', '#15803d', '#4ade80', '#86efac', '#bbf7d0', '#052e16']
 
 const BANKS = [
   { sigla: 'C6', nome: 'C6 Bank', tipo: 'Conta principal', saldo: 4250, bgColor: '#f59e0b' },
@@ -120,7 +110,7 @@ function Home() {
     datasets: [
       {
         data: chartData.map(e => e.valor),
-        backgroundColor: chartData.map((e) => CATEGORIA_CORES[e.name] || '#78909c'),
+        backgroundColor: chartData.map((e, i) => CORES_PIZZA[i] || '#052e16'),
         borderWidth: 0,
         hoverOffset: 10,
       }
@@ -275,10 +265,10 @@ function Home() {
                   </div>
                 </div>
                 <div className="chart-legend">
-                  {chartData.map((item) => {
+                  {chartData.map((item, i) => {
                     const pct = ((item.valor / totalGastos) * 100).toFixed(1)
                     const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                    const catColor = CATEGORIA_CORES[item.name] || '#78909c'
+                    const catColor = CORES_PIZZA[i] || '#052e16'
                     return (
                       <div key={item.name} className="legend-item">
                         <span className="legend-dot" style={{ background: catColor }}></span>
