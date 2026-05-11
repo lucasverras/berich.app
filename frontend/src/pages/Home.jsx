@@ -581,27 +581,27 @@ function Home() {
             </div>
             <div className="desktop-col">
               <div className="investment-card" onClick={() => setIsEditInvestimentoModalOpen(true)}>
-          <div className="card-header">
-            <span className="card-title">Investimentos</span>
-            <span className="card-badge">{((((investimentoData.valor_atual - investimentoData.investido) / investimentoData.investido) * 100).toFixed(2))}%</span>
-          </div>
+                <div className="card-header">
+                  <span className="card-title">Investimentos</span>
+                  <span className="card-badge">{((((investimentoData.valor_atual - investimentoData.investido) / investimentoData.investido) * 100).toFixed(2))}%</span>
+                </div>
 
-          <div className="investment-main">
-            <div className="inv-metric">
-              <div className="inv-metric-label">Investido</div>
-              <div className="inv-metric-value">{fmt(investimentoData.investido)}</div>
-            </div>
-            <div className="inv-metric">
-              <div className="inv-metric-label">Valor atual</div>
-              <div className="inv-metric-value green">{fmt(investimentoData.valor_atual)}</div>
-            </div>
-            <div className="inv-metric">
-              <div className="inv-metric-label">Resultado</div>
-              <div className={`inv-metric-value ${investimentoData.valor_atual - investimentoData.investido >= 0 ? 'green' : 'red'}`}>
-                {investimentoData.valor_atual - investimentoData.investido >= 0 ? '+' : '−'}R$ {Math.abs(investimentoData.valor_atual - investimentoData.investido).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </div>
-            </div>
-          </div>
+                <div className="investment-main">
+                  <div className="inv-metric">
+                    <div className="inv-metric-label">Investido</div>
+                    <div className="inv-metric-value">{fmt(investimentoData.investido)}</div>
+                  </div>
+                  <div className="inv-metric">
+                    <div className="inv-metric-label">Valor atual</div>
+                    <div className="inv-metric-value green">{fmt(investimentoData.valor_atual)}</div>
+                  </div>
+                  <div className="inv-metric">
+                    <div className="inv-metric-label">Resultado</div>
+                    <div className={`inv-metric-value ${investimentoData.valor_atual - investimentoData.investido >= 0 ? 'green' : 'red'}`}>
+                      {investimentoData.valor_atual - investimentoData.investido >= 0 ? '+' : '−'}R$ {Math.abs(investimentoData.valor_atual - investimentoData.investido).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </div>
+                  </div>
+                </div>
 
                 <div className="inv-cta" onClick={(e) => { e.stopPropagation(); navigate('/investimentos'); }}>
                   Ver investimentos →
