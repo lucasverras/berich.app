@@ -349,6 +349,8 @@ function Home() {
     }
   }
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   return (
     <div className="home-layout">
       <div className="bg-glow bg-glow-1"></div>
@@ -378,7 +380,8 @@ function Home() {
           }}
         />
 
-        {/* MOBILE LAYOUT */}
+        {isMobile ? (
+        /* MOBILE LAYOUT */
         <div className="mobile-home-section">
           {/* A) CARD DE SALDO ATUAL */}
           <div className="mobile-saldo-card">
@@ -470,48 +473,107 @@ function Home() {
             </div>
           </div>
         </div>
-
-
-        {/* GASTOS POR CATEGORIA */}
-        <div className="chart-card-section">
-          <div className="card chart-card">
-            <p className="card-title">Gastos por categoria</p>
-            {chartData.length > 0 ? (
-              <>
-                <div className="chart-wrapper">
-                  <Doughnut data={doughnutChartData} options={doughnutOptions} />
-                  <div className="chart-center">
-                    <span className="chart-center-val">{fmt(totalGastos)}</span>
-                    <span className="chart-center-label">gasto no mês</span>
-                  </div>
-                </div>
-                <div className="chart-legend">
-                  {chartData.filter(item => item.valor > 0).map((item, i) => {
-                    const pct = ((item.valor / totalGastos) * 100).toFixed(1)
-                    const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                    const catColor = CORES_PIZZA[i] || '#052e16'
-                    return (
-                      <div key={item.name} className="legend-tag" style={{ borderColor: catColor }}>
-                        <span className="legend-tag-name">{item.name}</span>
-                        <span className="legend-tag-info"> - {valorFmt} - {pct}%</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </>
-            ) : (
-              <div className="chart-empty">
-                <p>Sem dados para este período</p>
-              </div>
-            )}
-          </div>
         </div>
+        ) : (
+        /* DESKTOP LAYOUT */
+        <>
+          {/* LINHA 1 — Cartão e Conta lado a lado */}
+          <div className="desktop-grid-2col">
+            {/* Coluna esquerda — Cartão */}
+            <div className="desktop-col">
+              <div className="card">
+                <div className="card-label">FATURA DO CARTÃO</div>
+                <div className="card-value negative">{fmt(Math.abs(fatura))}</div>
+                <div className="card-sub">{MESES[mesSelecionado]} · Pague manualmente</div>
+              </div>
+              <div className="card">
+                <div className="card-header-row">
+                  <span>ÚLTIMOS LANÇAMENTOS</span>
+                  <span className="badge">{lancamentosCartao.length}</span>
+                </div>
+                {lancamentosCartao.length === 0 ? (
+                  <p className="empty-text">Nenhum lançamento no cartão. Use o botão + para adicionar.</p>
+                ) : (
+                  lancamentosCartao.map(l => (
+                    <div key={l.id} className="lancamento-row" onClick={() => handleEditLancamento(l)}>
+                      <span>{l.descricao}</span>
+                      <span className="negative">{fmt(Math.abs(l.valor))}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
 
-        {/* OUTROS BANCOS */}
-        <OutrosBancos />
+            {/* Coluna direita — Conta */}
+            <div className="desktop-col">
+              <div className="card">
+                <div className="card-label">SALDO DA CONTA</div>
+                <div className={`card-value ${saldoAtual >= 0 ? 'positive' : 'negative'}`}>{fmt(saldoAtual)}</div>
+                <div className="card-sub">Saldo disponível</div>
+              </div>
+              <div className="card">
+                <div className="card-header-row">
+                  <span>ÚLTIMOS LANÇAMENTOS</span>
+                  <span className="badge">{lancamentosConta.length}</span>
+                </div>
+                {lancamentosConta.length === 0 ? (
+                  <p className="empty-text">Nenhum lançamento na conta. Use o botão + para adicionar.</p>
+                ) : (
+                  lancamentosConta.map(l => (
+                    <div key={l.id} className="lancamento-row" onClick={() => handleEditLancamento(l)}>
+                      <span>{l.descricao}</span>
+                      <span className={l.tipo === 'entrada' ? 'positive' : 'negative'}>
+                        {l.tipo === 'entrada' ? '+' : '-'}{fmt(Math.abs(l.valor))}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
 
-        {/* INVESTIMENTOS CARD */}
-        <div className="investment-card" onClick={() => setIsEditInvestimentoModalOpen(true)}>
+          {/* LINHA 2 — Gráfico largura total */}
+          <div className="chart-card-section">
+            <div className="card chart-card">
+              <p className="card-title">Gastos por categoria</p>
+              {chartData.length > 0 ? (
+                <>
+                  <div className="chart-wrapper">
+                    <Doughnut data={doughnutChartData} options={doughnutOptions} />
+                    <div className="chart-center">
+                      <span className="chart-center-val">{fmt(totalGastos)}</span>
+                      <span className="chart-center-label">gasto no mês</span>
+                    </div>
+                  </div>
+                  <div className="chart-legend">
+                    {chartData.filter(item => item.valor > 0).map((item, i) => {
+                      const pct = ((item.valor / totalGastos) * 100).toFixed(1)
+                      const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                      const catColor = CORES_PIZZA[i] || '#052e16'
+                      return (
+                        <div key={item.name} className="legend-tag" style={{ borderColor: catColor }}>
+                          <span className="legend-tag-name">{item.name}</span>
+                          <span className="legend-tag-info"> - {valorFmt} - {pct}%</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </>
+              ) : (
+                <div className="chart-empty">
+                  <p>Sem dados para este período</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* LINHA 3 — Outros Bancos e Investimentos lado a lado */}
+          <div className="desktop-grid-2col">
+            <div className="desktop-col">
+              <OutrosBancos />
+            </div>
+            <div className="desktop-col">
+              <div className="investment-card" onClick={() => setIsEditInvestimentoModalOpen(true)}>
           <div className="card-header">
             <span className="card-title">Investimentos</span>
             <span className="card-badge">{((((investimentoData.valor_atual - investimentoData.investido) / investimentoData.investido) * 100).toFixed(2))}%</span>
@@ -534,10 +596,14 @@ function Home() {
             </div>
           </div>
 
-          <div className="inv-cta" onClick={(e) => { e.stopPropagation(); navigate('/investimentos'); }}>
-            Ver investimentos →
+                <div className="inv-cta" onClick={(e) => { e.stopPropagation(); navigate('/investimentos'); }}>
+                  Ver investimentos →
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
+        )}
       </div>
 
       {/* AddModal */}

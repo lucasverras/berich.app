@@ -60,7 +60,7 @@ function AppContent() {
           <Route path="/historico" element={<Historico />} />
         </Routes>
       </main>
-      <BottomNav />
+      {isMobile && <BottomNav />}
     </div>
   )
 }
