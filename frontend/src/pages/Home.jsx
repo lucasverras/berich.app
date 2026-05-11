@@ -335,15 +335,14 @@ function Home() {
                   </div>
                 </div>
                 <div className="chart-legend">
-                  {chartData.map((item, i) => {
+                  {chartData.filter(item => item.valor > 0).map((item, i) => {
                     const pct = ((item.valor / totalGastos) * 100).toFixed(1)
                     const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                     const catColor = CORES_PIZZA[i] || '#052e16'
                     return (
-                      <div key={item.name} className="legend-item">
-                        <span className="legend-dot" style={{ background: catColor }}></span>
-                        <span className="legend-name">{item.name}</span>
-                        <span className="legend-info">{valorFmt} · {pct}%</span>
+                      <div key={item.name} className="legend-tag" style={{ borderColor: catColor }}>
+                        <span className="legend-tag-name">{item.name}</span>
+                        <span className="legend-tag-info"> - {valorFmt} - {pct}%</span>
                       </div>
                     )
                   })}
