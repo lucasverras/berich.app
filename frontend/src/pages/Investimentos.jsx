@@ -20,7 +20,7 @@ const fmt = (v) => {
 function Investimentos() {
   const navigate = useNavigate()
 
-  const investimentos = [
+  const investimentosInitial = [
     {
       id: 1,
       nome: 'Bitcoin',
@@ -113,6 +113,11 @@ function Investimentos() {
     }
   ]
 
+  const [investimentos] = useState(investimentosInitial.map(inv => ({
+    ...inv,
+    icone: CATEGORIAS_ICONS[inv.categoria] || '📈'
+  })))
+
   const totalInvestido = investimentos.reduce((sum, inv) => sum + inv.investido, 0)
   const totalAtual = investimentos.reduce((sum, inv) => sum + inv.valor_atual, 0)
   const rendimento = totalAtual - totalInvestido
@@ -204,6 +209,7 @@ function Investimentos() {
           </div>
         </div>
       </div>
+
     </div>
   )
 }
