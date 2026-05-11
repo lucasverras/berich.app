@@ -1,17 +1,18 @@
 import React from 'react'
+import { Check, UtensilsCrossed, Car, Home, Heart, Gamepad2, BookOpen, ShoppingBag, Film, Plane, Zap } from 'lucide-react'
 import '../styles/CategoryFilters.css'
 
 const CATEGORY_ICONS = {
-  'Alimentação': '🍽️',
-  'Transporte': '🚗',
-  'Moradia': '🏠',
-  'Saúde': '🏥',
-  'Lazer': '🎮',
-  'Educação': '📚',
-  'Compras': '🛍️',
-  'Diversão': '🎬',
-  'Viagem': '✈️',
-  'Assinatura': '📱',
+  'Alimentação': UtensilsCrossed,
+  'Transporte': Car,
+  'Moradia': Home,
+  'Saúde': Heart,
+  'Lazer': Gamepad2,
+  'Educação': BookOpen,
+  'Compras': ShoppingBag,
+  'Diversão': Film,
+  'Viagem': Plane,
+  'Assinatura': Zap,
 }
 
 function CategoryFilters({ categories, selectedCategory, onCategoryChange }) {
@@ -21,19 +22,22 @@ function CategoryFilters({ categories, selectedCategory, onCategoryChange }) {
         className={`category-filter-pill ${selectedCategory === 'Todas' ? 'active' : ''}`}
         onClick={() => onCategoryChange('Todas')}
       >
-        <span>✓</span>
+        <Check size={16} />
         <span>Todas</span>
       </button>
-      {categories.map(cat => (
-        <button
-          key={cat}
-          className={`category-filter-pill ${selectedCategory === cat ? 'active' : ''}`}
-          onClick={() => onCategoryChange(cat)}
-        >
-          <span>{CATEGORY_ICONS[cat] || '•'}</span>
-          <span>{cat}</span>
-        </button>
-      ))}
+      {categories.map(cat => {
+        const IconComponent = CATEGORY_ICONS[cat]
+        return (
+          <button
+            key={cat}
+            className={`category-filter-pill ${selectedCategory === cat ? 'active' : ''}`}
+            onClick={() => onCategoryChange(cat)}
+          >
+            {IconComponent ? <IconComponent size={16} /> : <span>•</span>}
+            <span>{cat}</span>
+          </button>
+        )
+      })}
     </div>
   )
 }
