@@ -62,7 +62,8 @@ function Home() {
     investido: 16000,
     valor_atual: 16670,
   })
-  const [selectedCategory, setSelectedCategory] = useState('Todas')
+  const [selectedCategoryCartao, setSelectedCategoryCartao] = useState('Todas')
+  const [selectedCategoryConta, setSelectedCategoryConta] = useState('Todas')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [lancamentoToDelete, setLancamentoToDelete] = useState(null)
 
@@ -186,10 +187,18 @@ function Home() {
     return sorted
   }
 
-  const getFilteredTransactions = () => {
-    const allLancamentos = [...lancamentosCartao, ...lancamentosConta].sort((a, b) => new Date(b.data) - new Date(a.data))
-    if (selectedCategory === 'Todas') return allLancamentos
-    return allLancamentos.filter(l => l.categoria === selectedCategory)
+  const getFilteredTransactions = (category, type = 'all') => {
+    let allLancamentos
+    if (type === 'cartao') {
+      allLancamentos = lancamentosCartao
+    } else if (type === 'conta') {
+      allLancamentos = lancamentosConta
+    } else {
+      allLancamentos = [...lancamentosCartao, ...lancamentosConta]
+    }
+    allLancamentos = allLancamentos.sort((a, b) => new Date(b.data) - new Date(a.data))
+    if (category === 'Todas') return allLancamentos
+    return allLancamentos.filter(l => l.categoria === category)
   }
 
   const chartData = resumo.por_categoria
@@ -306,13 +315,13 @@ function Home() {
 
               <CategoryFilters
                 categories={getCategoriesByUsage()}
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                selectedCategory={selectedCategoryCartao}
+                onCategoryChange={setSelectedCategoryCartao}
               />
 
               <div className="mobile-transactions">
-                {getFilteredTransactions().length > 0 ? (
-                  getFilteredTransactions().slice(0, 5).map((l, idx) => (
+                {getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
+                  getFilteredTransactions(selectedCategoryCartao, 'cartao').slice(0, 5).map((l, idx) => (
                     <div
                       key={l.id}
                       className="mobile-trans-item"
@@ -359,13 +368,13 @@ function Home() {
 
               <CategoryFilters
                 categories={getCategoriesByUsage()}
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                selectedCategory={selectedCategoryCartao}
+                onCategoryChange={setSelectedCategoryCartao}
               />
 
-              {getFilteredTransactions().length > 0 ? (
+              {getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
                 <div className="transactions-list">
-                  {getFilteredTransactions().map(l => (
+                  {getFilteredTransactions(selectedCategoryCartao, 'cartao').map(l => (
                     <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
                       <div className="trans-left">
                         <div className="trans-icon">{l.tipo === 'entrada' ? '↑' : '↓'}</div>
@@ -403,13 +412,13 @@ function Home() {
 
               <CategoryFilters
                 categories={getCategoriesByUsage()}
-                selectedCategory={selectedCategory}
-                onCategoryChange={setSelectedCategory}
+                selectedCategory={selectedCategoryConta}
+                onCategoryChange={setSelectedCategoryConta}
               />
 
-              {getFilteredTransactions().length > 0 ? (
+              {getFilteredTransactions(selectedCategoryConta, 'conta').length > 0 ? (
                 <div className="transactions-list">
-                  {getFilteredTransactions().map(l => (
+                  {getFilteredTransactions(selectedCategoryConta, 'conta').map(l => (
                     <div key={l.id} className={`transaction-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
                       <div className="trans-left">
                         <div className="trans-icon">{l.tipo === 'entrada' ? '↑' : '↓'}</div>
