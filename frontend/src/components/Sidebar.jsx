@@ -61,19 +61,19 @@ function Sidebar() {
           <div className="nav-label">Principal</div>
 
           <Link to="/home" className={`nav-item ${isActive('/home') ? 'active' : ''}`} data-label="Início">
-            <div className="nav-dot" />
+            <Icons.Home size={18} className="nav-icon" />
             <span className="nav-label">Início</span>
           </Link>
           <Link to="/fatura" className={`nav-item ${isActive('/fatura') ? 'active' : ''}`} data-label="Fatura">
-            <div className="nav-dot" />
+            <Icons.CreditCard size={18} className="nav-icon" />
             <span className="nav-label">Fatura</span>
           </Link>
           <Link to="/conta" className={`nav-item ${isActive('/conta') ? 'active' : ''}`} data-label="Conta">
-            <div className="nav-dot" />
+            <Icons.Wallet size={18} className="nav-icon" />
             <span className="nav-label">Conta</span>
           </Link>
           <Link to="/investimentos" className={`nav-item ${isActive('/investimentos') ? 'active' : ''}`} data-label="Investimentos">
-            <div className="nav-dot" />
+            <Icons.TrendingUp size={18} className="nav-icon" />
             <span className="nav-label">Investimentos</span>
           </Link>
 
@@ -81,11 +81,11 @@ function Sidebar() {
           <div className="nav-label">Outros</div>
 
           <Link to="/revisar" className={`nav-item ${isActive('/revisar') ? 'active' : ''}`} data-label="Revisar">
-            <div className="nav-dot" />
+            <Icons.Eye size={18} className="nav-icon" />
             <span className="nav-label">Revisar {pendentes > 0 && <span className="counter">{pendentes}</span>}</span>
           </Link>
           <Link to="/config" className={`nav-item ${isActive('/config') ? 'active' : ''}`} data-label="Configurações">
-            <div className="nav-dot" />
+            <Icons.Settings size={18} className="nav-icon" />
             <span className="nav-label">Configurações</span>
           </Link>
         </div>
