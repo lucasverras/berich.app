@@ -27,7 +27,7 @@ function BottomNav() {
           onClick={() => navigate(route.path)}
           title={route.label}
         >
-          <route.icon size={24} />
+          <route.icon size={22} />
         </button>
       ))}
 
