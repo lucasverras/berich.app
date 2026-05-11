@@ -133,7 +133,6 @@ function Fatura() {
             <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
             <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
             <div className="stat-sub">Total a pagar</div>
-            {isFechada && <span className="badge-status fechada">Fechada</span>}
           </div>
         </div>
 
