@@ -100,7 +100,7 @@
 .nav-section {
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 12px;
   padding: 10px 8px;
   flex-shrink: 0;
 }
