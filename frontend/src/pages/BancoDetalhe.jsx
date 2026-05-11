@@ -76,7 +76,7 @@ function BancoDetalhe() {
       {/* Header */}
       <div className="banco-header">
         <button className="back-btn" onClick={() => navigate(-1)}>
-          <ChevronLeft size={24} />
+          <ChevronLeft size={20} />
         </button>
         <h1>{banco}</h1>
         <div className="spacer" />
