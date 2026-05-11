@@ -12,10 +12,16 @@ def init_db():
     db = SessionLocal()
 
     # Seed bancos
-    bancos = ["C6 Bank", "VamoNessa SP", "Itaú", "Investimentos"]
-    for nome in bancos:
+    bancos_principais = ["C6 Bank", "VamoNessa SP", "Investimentos"]
+    for nome in bancos_principais:
         if not db.query(Banco).filter(Banco.nome == nome).first():
-            db.add(Banco(nome=nome, ativo=True))
+            db.add(Banco(nome=nome, ativo=True, outros_bancos=False))
+
+    # Seed outros bancos
+    outros_bancos = ["C6", "Itaú", "Nubank"]
+    for nome in outros_bancos:
+        if not db.query(Banco).filter(Banco.nome == nome).first():
+            db.add(Banco(nome=nome, ativo=True, outros_bancos=True))
 
     # Seed categorias
     categorias = [

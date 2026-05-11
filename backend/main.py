@@ -482,3 +482,101 @@ def restore_backup(backup_data: dict, db: Session = Depends(get_db)):
         return {"restaurado": True}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+# ============ OUTROS BANCOS ============
+
+@app.get("/api/bancos/outros")
+def get_outros_bancos(db: Session = Depends(get_db)):
+    """Lista todos os 'outros bancos' com seus saldos atuais"""
+    bancos = db.query(Banco).filter(Banco.outros_bancos == True, Banco.ativo == True).all()
+
+    resultado = []
+    for banco in bancos:
+        lancamentos = db.query(Lancamento).filter(Lancamento.banco == banco.nome).all()
+        saldo = sum(l.valor if l.tipo == "entrada" else -l.valor for l in lancamentos)
+
+        resultado.append({
+            "id": banco.id,
+            "nome": banco.nome,
+            "saldo": saldo
+        })
+
+    return resultado
+
+@app.get("/api/bancos/{banco_nome}/resumo")
+def get_banco_resumo(banco_nome: str, mes: Optional[int] = None, ano: Optional[int] = None, db: Session = Depends(get_db)):
+    """Retorna resumo de entradas, saídas e saldo de um banco"""
+    query = db.query(Lancamento).filter(Lancamento.banco == banco_nome)
+
+    if mes and ano:
+        query = query.filter(
+            (Lancamento.data >= date(ano, mes, 1)) &
+            (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
+        )
+
+    lancamentos = query.all()
+
+    total_entradas = sum(l.valor for l in lancamentos if l.tipo == "entrada")
+    total_saidas = sum(l.valor for l in lancamentos if l.tipo == "saída")
+    saldo = total_entradas - total_saidas
+
+    return {
+        "banco": banco_nome,
+        "total_entradas": total_entradas,
+        "total_saidas": total_saidas,
+        "saldo": saldo
+    }
+
+@app.get("/api/bancos/{banco_nome}/lancamentos")
+def get_banco_lancamentos(banco_nome: str, mes: Optional[int] = None, ano: Optional[int] = None, db: Session = Depends(get_db)):
+    """Lista lançamentos de um banco específico"""
+    query = db.query(Lancamento).filter(Lancamento.banco == banco_nome)
+
+    if mes and ano:
+        query = query.filter(
+            (Lancamento.data >= date(ano, mes, 1)) &
+            (Lancamento.data < date(ano if mes < 12 else ano + 1, mes + 1 if mes < 12 else 1, 1))
+        )
+
+    lancamentos = query.order_by(Lancamento.data.desc()).all()
+
+    return [{
+        "id": l.id,
+        "data": l.data.isoformat(),
+        "valor": l.valor,
+        "tipo": l.tipo,
+        "categoria": l.categoria,
+        "banco": l.banco,
+        "descricao": l.descricao,
+        "forma_pagamento": l.forma_pagamento,
+    } for l in lancamentos]
+
+@app.post("/api/bancos")
+def create_banco(nome: str, outros_bancos: bool = False, db: Session = Depends(get_db)):
+    """Cria um novo banco"""
+    if db.query(Banco).filter(Banco.nome == nome).first():
+        raise HTTPException(status_code=400, detail="Banco já existe")
+
+    banco = Banco(nome=nome, ativo=True, outros_bancos=outros_bancos)
+    db.add(banco)
+    db.commit()
+    db.refresh(banco)
+
+    return {"id": banco.id, "nome": banco.nome, "outros_bancos": banco.outros_bancos}
+
+@app.put("/api/bancos/{banco_id}")
+def update_banco(banco_id: int, nome: Optional[str] = None, ativo: Optional[bool] = None, db: Session = Depends(get_db)):
+    """Atualiza um banco"""
+    banco = db.query(Banco).filter(Banco.id == banco_id).first()
+    if not banco:
+        raise HTTPException(status_code=404, detail="Banco não encontrado")
+
+    if nome:
+        banco.nome = nome
+    if ativo is not None:
+        banco.ativo = ativo
+
+    db.commit()
+    db.refresh(banco)
+
+    return {"id": banco.id, "nome": banco.nome, "ativo": banco.ativo, "outros_bancos": banco.outros_bancos}

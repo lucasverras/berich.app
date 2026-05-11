@@ -10,6 +10,7 @@ class Banco(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String(100), unique=True, nullable=False)
     ativo = Column(Boolean, default=True)
+    outros_bancos = Column(Boolean, default=False)
 
 class Categoria(Base):
     __tablename__ = "categorias"
