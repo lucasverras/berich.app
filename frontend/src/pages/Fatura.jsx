@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import AddModal from '../components/AddModal'
+import EditLancamentoModal from '../components/EditLancamentoModal'
 import FecharFaturaModal from '../components/FecharFaturaModal'
 import './Fatura.css'
 
@@ -17,16 +18,29 @@ function Fatura() {
   const [fatura, setFatura] = useState(0)
   const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [editingLancamento, setEditingLancamento] = useState(null)
   const [isFecharModalOpen, setIsFecharModalOpen] = useState(false)
   const [faturasFechadas, setFaturasFechadas] = useState({})
   const [isFechada, setIsFechada] = useState(false)
   const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
+  const [categorias, setCategorias] = useState([])
 
   useEffect(() => {
+    fetchCategorias()
     fetchFatura()
     fetchLancamentos()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
+
+  const fetchCategorias = async () => {
+    try {
+      const response = await axios.get('/api/categorias')
+      setCategorias(response.data || [])
+    } catch (error) {
+      console.error('Erro ao buscar categorias:', error)
+    }
+  }
 
   const fetchFatura = async () => {
     try {
@@ -71,6 +85,16 @@ function Fatura() {
     fetchFatura()
     fetchLancamentos()
     setIsAddModalOpen(false)
+  }
+
+  const handleEditLancamento = (lancamento) => {
+    setEditingLancamento(lancamento)
+    setIsEditModalOpen(true)
+  }
+
+  const handleLancamentoSaved = () => {
+    fetchFatura()
+    fetchLancamentos()
   }
 
   const handleFecharFatura = () => {
@@ -172,7 +196,7 @@ function Fatura() {
           ) : (
             <div className="transacoes-list">
               {lancamentos.map(l => (
-                <div key={l.id} className="transacao-item">
+                <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
                   <div className="tra-left">
                     <div className="tra-icon">📌</div>
                     <div className="tra-info">
@@ -198,6 +222,16 @@ function Fatura() {
         onClose={() => setIsAddModalOpen(false)}
         onLancamentoAdded={handleAddLancamento}
         defaultTipo="cartão"
+      />
+      <EditLancamentoModal
+        isOpen={isEditModalOpen}
+        lancamento={editingLancamento}
+        onClose={() => {
+          setIsEditModalOpen(false)
+          setEditingLancamento(null)
+        }}
+        onSaved={handleLancamentoSaved}
+        categorias={categorias}
       />
       <FecharFaturaModal
         isOpen={isFecharModalOpen}

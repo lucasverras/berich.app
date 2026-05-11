@@ -4,6 +4,7 @@ import { AppContext } from '../context/AppContext'
 import axios from 'axios'
 import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
+import EditLancamentoModal from '../components/EditLancamentoModal'
 import './Conta.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -19,13 +20,26 @@ function Conta() {
   const [resumo, setResumo] = useState({ entradas: 0, saidas: 0, saldo: 0 })
   const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [editingLancamento, setEditingLancamento] = useState(null)
   const [dropdownAberto, setDropdownAberto] = useState(false)
   const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
+  const [categorias, setCategorias] = useState([])
 
   useEffect(() => {
+    fetchCategorias()
     fetchResumo()
     fetchLancamentos()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
+
+  const fetchCategorias = async () => {
+    try {
+      const response = await axios.get('/api/categorias')
+      setCategorias(response.data || [])
+    } catch (error) {
+      console.error('Erro ao buscar categorias:', error)
+    }
+  }
 
   const fetchResumo = async () => {
     try {
@@ -74,6 +88,16 @@ function Conta() {
     fetchResumo()
     fetchLancamentos()
     setIsAddModalOpen(false)
+  }
+
+  const handleEditLancamento = (lancamento) => {
+    setEditingLancamento(lancamento)
+    setIsEditModalOpen(true)
+  }
+
+  const handleLancamentoSaved = () => {
+    fetchResumo()
+    fetchLancamentos()
   }
 
   return (
@@ -148,7 +172,7 @@ function Conta() {
           ) : (
             <div className="movimentacoes-list">
               {lancamentos.map(l => (
-                <div key={l.id} className="movimentacao-item">
+                <div key={l.id} className="movimentacao-item" onClick={() => handleEditLancamento(l)}>
                   <div className="mov-left">
                     <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
                       {l.tipo === 'entrada' ? '↓' : '↑'}
@@ -178,6 +202,16 @@ function Conta() {
         onClose={() => setIsAddModalOpen(false)}
         onLancamentoAdded={handleAddLancamento}
         defaultTipo="saída"
+      />
+      <EditLancamentoModal
+        isOpen={isEditModalOpen}
+        lancamento={editingLancamento}
+        onClose={() => {
+          setIsEditModalOpen(false)
+          setEditingLancamento(null)
+        }}
+        onSaved={handleLancamentoSaved}
+        categorias={categorias}
       />
     </div>
   )
