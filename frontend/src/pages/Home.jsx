@@ -480,7 +480,6 @@ function Home() {
             </div>
           </div>
         </div>
-        </div>
         ) : (
         /* DESKTOP LAYOUT */
         <>
