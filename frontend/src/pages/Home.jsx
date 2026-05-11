@@ -593,11 +593,6 @@ function Home() {
         </div>
       </div>
 
-      {/* FAB */}
-      <button className="fab" onClick={() => setIsAddModalOpen(true)} title="Adicionar nova movimentação">
-        +
-      </button>
-
       {/* AddModal */}
       <AddModal
         isOpen={isAddModalOpen}
