@@ -12,7 +12,8 @@ function Sidebar() {
   const location = useLocation()
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--sidebar-w', sidebarOpen ? '214px' : '64px')
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    document.documentElement.style.setProperty('--sidebar-w', isMobile ? '70px' : '160px')
   }, [sidebarOpen])
 
   useEffect(() => {

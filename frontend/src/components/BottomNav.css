@@ -1,24 +1,27 @@
-/* Glass Bottom Nav Container */
+/* Bottom Navigation Bar */
 .bottom-nav-glass {
   display: none;
   position: fixed;
-  bottom: 16px;
-  left: 16px;
-  right: 16px;
-  height: 56px;
-  background: rgba(0, 0, 0, 0.8);
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 430px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(34, 197, 94, 0.15);
-  border-radius: 18px;
+  border: none;
+  border-radius: 24px;
   z-index: 100;
   padding: 0;
   margin: 0;
   list-style: none;
   display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  justify-content: space-around;
+  align-items: center;
+  gap: 0;
   overflow: hidden;
+  position: relative;
 }
 
 @media (max-width: 768px) {
@@ -27,130 +30,110 @@
   }
 }
 
+@media (max-width: 480px) {
+  .bottom-nav-glass {
+    width: 95%;
+    max-width: none;
+    height: 56px;
+  }
+}
+
+/* Navigation Items */
 .nav-item {
   flex: 1;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   background: none;
   border: none;
-  color: rgba(134, 239, 172, 0.4);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   text-decoration: none;
   position: relative;
-  aspect-ratio: 1;
+  border-radius: 0;
 }
 
 .nav-item:active {
-  transform: scale(0.9);
+  transform: scale(0.92);
 }
 
-.nav-item.active {
-  color: #4ade80;
-  background: rgba(74, 222, 128, 0.15);
-}
-
-.nav-icon {
-  font-size: 22px;
-  display: block;
-}
-
-.nav-icon-svg {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  opacity: 0.5;
-  filter: invert(1) brightness(1.1);
-  transition: all 0.25s ease;
-}
-
-.nav-item.active .nav-icon-svg {
-  opacity: 1;
-  filter: invert(1) brightness(1) saturate(1.2) hue-rotate(90deg);
-}
-
-/* Floating Add Button */
-.nav-add-floating {
-  display: none;
-  position: fixed;
-  bottom: 24px;
-  right: 16px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4ade80, #22c55e);
-  border: none;
-  color: #fff;
-  font-size: 28px;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(74, 222, 128, 0.35), 0 4px 12px rgba(34, 197, 94, 0.25);
-  transition: all 0.2s ease;
-  z-index: 101;
+/* Icon Container */
+.nav-item-content {
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 2;
 }
 
-@media (max-width: 768px) {
-  .nav-add-floating {
-    display: flex;
-  }
+/* Icon Styles */
+.nav-icon-svg {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  transition: all 0.2s ease;
+  filter: brightness(0.85) saturate(0.6);
+  opacity: 0.7;
+  color: #a3bfa5;
 }
 
-.nav-add-floating:active {
-  transform: scale(0.9);
-  box-shadow: 0 12px 32px rgba(74, 222, 128, 0.45), 0 6px 16px rgba(34, 197, 94, 0.3);
-}
-
-/* Add Menu */
-.add-menu {
-  position: fixed;
-  bottom: 90px;
-  right: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 99;
-  animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.add-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 18px;
-  background: rgba(34, 197, 94, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(74, 222, 128, 0.3);
-  border-radius: 12px;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 14px;
-  box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+.nav-icon {
+  font-size: 24px;
+  display: block;
+  color: #a3bfa5;
   transition: all 0.2s ease;
 }
 
-.add-option:active {
-  transform: scale(0.95);
-  background: rgba(34, 197, 94, 1);
+/* Active State */
+.nav-item.active .nav-icon-svg {
+  filter: brightness(1) saturate(1);
+  opacity: 1;
+  color: #92fe9d;
 }
 
-.add-option span {
-  font-size: 16px;
-  font-weight: 700;
+.nav-item.active .nav-icon {
+  color: #92fe9d;
 }
 
+/* Add Button */
+.nav-add-btn {
+  background: linear-gradient(135deg, #92fe9d 0%, #6ebf76 100%);
+}
+
+.nav-add-btn .add-icon {
+  font-size: 28px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* Responsive - Mobile */
+@media (max-width: 480px) {
+  .nav-item-content {
+    width: 28px;
+    height: 28px;
+  }
+
+  .nav-icon-svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-icon {
+    font-size: 20px;
+  }
+
+  .nav-add-btn .add-icon {
+    font-size: 24px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .bottom-nav-glass {
+    bottom: 24px;
+  }
+}

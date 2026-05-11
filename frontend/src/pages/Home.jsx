@@ -8,6 +8,8 @@ import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
 import EditInvestimentoModal from '../components/EditInvestimentoModal'
+import CategoryFilters from '../components/CategoryFilters'
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal'
 import logo from '../assets/logo/logo.svg'
 import './Home.css'
 
@@ -60,6 +62,9 @@ function Home() {
     investido: 16000,
     valor_atual: 16670,
   })
+  const [selectedCategory, setSelectedCategory] = useState('Todas')
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [lancamentoToDelete, setLancamentoToDelete] = useState(null)
 
   useEffect(() => {
     fetchCategorias()
@@ -165,6 +170,26 @@ function Home() {
     fetchSaldo()
     fetchLancamentosCartao()
     fetchLancamentosConta()
+  }
+
+  const getCategoriesByUsage = () => {
+    const allLancamentos = [...lancamentosCartao, ...lancamentosConta]
+    const categoryCount = {}
+    allLancamentos.forEach(l => {
+      if (l.categoria) {
+        categoryCount[l.categoria] = (categoryCount[l.categoria] || 0) + 1
+      }
+    })
+    const sorted = Object.entries(categoryCount)
+      .sort((a, b) => b[1] - a[1])
+      .map(([cat]) => cat)
+    return sorted
+  }
+
+  const getFilteredTransactions = () => {
+    const allLancamentos = [...lancamentosCartao, ...lancamentosConta].sort((a, b) => new Date(b.data) - new Date(a.data))
+    if (selectedCategory === 'Todas') return allLancamentos
+    return allLancamentos.filter(l => l.categoria === selectedCategory)
   }
 
   const chartData = resumo.por_categoria
@@ -278,26 +303,37 @@ function Home() {
           {lancamentosCartao.length > 0 && (
             <div className="mobile-transactions-section">
               <h3>Últimas transações</h3>
+
+              <CategoryFilters
+                categories={getCategoriesByUsage()}
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+              />
+
               <div className="mobile-transactions">
-                {lancamentosCartao.slice(0, 5).map((l, idx) => (
-                  <div
-                    key={l.id}
-                    className="mobile-trans-item"
-                    onClick={() => handleEditLancamento(l)}
-                    style={{ opacity: 1 - (idx * 0.15) }}
-                  >
-                    <div className="mobile-trans-left">
-                      <div className="mobile-trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
-                      <div>
-                        <div className="mobile-trans-desc">{l.descricao}</div>
-                        <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                {getFilteredTransactions().length > 0 ? (
+                  getFilteredTransactions().slice(0, 5).map((l, idx) => (
+                    <div
+                      key={l.id}
+                      className="mobile-trans-item"
+                      onClick={() => handleEditLancamento(l)}
+                      style={{ opacity: 1 - (idx * 0.15) }}
+                    >
+                      <div className="mobile-trans-left">
+                        <div className="mobile-trans-icon">{l.tipo === 'entrada' ? '↑' : '↓'}</div>
+                        <div>
+                          <div className="mobile-trans-desc">{l.descricao}</div>
+                          <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                        </div>
+                      </div>
+                      <div className={`mobile-trans-value ${l.tipo}`}>
+                        {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
                       </div>
                     </div>
-                    <div className={`mobile-trans-value ${l.tipo}`}>
-                      {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
-                    </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
+                )}
               </div>
             </div>
           )}
@@ -320,24 +356,31 @@ function Home() {
                 <span className="card-title">Últimos Lançamentos</span>
                 <span className="card-badge">{lancamentosCartao.length}</span>
               </div>
-              {lancamentosCartao.length > 0 ? (
+
+              <CategoryFilters
+                categories={getCategoriesByUsage()}
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+              />
+
+              {getFilteredTransactions().length > 0 ? (
                 <div className="transactions-list">
-                  {lancamentosCartao.map(l => (
+                  {getFilteredTransactions().map(l => (
                     <div key={l.id} className="transaction-item" onClick={() => handleEditLancamento(l)}>
                       <div className="trans-left">
-                        <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                        <div className="trans-icon">{l.tipo === 'entrada' ? '↑' : '↓'}</div>
                         <div className="trans-info">
                           <p className="trans-desc">{l.descricao}</p>
                           <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                         </div>
                       </div>
                       <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
-                      <div className="trans-delete">✕</div>
+                      <div className="trans-delete" onClick={(e) => { e.stopPropagation(); setLancamentoToDelete(l); setIsDeleteModalOpen(true); }} title="Deletar lançamento">✕</div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="empty-state-text">Sem lançamentos neste cartão</div>
+                <div className="empty-state-text">Nenhum lançamento no cartão. Use o botão + para adicionar.</div>
               )}
             </div>
           </div>
@@ -357,24 +400,31 @@ function Home() {
                 <span className="card-title">Últimos Lançamentos</span>
                 <span className="card-badge">{lancamentosConta.length}</span>
               </div>
-              {lancamentosConta.length > 0 ? (
+
+              <CategoryFilters
+                categories={getCategoriesByUsage()}
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+              />
+
+              {getFilteredTransactions().length > 0 ? (
                 <div className="transactions-list">
-                  {lancamentosConta.map(l => (
+                  {getFilteredTransactions().map(l => (
                     <div key={l.id} className={`transaction-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
                       <div className="trans-left">
-                        <div className="trans-icon">{l.tipo === 'entrada' ? '↓' : '↑'}</div>
+                        <div className="trans-icon">{l.tipo === 'entrada' ? '↑' : '↓'}</div>
                         <div className="trans-info">
                           <p className="trans-desc">{l.descricao}</p>
                           <p className="trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                         </div>
                       </div>
                       <div className={`trans-value ${l.tipo}`}>{l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}</div>
-                      <div className="trans-delete">✕</div>
+                      <div className="trans-delete" onClick={(e) => { e.stopPropagation(); setLancamentoToDelete(l); setIsDeleteModalOpen(true); }} title="Deletar lançamento">✕</div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="empty-state-text">Sem lançamentos nesta conta</div>
+                <div className="empty-state-text">Nenhum lançamento na conta. Use o botão + para adicionar.</div>
               )}
             </div>
           </div>
@@ -482,6 +532,20 @@ function Home() {
             investido: dados.investido,
             valor_atual: dados.valor_atual,
           })
+        }}
+      />
+
+      {/* ConfirmDeleteModal */}
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        lancamento={lancamentoToDelete}
+        onClose={() => {
+          setIsDeleteModalOpen(false)
+          setLancamentoToDelete(null)
+        }}
+        onDeleted={() => {
+          handleLancamentoSaved()
+          setLancamentoToDelete(null)
         }}
       />
     </div>
