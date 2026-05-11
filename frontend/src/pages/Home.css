@@ -213,7 +213,6 @@
   gap: 32px;
   margin-bottom: 32px;
   padding: 0;
-  border-right: 1px solid rgba(34, 197, 94, 0.1);
   position: relative;
 }
 
@@ -228,15 +227,14 @@
   background: linear-gradient(180deg, transparent 0%, rgba(34, 197, 94, 0.2) 20%, rgba(34, 197, 94, 0.2) 80%, transparent 100%);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .main-grid-2col {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    border-right: none;
+    gap: 12px;
   }
 
   .main-grid-2col::before {
-    display: none;
+    width: 1px;
+    background: linear-gradient(180deg, transparent 0%, rgba(34, 197, 94, 0.15) 20%, rgba(34, 197, 94, 0.15) 80%, transparent 100%);
   }
 }
 
@@ -420,6 +418,32 @@
   transition: all 0.2s ease;
   cursor: pointer;
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .transaction-item {
+    padding: 10px 8px;
+    gap: 8px;
+  }
+
+  .trans-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .trans-desc {
+    font-size: 12px;
+  }
+
+  .trans-date {
+    font-size: 10px;
+  }
+
+  .trans-value {
+    font-size: 12px;
+    margin-left: 8px;
+  }
 }
 
 .transaction-item:hover {
