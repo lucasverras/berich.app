@@ -3,12 +3,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from datetime import datetime, date
 from typing import List, Optional
+from pydantic import BaseModel
 import csv
 import json
 from io import StringIO
 
 from models import Lancamento, Categoria, Banco, RegraCategorização
 from database import init_db, get_db
+
+class LancamentoCreate(BaseModel):
+    data: str
+    valor: float
+    tipo: str
+    categoria: Optional[str] = None
+    banco: str
+    descricao: str
+    forma_pagamento: Optional[str] = None
+    parcelado: Optional[bool] = False
+    parcela_numero: Optional[int] = None
+    parcela_total: Optional[int] = None
 
 app = FastAPI()
 
@@ -66,23 +79,17 @@ def get_lancamentos(
 
 @app.post("/lancamentos")
 def create_lancamento(
-    data: str,
-    valor: float,
-    tipo: str,
-    categoria: Optional[str],
-    banco: str,
-    descricao: str,
-    forma_pagamento: Optional[str] = None,
+    lancamento_data: LancamentoCreate,
     db: Session = Depends(get_db)
 ):
     lancamento = Lancamento(
-        data=datetime.fromisoformat(data).date(),
-        valor=valor,
-        tipo=tipo,
-        categoria=categoria,
-        banco=banco,
-        descricao=descricao,
-        forma_pagamento=forma_pagamento,
+        data=datetime.fromisoformat(lancamento_data.data).date(),
+        valor=lancamento_data.valor,
+        tipo=lancamento_data.tipo,
+        categoria=lancamento_data.categoria,
+        banco=lancamento_data.banco,
+        descricao=lancamento_data.descricao,
+        forma_pagamento=lancamento_data.forma_pagamento,
         origem="manual"
     )
     db.add(lancamento)
@@ -139,11 +146,15 @@ def get_categorias(db: Session = Depends(get_db)):
     categorias = db.query(Categoria).filter(Categoria.ativo == True).order_by(Categoria.ordem).all()
     return [{"id": c.id, "nome": c.nome, "ordem": c.ordem} for c in categorias]
 
+class CategoriaCreate(BaseModel):
+    nome: str
+    ordem: int
+
 @app.post("/categorias")
-def create_categoria(nome: str, ordem: int, db: Session = Depends(get_db)):
-    if db.query(Categoria).filter(Categoria.nome == nome).first():
+def create_categoria(categoria_data: CategoriaCreate, db: Session = Depends(get_db)):
+    if db.query(Categoria).filter(Categoria.nome == categoria_data.nome).first():
         raise HTTPException(status_code=400, detail="Categoria já existe")
-    categoria = Categoria(nome=nome, ordem=ordem, ativo=True)
+    categoria = Categoria(nome=categoria_data.nome, ordem=categoria_data.ordem, ativo=True)
     db.add(categoria)
     db.commit()
     db.refresh(categoria)
