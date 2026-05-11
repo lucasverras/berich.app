@@ -46,7 +46,7 @@ const fmt = (v) => {
 }
 
 function Home() {
-  const { bancoAtivo, mesAno, updateMesAno } = useContext(AppContext)
+  const { bancoAtivo, mesAno, updateMesAno, isAddModalOpen, setIsAddModalOpen } = useContext(AppContext)
   const navigate = useNavigate()
   const [resumo, setResumo] = useState({
     entradas: 5400,
@@ -66,7 +66,6 @@ function Home() {
   const [lancamentosCartao, setLancamentosCartao] = useState([])
   const [lancamentosConta, setLancamentosConta] = useState([])
   const [categorias, setCategorias] = useState([])
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
   const [dropdownAberto, setDropdownAberto] = useState(false)
@@ -216,6 +215,24 @@ function Home() {
     return allLancamentos.filter(l => l.categoria === category)
   }
 
+  const getTransactionsByCategory = (type = 'cartao') => {
+    const lancamentos = type === 'cartao' ? lancamentosCartao : lancamentosConta
+    const grouped = {}
+    lancamentos.forEach(l => {
+      const cat = l.categoria || 'Sem categoria'
+      if (!grouped[cat]) grouped[cat] = []
+      grouped[cat].push(l)
+    })
+
+    // Calcular total por categoria e ordenar
+    const categoriesWithTotal = Object.entries(grouped).map(([cat, items]) => {
+      const total = items.reduce((sum, item) => sum + Math.abs(item.valor), 0)
+      return { cat, items: items.sort((a, b) => new Date(b.data) - new Date(a.data)), total }
+    }).sort((a, b) => b.total - a.total)
+
+    return categoriesWithTotal
+  }
+
   const chartData = resumo.por_categoria
     ? Object.entries(resumo.por_categoria).map(([cat, val]) => ({
         name: cat,
@@ -323,10 +340,12 @@ function Home() {
             </div>
           </div>
 
-          {/* Últimas 5 Transações do Cartão com Opacidade Gradiente */}
+          {/* Transações do Cartão agrupadas por categoria */}
           {lancamentosCartao.length > 0 && (
             <div className="mobile-transactions-section">
-              <h3>Últimas transações</h3>
+              <div className="mobile-section-header">
+                <h3>Últimos Lançamentos</h3>
+              </div>
 
               <CategoryFilters
                 categories={getCategoriesByUsage()}
@@ -335,28 +354,69 @@ function Home() {
               />
 
               <div className="mobile-transactions">
-                {getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
-                  getFilteredTransactions(selectedCategoryCartao, 'cartao').slice(0, 5).map((l, idx) => (
-                    <div
-                      key={l.id}
-                      className="mobile-trans-item"
-                      onClick={() => handleEditLancamento(l)}
-                      style={{ opacity: 1 - (idx * 0.15) }}
-                    >
-                      <div className="mobile-trans-left">
-                        <div className="mobile-trans-icon">{l.tipo === 'entrada' ? '↑' : '↓'}</div>
-                        <div>
-                          <div className="mobile-trans-desc">{l.descricao}</div>
-                          <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
-                        </div>
+                {selectedCategoryCartao === 'Todas' ? (
+                  // Exibir agrupado por categoria
+                  getTransactionsByCategory('cartao').length > 0 ? (
+                    getTransactionsByCategory('cartao').map(({ cat, items }) => (
+                      <div key={cat} className="transaction-category-group">
+                        <div className="category-group-header">{cat}</div>
+                        {items.map(l => {
+                          const IconComponent = CATEGORY_ICONS[l.categoria]
+                          return (
+                            <div
+                              key={l.id}
+                              className="mobile-trans-item"
+                              onClick={() => handleEditLancamento(l)}
+                            >
+                              <div className="mobile-trans-left">
+                                <div className={`mobile-trans-icon ${l.tipo}`}>
+                                  {IconComponent ? <IconComponent size={18} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
+                                </div>
+                                <div>
+                                  <div className="mobile-trans-desc">{l.descricao}</div>
+                                  <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                                </div>
+                              </div>
+                              <div className={`mobile-trans-value ${l.tipo}`}>
+                                {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                              </div>
+                            </div>
+                          )
+                        })}
                       </div>
-                      <div className={`mobile-trans-value ${l.tipo}`}>
-                        {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
-                      </div>
-                    </div>
-                  ))
+                    ))
+                  ) : (
+                    <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
+                  )
                 ) : (
-                  <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
+                  // Exibir com filtro
+                  getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
+                    getFilteredTransactions(selectedCategoryCartao, 'cartao').map(l => {
+                      const IconComponent = CATEGORY_ICONS[l.categoria]
+                      return (
+                        <div
+                          key={l.id}
+                          className="mobile-trans-item"
+                          onClick={() => handleEditLancamento(l)}
+                        >
+                          <div className="mobile-trans-left">
+                            <div className={`mobile-trans-icon ${l.tipo}`}>
+                              {IconComponent ? <IconComponent size={18} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
+                            </div>
+                            <div>
+                              <div className="mobile-trans-desc">{l.descricao}</div>
+                              <div className="mobile-trans-date">{new Date(l.data).toLocaleDateString('pt-BR')}</div>
+                            </div>
+                          </div>
+                          <div className={`mobile-trans-value ${l.tipo}`}>
+                            {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                          </div>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <div className="empty-state-text">Nenhuma transação. Toque em + para criar uma.</div>
+                  )
                 )}
               </div>
             </div>

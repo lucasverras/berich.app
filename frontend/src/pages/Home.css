@@ -268,6 +268,19 @@
   .main-grid-2col {
     display: none;
   }
+
+  /* Esconder elementos desnecessários em mobile */
+  .transactions-card.conta {
+    display: none !important;
+  }
+
+  .chart-card-section {
+    display: none !important;
+  }
+
+  .investment-card {
+    display: none !important;
+  }
 }
 
 .mobile-saldo-card {
@@ -458,6 +471,63 @@
 }
 
 .mobile-trans-value.saída {
+  color: #f87171;
+}
+
+.transaction-category-group {
+  margin-bottom: 20px;
+}
+
+.category-group-header {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(120, 180, 120, 0.6);
+  letter-spacing: 0.5px;
+  padding: 12px 0 8px 0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(40, 100, 40, 0.15);
+}
+
+.mobile-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.mobile-section-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #f0fdf4;
+  margin: 0;
+}
+
+.mobile-trans-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.mobile-trans-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.mobile-trans-icon.entrada {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.mobile-trans-icon.saída {
+  background: rgba(248, 113, 113, 0.12);
   color: #f87171;
 }
 

@@ -15,6 +15,8 @@ export const AppProvider = ({ children }) => {
     });
   });
 
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   const updateBanco = useCallback((banco) => {
     setBancoAtivo(banco);
     localStorage.setItem('bancoAtivo', banco);
@@ -40,6 +42,8 @@ export const AppProvider = ({ children }) => {
       updateBanco,
       mesAno: getMesAno(),
       updateMesAno,
+      isAddModalOpen,
+      setIsAddModalOpen,
     }}>
       {children}
     </AppContext.Provider>

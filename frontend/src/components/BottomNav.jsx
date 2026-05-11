@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { AppContext } from '../context/AppContext'
 import './BottomNav.css'
 import homeIcon from '../assets/icons/home-1 1.svg'
 import faturasIcon from '../assets/icons/cartões.svg'
@@ -8,7 +9,7 @@ import saldoIcon from '../assets/icons/saldo.svg'
 function BottomNav() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [showAddMenu, setShowAddMenu] = React.useState(false)
+  const { setIsAddModalOpen } = useContext(AppContext)
 
   const routes = [
     { path: '/home', icon: homeIcon, label: 'Home' },
@@ -43,7 +44,7 @@ function BottomNav() {
 
       <button
         className="nav-item nav-add-btn"
-        onClick={() => setShowAddMenu(!showAddMenu)}
+        onClick={() => setIsAddModalOpen(true)}
         title="Adicionar"
       >
         <span className="add-icon">+</span>
