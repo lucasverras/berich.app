@@ -240,19 +240,25 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'saída' }
 
           <div className="form-group">
             <label>Categoria</label>
+            <div className="categoria-tags">
+              {categorias && categorias.map(cat => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className={`categoria-tag ${formData.categoria === cat.nome ? 'active' : ''}`}
+                  onClick={() => setFormData(prev => ({ ...prev, categoria: cat.nome }))}
+                >
+                  {cat.nome}
+                </button>
+              ))}
+            </div>
             <input
               type="text"
               name="categoria"
               value={formData.categoria}
               onChange={handleChange}
-              placeholder="Digite ou selecione uma categoria"
-              list="categorias-list"
+              placeholder="Ou digite uma categoria customizada"
             />
-            <datalist id="categorias-list">
-              {categorias && categorias.map(cat => (
-                <option key={cat.id} value={cat.nome} />
-              ))}
-            </datalist>
           </div>
 
           <div className="form-group">

@@ -156,8 +156,19 @@ def delete_lancamento(id: int, db: Session = Depends(get_db)):
 
 @app.get("/categorias")
 def get_categorias(db: Session = Depends(get_db)):
-    categorias = db.query(Categoria).filter(Categoria.ativo == True).order_by(Categoria.ordem).all()
-    return [{"id": c.id, "nome": c.nome, "ordem": c.ordem} for c in categorias]
+    from sqlalchemy import func
+
+    categorias_query = db.query(
+        Categoria,
+        func.count(Lancamento.id).label('uso')
+    ).outerjoin(Lancamento, Lancamento.categoria == Categoria.nome).filter(
+        Categoria.ativo == True
+    ).group_by(Categoria.id).all()
+
+    categorias = [{"id": c.id, "nome": c.nome, "ordem": c.ordem, "uso": uso} for c, uso in categorias_query]
+    categorias_sorted = sorted(categorias, key=lambda x: x['uso'], reverse=True)
+
+    return categorias_sorted
 
 class CategoriaCreate(BaseModel):
     nome: str
