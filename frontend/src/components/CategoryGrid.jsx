@@ -58,7 +58,7 @@ function CategoryGrid({ banco, mes, ano }) {
               <div
                 className="progress-bar"
                 style={{
-                  width: `${percentage}%`,
+                  transform: `scaleX(${percentage / 100})`,
                   backgroundColor: isNegative ? 'var(--negative)' : 'var(--positive)',
                 }}
               />

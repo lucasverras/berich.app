@@ -22,6 +22,27 @@
 
 .pendente-card {
   padding: 24px;
+  transition: all 0.2s ease;
+}
+
+.pendente-card.entrada {
+  background-color: rgba(61, 186, 106, 0.08);
+  border-color: rgba(61, 186, 106, 0.2) !important;
+}
+
+.pendente-card.entrada:hover {
+  background-color: rgba(61, 186, 106, 0.12);
+  border-color: rgba(61, 186, 106, 0.35) !important;
+}
+
+.pendente-card.saída {
+  background-color: rgba(239, 83, 80, 0.08);
+  border-color: rgba(239, 83, 80, 0.2) !important;
+}
+
+.pendente-card.saída:hover {
+  background-color: rgba(239, 83, 80, 0.12);
+  border-color: rgba(239, 83, 80, 0.35) !important;
 }
 
 .pendente-info {

@@ -2,8 +2,11 @@ import React, { useContext, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { AppContext } from './context/AppContext'
 import Sidebar from './components/Sidebar'
+import Home from './pages/Home'
 import Fatura from './pages/Fatura'
 import Conta from './pages/Conta'
+import Investimentos from './pages/Investimentos'
+import InvestimentoDetalhe from './pages/InvestimentoDetalhe'
 import Revisar from './pages/Revisar'
 import Mobile from './pages/Mobile'
 import Config from './pages/Config'
@@ -30,9 +33,12 @@ function AppContent() {
       {!isMobile && <Sidebar />}
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<Navigate to="/fatura" replace />} />
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/fatura" element={<Fatura />} />
           <Route path="/conta" element={<Conta />} />
+          <Route path="/investimentos" element={<Investimentos />} />
+          <Route path="/investimentos/:id" element={<InvestimentoDetalhe />} />
           <Route path="/revisar" element={<Revisar />} />
           <Route path="/config" element={<Config />} />
           <Route path="/mobile" element={<Mobile />} />

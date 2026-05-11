@@ -101,7 +101,7 @@ function Revisar() {
       ) : (
         <div className="pendentes-list">
           {pendentes.map(pendente => (
-            <div key={pendente.id} className="pendente-card card">
+            <div key={pendente.id} className={`pendente-card card ${pendente.tipo}`}>
               <div className="pendente-info">
                 <div className="info-row">
                   <span className="label">Data:</span>

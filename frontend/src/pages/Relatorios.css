@@ -29,22 +29,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(61, 186, 106, 0.06) 0%, rgba(61, 186, 106, 0.01) 100%);
+  border-radius: 10px;
+  border: 1px solid rgba(61, 186, 106, 0.18);
+  transition: all 0.2s ease;
+}
+
+.summary-row:hover {
+  border-color: rgba(61, 186, 106, 0.3);
+  background: linear-gradient(135deg, rgba(61, 186, 106, 0.1) 0%, rgba(61, 186, 106, 0.02) 100%);
 }
 
 .summary-row span:last-child {
   font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.3px;
 }
 
 .summary-row .positive {
-  color: var(--positive);
+  color: #4caf50;
 }
 
 .summary-row .negative {
-  color: var(--negative);
+  color: #ef5350;
 }
 
 .card.pie-chart {

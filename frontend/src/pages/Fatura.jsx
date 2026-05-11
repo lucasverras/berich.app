@@ -4,6 +4,7 @@ import axios from 'axios'
 import MonthSelector from '../components/MonthSelector'
 import CategoryGrid from '../components/CategoryGrid'
 import AddModal from '../components/AddModal'
+import FecharFaturaModal from '../components/FecharFaturaModal'
 import './Fatura.css'
 
 function Fatura() {
@@ -11,11 +12,14 @@ function Fatura() {
   const [fatura, setFatura] = useState(0)
   const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isFecharModalOpen, setIsFecharModalOpen] = useState(false)
+  const [faturasFechadas, setFaturasFechadas] = useState({})
+  const [isFechada, setIsFechada] = useState(false)
 
   useEffect(() => {
     fetchFatura()
     fetchLancamentos()
-  }, [bancoAtivo, mesAno])
+  }, [bancoAtivo, mesAno.mes, mesAno.ano])
 
   const fetchFatura = async () => {
     try {
@@ -50,11 +54,11 @@ function Fatura() {
   }
 
   const handleMesChange = (mes) => {
-    updateMesAno({ mes, ano: mesAno.ano })
+    updateMesAno(mes, mesAno.ano)
   }
 
   const handleAnoChange = (ano) => {
-    updateMesAno({ mes: mesAno.mes, ano })
+    updateMesAno(mesAno.mes, ano)
   }
 
   const handleAddLancamento = () => {
@@ -62,6 +66,36 @@ function Fatura() {
     fetchLancamentos()
     setIsAddModalOpen(false)
   }
+
+  const handleFecharFatura = () => {
+    // Marcar fatura como fechada
+    const chave = `${mesAno.ano}-${mesAno.mes}`
+    setFaturasFechadas(prev => ({
+      ...prev,
+      [chave]: true
+    }))
+    setIsFechada(true)
+
+    // Calcular próximo mês
+    let proximoMes = mesAno.mes + 1
+    let proximoAno = mesAno.ano
+    if (proximoMes > 12) {
+      proximoMes = 1
+      proximoAno += 1
+    }
+
+    // Atualizar para próximo mês
+    updateMesAno(proximoMes, proximoAno)
+
+    // Fechar o modal
+    setIsFecharModalOpen(false)
+  }
+
+  // Verificar se fatura está fechada ao carregar
+  useEffect(() => {
+    const chave = `${mesAno.ano}-${mesAno.mes}`
+    setIsFechada(faturasFechadas[chave] || false)
+  }, [mesAno, faturasFechadas])
 
   const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
@@ -78,12 +112,32 @@ function Fatura() {
 
         <div className="cards-container">
           <div className="card negative">
-            <h3>Fatura de {monthNames[mesAno.mes - 1]}</h3>
+            <div className="card-header-row">
+              <h3>Fatura de {monthNames[mesAno.mes - 1]}</h3>
+              {isFechada && <span className="badge-fechada">Fechada</span>}
+            </div>
             <div className={`value negative`}>
               R$ {Math.abs(fatura).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </div>
           </div>
         </div>
+
+        {!isFechada && (
+          <div className="fechar-fatura-card card">
+            <div className="fechar-card-content">
+              <div className="fechar-card-text">
+                <h3>Fechar Fatura</h3>
+                <p>Encerrar este ciclo e iniciar o próximo mês</p>
+              </div>
+              <button
+                className="fechar-card-btn"
+                onClick={() => setIsFecharModalOpen(true)}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        )}
 
         <CategoryGrid banco={bancoAtivo} mes={mesAno.mes} ano={mesAno.ano} />
 
@@ -125,6 +179,12 @@ function Fatura() {
         onClose={() => setIsAddModalOpen(false)}
         onLancamentoAdded={handleAddLancamento}
         defaultTipo="cartão"
+      />
+      <FecharFaturaModal
+        isOpen={isFecharModalOpen}
+        mesAtual={mesAno.mes}
+        onClose={() => setIsFecharModalOpen(false)}
+        onConfirm={handleFecharFatura}
       />
     </div>
   )

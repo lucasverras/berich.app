@@ -15,7 +15,7 @@ function Conta() {
   useEffect(() => {
     fetchResumo()
     fetchLancamentos()
-  }, [bancoAtivo, mesAno])
+  }, [bancoAtivo, mesAno.mes, mesAno.ano])
 
   const fetchResumo = async () => {
     try {
@@ -54,11 +54,11 @@ function Conta() {
   }
 
   const handleMesChange = (mes) => {
-    updateMesAno({ mes, ano: mesAno.ano })
+    updateMesAno(mes, mesAno.ano)
   }
 
   const handleAnoChange = (ano) => {
-    updateMesAno({ mes: mesAno.mes, ano })
+    updateMesAno(mesAno.mes, ano)
   }
 
   const handleAddLancamento = () => {

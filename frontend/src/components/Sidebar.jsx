@@ -31,11 +31,17 @@ function Sidebar() {
       </div>
 
       <nav className="sidebar-nav">
+        <Link to="/home" className={`nav-item ${isActive('/home') ? 'active' : ''}`}>
+          🏠 Início
+        </Link>
         <Link to="/fatura" className={`nav-item ${isActive('/fatura') ? 'active' : ''}`}>
           💳 Fatura
         </Link>
         <Link to="/conta" className={`nav-item ${isActive('/conta') ? 'active' : ''}`}>
           🏦 Conta
+        </Link>
+        <Link to="/investimentos" className={`nav-item ${isActive('/investimentos') ? 'active' : ''}`}>
+          💼 Investimentos
         </Link>
         <div className="sidebar-divider" />
         <Link to="/revisar" className={`nav-item ${isActive('/revisar') ? 'active' : ''}`}>

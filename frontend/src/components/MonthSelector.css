@@ -2,14 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .month-selector-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: center;
+  display: none;
 }
 
 .month-nav {
@@ -30,39 +27,40 @@
 }
 
 .year-display {
-  font-weight: 600;
-  color: var(--text-primary);
-  min-width: 50px;
-  text-align: center;
+  display: none;
 }
 
 .months-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 10px;
 }
 
 .month-pill {
-  padding: 8px 12px;
-  background-color: rgba(76, 175, 80, 0.08);
-  border: 1px solid var(--glass-border);
-  color: var(--text-secondary);
-  border-radius: 20px;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1.5px solid #22c55e;
+  color: #22c55e;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
   transition: all 0.2s ease;
   box-shadow: none;
   opacity: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .month-pill:hover {
-  border-color: var(--primary);
-  box-shadow: none;
+  border-color: #22c55e;
+  background: transparent;
 }
 
 .month-pill.active {
-  background-color: rgba(76, 175, 80, 0.2);
-  border-color: var(--primary);
-  color: var(--primary);
+  background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%);
+  border: 1.5px solid #86efac;
+  color: #14532d;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(134, 239, 172, 0.3);
 }

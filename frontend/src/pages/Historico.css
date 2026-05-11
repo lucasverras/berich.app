@@ -51,9 +51,29 @@
   transition: all 0.2s ease;
 }
 
+.historico-item.entrada {
+  background-color: rgba(61, 186, 106, 0.08);
+  border-color: rgba(61, 186, 106, 0.2) !important;
+}
+
+.historico-item.entrada:hover {
+  background-color: rgba(61, 186, 106, 0.12);
+  border-color: rgba(61, 186, 106, 0.35) !important;
+}
+
+.historico-item.saída {
+  background-color: rgba(239, 83, 80, 0.08);
+  border-color: rgba(239, 83, 80, 0.2) !important;
+}
+
+.historico-item.saída:hover {
+  background-color: rgba(239, 83, 80, 0.12);
+  border-color: rgba(239, 83, 80, 0.35) !important;
+}
+
 .historico-item:hover {
-  background: rgba(61, 186, 106, 0.1);
-  border-color: var(--green-primary);
+  background: inherit;
+  border-color: inherit;
 }
 
 .item-header {

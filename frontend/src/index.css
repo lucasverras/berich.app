@@ -97,40 +97,63 @@ button.secondary:hover {
 
 /* Cards */
 .card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: linear-gradient(135deg, rgba(61, 186, 106, 0.06) 0%, rgba(61, 186, 106, 0.01) 100%);
+  border: 1px solid rgba(61, 186, 106, 0.18);
   backdrop-filter: blur(12px);
-  border-radius: 15px;
+  border-radius: 16px;
   padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(61, 186, 106, 0.25), transparent);
+  opacity: 0.5;
+}
+
+.card:hover {
+  border-color: rgba(61, 186, 106, 0.3);
+  background: linear-gradient(135deg, rgba(61, 186, 106, 0.1) 0%, rgba(61, 186, 106, 0.02) 100%);
+  box-shadow: 0 4px 16px rgba(61, 186, 106, 0.08);
 }
 
 .card h3 {
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
   margin-bottom: 8px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .card .value {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
+  letter-spacing: -0.5px;
 }
 
 .card.positive {
-  border-color: rgba(61, 186, 106, 0.3);
+  border-color: rgba(61, 186, 106, 0.25);
 }
 
 .card.positive .value {
-  color: var(--positive);
+  color: #4caf50;
 }
 
 .card.negative {
-  border-color: rgba(224, 82, 82, 0.3);
+  border-color: rgba(239, 83, 80, 0.25);
 }
 
 .card.negative .value {
-  color: var(--negative);
+  color: #ef5350;
 }
 
 /* Inputs */
@@ -232,7 +255,53 @@ tr:last-child td {
   border-bottom: none;
 }
 
-tr:hover {
+/* Table row styling for entrada/saída */
+table tbody tr {
+  transition: all 0.2s ease;
+  border-radius: 8px;
+}
+
+table tbody tr.entrada {
+  background-color: rgba(61, 186, 106, 0.08);
+  border: 1px solid rgba(61, 186, 106, 0.15);
+}
+
+table tbody tr.entrada:hover {
+  background-color: rgba(61, 186, 106, 0.12);
+  border-color: rgba(61, 186, 106, 0.25);
+}
+
+table tbody tr.saída {
+  background-color: rgba(239, 83, 80, 0.08);
+  border: 1px solid rgba(239, 83, 80, 0.15);
+}
+
+table tbody tr.saída:hover {
+  background-color: rgba(239, 83, 80, 0.12);
+  border-color: rgba(239, 83, 80, 0.25);
+}
+
+table tbody tr.positive {
+  background-color: rgba(61, 186, 106, 0.08);
+  border: 1px solid rgba(61, 186, 106, 0.15);
+}
+
+table tbody tr.positive:hover {
+  background-color: rgba(61, 186, 106, 0.12);
+  border-color: rgba(61, 186, 106, 0.25);
+}
+
+table tbody tr.negative {
+  background-color: rgba(239, 83, 80, 0.08);
+  border: 1px solid rgba(239, 83, 80, 0.15);
+}
+
+table tbody tr.negative:hover {
+  background-color: rgba(239, 83, 80, 0.12);
+  border-color: rgba(239, 83, 80, 0.25);
+}
+
+table tbody tr:not(.entrada):not(.saída):not(.positive):not(.negative):hover {
   background-color: rgba(61, 186, 106, 0.05);
 }
 

@@ -133,7 +133,7 @@ function Dashboard() {
                   <div
                     className="progress-bar"
                     style={{
-                      width: `${percentual}%`,
+                      transform: `scaleX(${percentual / 100})`,
                       backgroundColor: cores[index % cores.length]
                     }}
                   />
