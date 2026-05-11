@@ -105,30 +105,43 @@ def create_lancamento(
         "descricao": lancamento.descricao,
     }
 
+class LancamentoUpdate(BaseModel):
+    data: Optional[str] = None
+    valor: Optional[float] = None
+    categoria: Optional[str] = None
+    descricao: Optional[str] = None
+
 @app.put("/lancamentos/{id}")
 def update_lancamento(
     id: int,
-    data: Optional[str] = None,
-    valor: Optional[float] = None,
-    categoria: Optional[str] = None,
-    descricao: Optional[str] = None,
+    lancamento_data: LancamentoUpdate,
     db: Session = Depends(get_db)
 ):
     lancamento = db.query(Lancamento).filter(Lancamento.id == id).first()
     if not lancamento:
         raise HTTPException(status_code=404, detail="Lançamento não encontrado")
 
-    if data:
-        lancamento.data = datetime.fromisoformat(data).date()
-    if valor:
-        lancamento.valor = valor
-    if categoria:
-        lancamento.categoria = categoria
-    if descricao:
-        lancamento.descricao = descricao
+    if lancamento_data.data:
+        lancamento.data = datetime.fromisoformat(lancamento_data.data).date()
+    if lancamento_data.valor is not None:
+        lancamento.valor = lancamento_data.valor
+    if lancamento_data.categoria:
+        lancamento.categoria = lancamento_data.categoria
+    if lancamento_data.descricao:
+        lancamento.descricao = lancamento_data.descricao
 
     db.commit()
-    return {"id": lancamento.id, "categoria": lancamento.categoria}
+    db.refresh(lancamento)
+    return {
+        "id": lancamento.id,
+        "data": lancamento.data.isoformat(),
+        "valor": lancamento.valor,
+        "tipo": lancamento.tipo,
+        "categoria": lancamento.categoria,
+        "banco": lancamento.banco,
+        "descricao": lancamento.descricao,
+        "forma_pagamento": lancamento.forma_pagamento,
+    }
 
 @app.delete("/lancamentos/{id}")
 def delete_lancamento(id: int, db: Session = Depends(get_db)):
