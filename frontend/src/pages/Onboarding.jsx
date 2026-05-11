@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Icons from '../components/Icons'
 import './Onboarding.css'
 
 function Onboarding({ onComplete }) {
@@ -27,7 +28,7 @@ function Onboarding({ onComplete }) {
       {step === 0 && (
         <div className="onboarding-card">
           <div className="onboarding-hero">
-            <span className="hero-icon">💰</span>
+            <Icons.DollarSign size={64} style={{ color: 'var(--primary-light)' }} />
           </div>
           <h1>BE.RICH</h1>
           <p className="tagline">Organização Financeira = Liberdade</p>
@@ -44,7 +45,7 @@ function Onboarding({ onComplete }) {
       {step === 1 && (
         <div className="onboarding-card">
           <div className="onboarding-content">
-            <span className="feature-icon">✨</span>
+            <Icons.CheckCircle size={48} style={{ color: 'var(--primary-light)' }} />
             <h2>Bem-vindo!</h2>
             <p>Como você gostaria de ser chamado?</p>
             <input
@@ -65,25 +66,31 @@ function Onboarding({ onComplete }) {
       {step === 2 && (
         <div className="onboarding-card">
           <div className="onboarding-content">
-            <span className="feature-icon">🚀</span>
+            <Icons.TrendingUp size={48} style={{ color: 'var(--primary-light)' }} />
             <h2>Pronto para começar!</h2>
             <ul className="features">
               <li>
-                <span>📊</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icons.BarChart size={24} style={{ color: 'var(--primary-light)' }} />
+                </div>
                 <div>
                   <strong>Dashboard Inteligente</strong>
                   <p>Visualize seus gastos em tempo real</p>
                 </div>
               </li>
               <li>
-                <span>🤖</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icons.Settings size={24} style={{ color: 'var(--primary-light)' }} />
+                </div>
                 <div>
                   <strong>Categorização Automática</strong>
                   <p>IA aprende com seu padrão</p>
                 </div>
               </li>
               <li>
-                <span>📱</span>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icons.Smartphone size={24} style={{ color: 'var(--primary-light)' }} />
+                </div>
                 <div>
                   <strong>Mobile Otimizado</strong>
                   <p>Acesse de qualquer lugar</p>

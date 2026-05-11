@@ -1,5 +1,5 @@
 .dashboard {
-  margin-left: 240px;
+  margin-left: var(--sidebar-w, 220px);
 }
 
 .dashboard-header {

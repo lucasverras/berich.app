@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
+import Icons from '../components/Icons'
 import BankTabs from '../components/BankTabs'
 import AddModal from '../components/AddModal'
 import ImportModal from '../components/ImportModal'
@@ -103,7 +104,10 @@ function Mobile() {
       </div>
 
       <div className="mobile-actions">
-        <button onClick={() => setIsImportModalOpen(true)} className="secondary">📥 Importar CSV</button>
+        <button onClick={() => setIsImportModalOpen(true)} className="secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+          <Icons.ArrowRight size={18} style={{ transform: 'rotate(180deg)' }} />
+          Importar CSV
+        </button>
       </div>
 
       <button className="fab" onClick={() => setIsAddModalOpen(true)}>+</button>

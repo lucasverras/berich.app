@@ -1,16 +1,26 @@
 import React, { useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
-import MonthSelector from '../components/MonthSelector'
-import CategoryGrid from '../components/CategoryGrid'
+import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import './Conta.css'
 
+const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+const fmt = (v) => {
+  if (!v) return 'R$ 0,00'
+  return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
+
 function Conta() {
   const { bancoAtivo, mesAno, updateMesAno } = useContext(AppContext)
+  const navigate = useNavigate()
   const [resumo, setResumo] = useState({ entradas: 0, saidas: 0, saldo: 0 })
   const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [dropdownAberto, setDropdownAberto] = useState(false)
+  const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
 
   useEffect(() => {
     fetchResumo()
@@ -47,18 +57,17 @@ function Conta() {
           forma_pagamento: 'pix',
         }
       })
-      setLancamentos(response.data)
+      setLancamentos(response.data || [])
     } catch (error) {
       console.error('Erro ao buscar lançamentos:', error)
+      setLancamentos([])
     }
   }
 
-  const handleMesChange = (mes) => {
-    updateMesAno(mes, mesAno.ano)
-  }
-
-  const handleAnoChange = (ano) => {
-    updateMesAno(mesAno.mes, ano)
+  const handleMesChange = (novoMes) => {
+    setMesSelecionado(novoMes)
+    updateMesAno(novoMes + 1, mesAno.ano)
+    setDropdownAberto(false)
   }
 
   const handleAddLancamento = () => {
@@ -68,72 +77,102 @@ function Conta() {
   }
 
   return (
-    <div className="conta">
-      <div className="conta-content">
-        <div className="dashboard-header">
+    <div className="conta-layout">
+      <div className="conta-main">
+        {/* HEADER */}
+        <div className="header">
           <div className="header-left">
-            <h1>🏦 Conta</h1>
+            <h1>
+              <span className="header-icon">🏦</span>
+              Conta
+            </h1>
+            <p>Movimentação da conta — {MESES[mesSelecionado]} {mesAno.ano}</p>
+          </div>
+          <div className="month-picker" onClick={() => setDropdownAberto(!dropdownAberto)}>
+            <span>{MESES[mesSelecionado].slice(0, 3)} {mesAno.ano}</span>
+            <span className="chevron">⌄</span>
+            {dropdownAberto && (
+              <div className="month-dropdown">
+                {MESES.map((m, i) => (
+                  <button
+                    key={m}
+                    className={`month-option ${i === mesSelecionado ? 'selected' : ''}`}
+                    onClick={() => handleMesChange(i)}
+                  >
+                    {m.slice(0, 3)}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        <MonthSelector mesAno={mesAno} onMesChange={handleMesChange} onAnoChange={handleAnoChange} />
+        {/* STATS GRID */}
+        <div className="stats-grid">
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #4ade80, transparent)' }}></div>
+            <div className="stat-icon stat-icon-green">↑</div>
+            <div className="stat-label">Entradas</div>
+            <div className="stat-value positive">{fmt(resumo.entradas)}</div>
+            <div className="stat-sub">Receitas recebidas</div>
+          </div>
 
-        <div className="cards-container">
-          <div className="card positive">
-            <h3>Entradas</h3>
-            <div className="value positive">
-              R$ {resumo.entradas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </div>
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
+            <div className="stat-icon stat-icon-red">↓</div>
+            <div className="stat-label">Saídas</div>
+            <div className="stat-value negative">{fmt(resumo.saidas)}</div>
+            <div className="stat-sub">Débitos realizados</div>
           </div>
-          <div className="card negative">
-            <h3>Saídas</h3>
-            <div className="value negative">
-              R$ {resumo.saidas.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </div>
-          </div>
-          <div className="card">
-            <h3>Saldo</h3>
-            <div className={`value ${resumo.saldo >= 0 ? 'positive' : 'negative'}`}>
-              R$ {resumo.saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-            </div>
+
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: `radial-gradient(circle, ${resumo.saldo >= 0 ? '#3b82f6' : '#f87171'}, transparent)` }}></div>
+            <div className={`stat-icon ${resumo.saldo >= 0 ? 'stat-icon-blue' : 'stat-icon-red'}`}>$</div>
+            <div className="stat-label">Saldo</div>
+            <div className={`stat-value ${resumo.saldo >= 0 ? 'positive' : 'negative'}`}>{fmt(resumo.saldo)}</div>
+            <div className="stat-sub">Saldo disponível</div>
           </div>
         </div>
 
-        <CategoryGrid banco={bancoAtivo} mes={mesAno.mes} ano={mesAno.ano} />
-
-        <div className="lancamentos-container">
-          <div className="lancamentos-header">
-            <h3>Movimentações da Conta</h3>
+        {/* MOVIMENTAÇÕES */}
+        <div className="movimentacoes-section">
+          <div className="section-header">
+            <h2 className="section-title">Movimentações</h2>
+            <span className="section-count">{lancamentos.length} transações</span>
           </div>
 
           {lancamentos.length === 0 ? (
-            <p className="no-data">Sem movimentações para este período</p>
+            <div className="card empty-state">
+              <p>Sem movimentações para este período</p>
+            </div>
           ) : (
-            <table>
-              <thead>
-                <tr>
-                  <th>Data</th>
-                  <th>Descrição</th>
-                  <th>Categoria</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {lancamentos.map(l => (
-                  <tr key={l.id} className={l.tipo}>
-                    <td>{new Date(l.data).toLocaleDateString('pt-BR')}</td>
-                    <td>{l.descricao}</td>
-                    <td>{l.categoria || '—'}</td>
-                    <td>R$ {Math.abs(l.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="movimentacoes-list">
+              {lancamentos.map(l => (
+                <div key={l.id} className="movimentacao-item">
+                  <div className="mov-left">
+                    <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
+                      {l.tipo === 'entrada' ? '↓' : '↑'}
+                    </div>
+                    <div className="mov-info">
+                      <p className="mov-desc">{l.descricao}</p>
+                      <p className="mov-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                    </div>
+                  </div>
+                  <div className={`mov-value ${l.tipo}`}>
+                    {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
 
-      <button className="fab" onClick={() => setIsAddModalOpen(true)}>+</button>
+      {/* FAB */}
+      <button className="fab" onClick={() => setIsAddModalOpen(true)} title="Adicionar movimentação">
+        +
+      </button>
+
       <AddModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}

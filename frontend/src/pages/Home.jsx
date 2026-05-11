@@ -1,19 +1,64 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
-import MonthDropdown from '../components/MonthDropdown'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Doughnut } from 'react-chartjs-2'
+import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
 import './Home.css'
+
+ChartJS.register(ArcElement, Tooltip, Legend)
+
+const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+
+const CATEGORIA_CORES = {
+  'Alimentação': '#ef5350',
+  'Transporte': '#2196f3',
+  'Moradia': '#9c27b0',
+  'Saúde': '#00bcd4',
+  'Lazer': '#e91e63',
+  'Educação': '#ffc107',
+  'Outros': '#78909c'
+}
+
+const CORES_PIZZA = ['#ef5350', '#2196f3', '#9c27b0', '#00bcd4', '#e91e63', '#ffc107', '#78909c']
+
+const BANKS = [
+  { sigla: 'C6', nome: 'C6 Bank', tipo: 'Conta principal', saldo: 4250, bgColor: '#f59e0b' },
+  { sigla: 'VN', nome: 'VamoNessa SP', tipo: 'Conta corrente', saldo: 2100.50, bgColor: '#a78bfa' },
+  { sigla: 'IT', nome: 'Itaú', tipo: 'Conta corrente', saldo: 6400, bgColor: '#fb923c' },
+]
+
+const fmt = (v) => {
+  if (!v) return 'R$ 0'
+  return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
 
 function Home() {
   const { bancoAtivo, mesAno, updateMesAno } = useContext(AppContext)
-  const [resumo, setResumo] = useState({ entradas: 0, saidas: 0, saldo: 0, por_categoria: {} })
+  const navigate = useNavigate()
+  const [resumo, setResumo] = useState({
+    entradas: 5400,
+    saidas: 3200,
+    saldo: 8750,
+    por_categoria: {
+      'Alimentação': 890,
+      'Transporte': 340,
+      'Moradia': 1200,
+      'Saúde': 280,
+      'Lazer': 420,
+      'Educação': 70
+    }
+  })
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [dropdownAberto, setDropdownAberto] = useState(false)
+  const [mesSelecionado, setMesSelecionado] = useState(mesAno.mes - 1)
+  const [lancamentos, setLancamentos] = useState([])
 
   useEffect(() => {
     fetchResumo()
+    fetchLancamentos()
   }, [bancoAtivo, mesAno.mes, mesAno.ano])
 
   const fetchResumo = async () => {
@@ -25,197 +70,276 @@ function Home() {
           ano: mesAno.ano,
         }
       })
-      setResumo(response.data)
+      setResumo(response.data || { entradas: 0, saidas: 0, saldo: 0, por_categoria: {} })
     } catch (error) {
       console.error('Erro ao buscar resumo:', error)
     }
   }
 
-  const handleMesAnoChange = (novoMesAno) => {
-    updateMesAno(novoMesAno.mes, novoMesAno.ano)
+  const fetchLancamentos = async () => {
+    try {
+      const response = await axios.get('/api/lancamentos', {
+        params: {
+          banco: bancoAtivo,
+          mes: mesAno.mes,
+          ano: mesAno.ano,
+          limit: 5
+        }
+      })
+      setLancamentos(response.data || [])
+    } catch (error) {
+      console.error('Erro ao buscar lançamentos:', error)
+      setLancamentos([])
+    }
   }
 
-  // Preparar dados para o gráfico donut
-  const graficoData = Object.entries(resumo.por_categoria || {})
-    .map(([categoria, valor]) => ({ name: categoria, value: parseFloat(valor) }))
-    .filter(item => item.value > 0)
-    .sort((a, b) => b.value - a.value)
+  const getSaudacao = () => {
+    const h = new Date().getHours()
+    if (h >= 5 && h < 12) return 'Bom dia'
+    if (h >= 12 && h < 18) return 'Boa tarde'
+    return 'Boa noite'
+  }
 
-  // Paleta de verde escuro premium
-  const coresVerde = [
-    '#1b4d2a', // verde esmeralda escuro
-    '#2d6a3e', // verde musgo
-    '#3d8b52', // verde folha
-    '#4a9d63', // verde neon suave
-    '#5ab374', // verde claro
-    '#1f5e33', // verde quase preto
-    '#2a7a42', // verde acinzentado
-    '#36905a', // verde escuro
-    '#1a3d25', // verde muito escuro
-    '#3a7a4f', // verde principal
-  ]
+  const handleMesChange = (novoMes) => {
+    setMesSelecionado(novoMes)
+    updateMesAno(novoMes + 1, mesAno.ano)
+    setDropdownAberto(false)
+  }
 
-  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+  const chartData = resumo.por_categoria
+    ? Object.entries(resumo.por_categoria).map(([cat, val]) => ({
+        name: cat,
+        valor: parseFloat(val)
+      })).sort((a, b) => b.valor - a.valor)
+    : []
+
+  const totalGastos = chartData.reduce((sum, item) => sum + item.valor, 0)
+
+  const doughnutChartData = {
+    labels: chartData.map(e => e.name),
+    datasets: [
+      {
+        data: chartData.map(e => e.valor),
+        backgroundColor: chartData.map((e) => CATEGORIA_CORES[e.name] || '#78909c'),
+        borderWidth: 0,
+        hoverOffset: 10,
+      }
+    ]
+  }
+
+  const tooltipOpts = {
+    backgroundColor: '#071007',
+    borderColor: 'rgba(34,197,94,0.4)',
+    borderWidth: 1,
+    titleColor: '#f0fdf4',
+    bodyColor: '#86efac',
+    padding: 14,
+    cornerRadius: 10,
+    displayColors: true,
+    callbacks: {
+      title: (items) => items[0].label,
+      label: (ctx) => {
+        const val = ctx.parsed
+        const pct = ((val / totalGastos) * 100).toFixed(1)
+        const formatted = val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        return `  ${formatted}  ·  ${pct}%`
+      }
+    }
+  }
+
+  const doughnutOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: tooltipOpts,
+      legend: { display: false }
+    }
+  }
 
   return (
-    <div className="home">
-      <div className="home-header">
-        <div className="header-content">
-          <h1>💰 Início</h1>
-          <p className="header-subtitle">Visão geral das suas finanças</p>
-        </div>
-        <MonthDropdown mesAno={mesAno} onMesAnoChange={handleMesAnoChange} />
-      </div>
+    <div className="home-layout">
+      <div className="bg-glow bg-glow-1"></div>
+      <div className="bg-glow bg-glow-2"></div>
+      <div className="bg-glow bg-glow-3"></div>
 
-      {/* Cards principais */}
-      <div className="main-cards-grid">
-        <div className="card card-primary">
-          <div className="card-header">
-            <h3>Fatura do Mês</h3>
-            <span className="card-icon">💳</span>
+      <div className="home-main">
+        {/* HEADER */}
+        <div className="header">
+          <div className="header-left">
+            <h1>
+              <span className="header-icon">👋</span>
+              {getSaudacao()}, Lucas
+            </h1>
+            <p>Visão geral das suas finanças — {MESES[mesSelecionado]} {mesAno.ano}</p>
           </div>
-          <div className="card-value">R$ {Math.round(resumo.saidas).toLocaleString('pt-BR')}</div>
-          <p className="card-subtitle">{monthNames[mesAno.mes - 1]}</p>
-        </div>
-
-        <div className="card card-secondary">
-          <div className="card-header">
-            <h3>Saldo Atual</h3>
-            <span className="card-icon">💵</span>
-          </div>
-          <div className={`card-value ${resumo.saldo >= 0 ? 'positive' : 'negative'}`}>
-            R$ {Math.round(resumo.saldo).toLocaleString('pt-BR')}
-          </div>
-          <p className="card-subtitle">Movimentação total</p>
-        </div>
-
-        <div className="card card-accent">
-          <div className="card-header">
-            <h3>Entradas</h3>
-            <span className="card-icon">📈</span>
-          </div>
-          <div className="card-value positive">+R$ {Math.round(resumo.entradas).toLocaleString('pt-BR')}</div>
-          <p className="card-subtitle">Receitas do período</p>
-        </div>
-      </div>
-
-      {/* Gráfico donut */}
-      {graficoData.length > 0 && (
-        <div className="home-chart-section">
-          <div className="chart-wrapper">
-            <h2>Distribuição de Gastos</h2>
-            <div className="chart-container">
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                  <Pie
-                    data={graficoData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => {
-                      const total = graficoData.reduce((sum, item) => sum + item.value, 0)
-                      const percent = ((value / total) * 100).toFixed(0)
-                      return `${percent}%`
-                    }}
-                    outerRadius={120}
-                    innerRadius={60}
-                    fill="#8884d8"
-                    dataKey="value"
+          <div className="month-picker" onClick={() => setDropdownAberto(!dropdownAberto)}>
+            <span>{MESES[mesSelecionado]} {mesAno.ano}</span>
+            <span className="chevron">⌄</span>
+            {dropdownAberto && (
+              <div className="month-dropdown">
+                {MESES.map((m, i) => (
+                  <button
+                    key={m}
+                    className={`month-option ${i === mesSelecionado ? 'selected' : ''}`}
+                    onClick={() => handleMesChange(i)}
                   >
-                    {graficoData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={coresVerde[index % coresVerde.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      background: 'rgba(15, 23, 42, 0.95)',
-                      border: '1px solid rgba(61, 186, 106, 0.3)',
-                      borderRadius: '10px',
-                      color: '#fff',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                    formatter={(value) => `R$ ${Math.round(value).toLocaleString('pt-BR')}`}
-                  />
-                  <Legend
-                    wrapperStyle={{
-                      paddingTop: '20px',
-                      color: 'rgba(255, 255, 255, 0.7)',
-                    }}
-                    formatter={(value) => <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>{value}</span>}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="donut-center">
-                <div className="center-text">
-                  <span className="center-label">Total</span>
-                  <span className="center-value">R$ {Math.round(resumo.saidas).toLocaleString('pt-BR')}</span>
-                </div>
+                    {m.slice(0, 3)}
+                  </button>
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
-      )}
 
-      {/* Resumo por categoria */}
-      {Object.entries(resumo.por_categoria || {}).length > 0 && (
-        <div className="categories-summary">
-          <h2>Gastos por Categoria</h2>
-          <div className="categories-list">
-            {Object.entries(resumo.por_categoria || {})
-              .map(([categoria, valor]) => ({
-                categoria,
-                valor: parseFloat(valor),
-              }))
-              .filter(item => item.valor > 0)
-              .sort((a, b) => b.valor - a.valor)
-              .map((item, index) => {
-                const percentual = (item.valor / resumo.saidas) * 100
-                return (
-                  <div key={item.categoria} className="category-row">
-                    <div className="category-info">
-                      <div className="category-color" style={{
-                        backgroundColor: coresVerde[index % coresVerde.length]
-                      }}></div>
-                      <span className="category-name">{item.categoria}</span>
-                    </div>
-                    <div className="category-stats">
-                      <span className="category-percent">{percentual.toFixed(1)}%</span>
-                      <span className="category-value">R$ {Math.round(item.valor).toLocaleString('pt-BR')}</span>
-                    </div>
+        {/* STATS GRID */}
+        <div className="stats-grid">
+          <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/fatura')}>
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
+            <div className="stat-icon stat-icon-red">📊</div>
+            <div className="stat-label">Fatura do Mês</div>
+            <div className="stat-value negative">{fmt(Math.abs(resumo.saidas))}</div>
+            <div className="stat-sub">{MESES[mesSelecionado]} · Sem gastos registrados</div>
+          </div>
+
+          <div className="stat-card stat-card-glass stat-card-glow" onClick={() => navigate('/conta')}>
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
+            <div className="stat-icon stat-icon-blue">$</div>
+            <div className="stat-label">Saldo Atual</div>
+            <div className="stat-value">{fmt(resumo.saldo)}</div>
+            <div className="stat-sub">Movimentação total</div>
+          </div>
+
+          <div className="stat-card stat-card-glass stat-card-glow">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #22c55e, transparent)' }}></div>
+            <div className="stat-icon stat-icon-green">↑</div>
+            <div className="stat-label">Entradas</div>
+            <div className="stat-value positive">+{fmt(resumo.entradas)}</div>
+            <div className="stat-sub">Receitas do período</div>
+          </div>
+        </div>
+
+        {/* FATURA SECTION */}
+        <div className="fatura-section">
+          <h2 className="section-title">FATURA</h2>
+          <div className="fatura-indicators">
+            {lancamentos.length > 0 ? (
+              lancamentos.slice(0, 5).map((item, i) => (
+                <div
+                  key={i}
+                  className="fatura-indicator"
+                  style={{ opacity: i === 4 && lancamentos.length >= 5 ? 0.2 : 1 }}
+                  title={item.descricao || 'Lançamento'}
+                ></div>
+              ))
+            ) : (
+              <div className="fatura-empty">Sem lançamentos neste período</div>
+            )}
+          </div>
+        </div>
+
+        {/* BOTTOM ROW */}
+        <div className="bottom-grid">
+          {/* CONTAS CARD */}
+          <div className="card banks-card">
+            <div className="card-header">
+              <span className="card-title">Contas vinculadas</span>
+              <span className="card-badge">{BANKS.length} bancos</span>
+            </div>
+
+            {BANKS.map((bank) => (
+              <div key={bank.sigla} className="bank-item">
+                <div className="bank-left">
+                  <div className="bank-avatar" style={{ background: `linear-gradient(135deg, ${bank.bgColor}, ${bank.bgColor}dd)`, color: '#fff', border: `1px solid ${bank.bgColor}33` }}>
+                    {bank.sigla}
                   </div>
-                )
-              })}
+                  <div>
+                    <div className="bank-name">{bank.nome}</div>
+                    <div className="bank-type">{bank.tipo}</div>
+                  </div>
+                </div>
+                <div className="bank-value">{fmt(bank.saldo)}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* GASTOS POR CATEGORIA */}
+          <div className="card chart-card">
+            <p className="card-title">Gastos por categoria</p>
+            {chartData.length > 0 ? (
+              <>
+                <div className="chart-wrapper">
+                  <Doughnut data={doughnutChartData} options={doughnutOptions} />
+                  <div className="chart-center">
+                    <span className="chart-center-val">{fmt(totalGastos)}</span>
+                    <span className="chart-center-label">gasto no mês</span>
+                  </div>
+                </div>
+                <div className="chart-legend">
+                  {chartData.map((item) => {
+                    const pct = ((item.valor / totalGastos) * 100).toFixed(1)
+                    const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                    const catColor = CATEGORIA_CORES[item.name] || '#78909c'
+                    return (
+                      <div key={item.name} className="legend-item">
+                        <span className="legend-dot" style={{ background: catColor }}></span>
+                        <span className="legend-name">{item.name}</span>
+                        <span className="legend-info">{valorFmt} · {pct}%</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
+            ) : (
+              <div className="chart-empty">
+                <p>Sem dados para este período</p>
+              </div>
+            )}
           </div>
         </div>
-      )}
 
-      {/* Card de Investimentos Resumido */}
-      <Link to="/investimentos" className="investimentos-card-link">
-        <div className="investimentos-card-home card">
+        {/* INVESTIMENTOS CARD */}
+        <div className="investment-card">
           <div className="card-header">
-            <h3>Investimentos</h3>
-            <span className="card-icon">💼</span>
+            <span className="card-title">Investimentos</span>
+            <span className="card-badge">+4.19%</span>
           </div>
-          <div className="investments-grid">
-            <div className="investment-stat">
-              <span className="label">Total Investido</span>
-              <span className="value">R$ 16.000,00</span>
-            </div>
-            <div className="investment-stat">
-              <span className="label">Valor Atual</span>
-              <span className="value destaque">R$ 16.670,00</span>
-            </div>
-            <div className="investment-stat">
-              <span className="label">Resultado</span>
-              <span className="value positive">+R$ 670,00</span>
-            </div>
-          </div>
-          <button className="view-button">Ver Investimentos →</button>
-        </div>
-      </Link>
 
-      <button className="fab" onClick={() => setIsAddModalOpen(true)}>+</button>
-      <AddModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onLancamentoAdded={fetchResumo} />
+          <div className="investment-main">
+            <div className="inv-metric">
+              <div className="inv-metric-label">Investido</div>
+              <div className="inv-metric-value">R$ 16.000</div>
+            </div>
+            <div className="inv-metric">
+              <div className="inv-metric-label">Valor atual</div>
+              <div className="inv-metric-value green">R$ 16.670</div>
+            </div>
+            <div className="inv-metric">
+              <div className="inv-metric-label">Resultado</div>
+              <div className="inv-metric-value green">+R$ 670</div>
+            </div>
+          </div>
+
+          <div className="inv-cta" onClick={() => navigate('/investimentos')}>
+            Ver investimentos →
+          </div>
+        </div>
+      </div>
+
+      {/* FAB */}
+      <button className="fab" onClick={() => setIsAddModalOpen(true)} title="Adicionar nova movimentação">
+        +
+      </button>
+
+      {/* AddModal */}
+      <AddModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onLancamentoAdded={() => {
+          fetchResumo()
+          fetchLancamentos()
+          setIsAddModalOpen(false)
+        }}
+      />
     </div>
   )
 }

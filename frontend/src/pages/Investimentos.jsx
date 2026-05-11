@@ -1,10 +1,25 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import './Investimentos.css'
 
 function Investimentos() {
   const navigate = useNavigate()
+
+  const getIconForCategoria = (categoria) => {
+    const iconMap = {
+      'Criptomoedas': Icons.TrendingUp,
+      'Renda Fixa': Icons.BarChart,
+      'Títulos Públicos': Icons.Bank,
+      'Poupança': Icons.DollarSign,
+      'Fundos': Icons.PieChart,
+      'Ações': Icons.TrendingUp,
+      'Conta Corrente': Icons.CreditCard
+    }
+    return iconMap[categoria] || Icons.Briefcase
+  }
+
   // Dados fictícios de investimentos
   const investimentos = [
     {
@@ -120,7 +135,10 @@ function Investimentos() {
       {/* Header */}
       <div className="investimentos-header">
         <div className="header-content">
-          <h1>💼 Investimentos</h1>
+          <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Icons.Briefcase size={32} style={{ color: 'var(--primary-light)' }} />
+            Investimentos
+          </h1>
           <p className="header-subtitle">Acompanhe seus ativos, aplicações e evolução patrimonial</p>
         </div>
       </div>
@@ -140,27 +158,32 @@ function Investimentos() {
       <div className="investimentos-section">
         <h2>Meus Investimentos</h2>
         <div className="investimentos-list">
-          {investimentos.map((investimento) => (
-            <button
-              key={investimento.id}
-              className="investimento-card"
-              onClick={() => handleInvestimentoClick(investimento)}
-            >
-              <div className="header-left">
-                <span className="icone">{investimento.icone}</span>
-                <div className="info">
-                  <h3>{investimento.nome}</h3>
-                  <span className="categoria">{investimento.categoria}</span>
+          {investimentos.map((investimento) => {
+            const IconComponent = getIconForCategoria(investimento.categoria)
+            return (
+              <button
+                key={investimento.id}
+                className="investimento-card"
+                onClick={() => handleInvestimentoClick(investimento)}
+              >
+                <div className="header-left">
+                  <div className="icone" style={{ color: 'var(--primary-light)' }}>
+                    <IconComponent size={24} />
+                  </div>
+                  <div className="info">
+                    <h3>{investimento.nome}</h3>
+                    <span className="categoria">{investimento.categoria}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="header-right">
-                <div className="valor-atual">
-                  R$ {investimento.investido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                <div className="header-right">
+                  <div className="valor-atual">
+                    R$ {investimento.investido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <Icons.ArrowRight size={20} style={{ color: 'var(--text-secondary)' }} />
                 </div>
-                <span className="toggle-icon">→</span>
-              </div>
-            </button>
-          ))}
+              </button>
+            )
+          })}
         </div>
       </div>
 

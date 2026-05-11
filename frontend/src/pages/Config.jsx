@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import Icons from '../components/Icons'
 import './Config.css'
 
 function Config() {
@@ -107,7 +108,10 @@ function Config() {
 
   return (
     <div className="config-page">
-      <h1>Configurações</h1>
+      <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <Icons.Settings size={32} style={{ color: 'var(--primary-light)' }} />
+        Configurações
+      </h1>
 
       <div className="config-tabs">
         <button className={`tab ${tabs === 'categorias' ? 'active' : ''}`} onClick={() => setTabs('categorias')}>
@@ -147,7 +151,9 @@ function Config() {
             {categorias.map(categoria => (
               <div key={categoria.id} className="list-item">
                 <span>{categoria.nome}</span>
-                <button onClick={() => handleDeleteCategoria(categoria.id)} className="delete-btn">🗑️</button>
+                <button onClick={() => handleDeleteCategoria(categoria.id)} className="delete-btn" title="Deletar">
+                  <Icons.AlertCircle size={18} />
+                </button>
               </div>
             ))}
           </div>
@@ -194,8 +200,12 @@ function Config() {
                   <div className="regra-palavra">{regra.palavra_chave}</div>
                   <div className="regra-categoria">→ {regra.categoria}</div>
                 </div>
-                <div className="regra-prioridade">{regra.prioridade === 'manual' ? '👤' : '🤖'}</div>
-                <button onClick={() => handleDeleteRegra(regra.id)} className="delete-btn">🗑️</button>
+                <div className="regra-prioridade" title={regra.prioridade === 'manual' ? 'Manual' : 'Automático'}>
+                  {regra.prioridade === 'manual' ? <Icons.Eye size={18} /> : <Icons.Settings size={18} />}
+                </div>
+                <button onClick={() => handleDeleteRegra(regra.id)} className="delete-btn" title="Deletar">
+                  <Icons.AlertCircle size={18} />
+                </button>
               </div>
             ))}
           </div>
@@ -207,7 +217,10 @@ function Config() {
           <h3>Backup e Restauração</h3>
 
           <div className="backup-actions">
-            <button onClick={handleExportBackup}>📥 Exportar Backup</button>
+            <button onClick={handleExportBackup} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Icons.ArrowRight size={18} style={{ transform: 'rotate(180deg)' }} />
+              Exportar Backup
+            </button>
             <div className="import-section">
               <input
                 type="file"
@@ -216,7 +229,10 @@ function Config() {
                 onChange={handleImportBackup}
                 style={{ display: 'none' }}
               />
-              <label htmlFor="backup-input">📤 Importar Backup</label>
+              <label htmlFor="backup-input" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Icons.ArrowRight size={18} />
+                Importar Backup
+              </label>
             </div>
           </div>
         </div>

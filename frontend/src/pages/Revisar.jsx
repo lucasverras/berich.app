@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import Icons from '../components/Icons'
 import BankTabs from '../components/BankTabs'
 import './Revisar.css'
 
@@ -91,12 +92,16 @@ function Revisar() {
 
   return (
     <div className="revisar-page">
-      <h1>Revisar Lançamentos</h1>
+      <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <Icons.Eye size={32} style={{ color: 'var(--primary-light)' }} />
+        Revisar Lançamentos
+      </h1>
       <BankTabs />
 
       {pendentes.length === 0 ? (
-        <div className="card empty-state">
-          <p>✅ Nenhum lançamento pendente</p>
+        <div className="card empty-state" style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'center', padding: '32px' }}>
+          <Icons.CheckCircle size={24} style={{ color: 'var(--primary-light)' }} />
+          <p>Nenhum lançamento pendente</p>
         </div>
       ) : (
         <div className="pendentes-list">

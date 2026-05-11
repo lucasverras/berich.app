@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
+import Icons from '../components/Icons'
 import MonthSelector from '../components/MonthSelector'
 import CategoryGrid from '../components/CategoryGrid'
 import AddModal from '../components/AddModal'
@@ -104,7 +105,10 @@ function Fatura() {
       <div className="fatura-content">
         <div className="dashboard-header">
           <div className="header-left">
-            <h1>💳 Fatura</h1>
+            <h1 style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Icons.CreditCard size={32} style={{ color: 'var(--primary-light)' }} />
+              Fatura
+            </h1>
           </div>
         </div>
 
