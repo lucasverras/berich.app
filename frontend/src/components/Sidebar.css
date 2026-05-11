@@ -146,14 +146,15 @@
 
 .sidebar.collapsed .nav-item {
   justify-content: center;
-  padding: 12px;
+  padding: 8px;
   gap: 0;
   min-height: 48px;
 }
 
 .sidebar.collapsed .nav-icon {
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
+  font-size: 24px;
   margin: 0;
 }
 
@@ -182,46 +183,13 @@
 }
 
 .nav-icon {
+  font-size: 20px;
   flex-shrink: 0;
-  color: rgba(120, 180, 120, 0.55);
-  transition: color 0.2s ease;
-  width: 18px;
-  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.nav-item svg {
-  flex-shrink: 0;
-  color: rgba(120, 180, 120, 0.55);
-  transition: color 0.2s ease;
-}
-
-/* Colorize nav icons by section */
-.nav-item:nth-child(1) .nav-icon,
-.nav-item:nth-child(1) svg { color: #4ade80; }                    /* Home - Green */
-.nav-item:nth-child(2) .nav-icon,
-.nav-item:nth-child(2) svg { color: #2196f3; }                    /* Fatura - Blue */
-.nav-item:nth-child(3) .nav-icon,
-.nav-item:nth-child(3) svg { color: #00bcd4; }                    /* Conta - Cyan */
-.nav-item:nth-child(4) .nav-icon,
-.nav-item:nth-child(4) svg { color: #9c27b0; }                    /* Investimentos - Purple */
-
-.nav-section:last-of-type .nav-item:nth-child(1) .nav-icon,
-.nav-section:last-of-type .nav-item:nth-child(1) svg { color: #e91e63; }  /* Revisar - Pink */
-.nav-section:last-of-type .nav-item:nth-child(2) .nav-icon,
-.nav-section:last-of-type .nav-item:nth-child(2) svg { color: #78909c; } /* Config - Gray */
-
-.nav-item:hover .nav-icon,
-.nav-item:hover svg {
-  color: currentColor;
-  opacity: 1;
-}
-
-.nav-item.active .nav-icon,
-.nav-item.active svg {
-  color: #4ade80;
+  width: 24px;
+  height: 24px;
 }
 
 .nav-item:hover {
@@ -265,12 +233,6 @@
 
 .sidebar.collapsed .nav-item .counter {
   display: none;
-}
-
-.sidebar.collapsed .nav-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .sidebar-bottom {

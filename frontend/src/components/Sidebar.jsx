@@ -61,19 +61,19 @@ function Sidebar() {
           <div className="nav-label">Principal</div>
 
           <Link to="/home" className={`nav-item ${isActive('/home') ? 'active' : ''}`} data-label="Início">
-            <Icons.Home size={18} className="nav-icon" />
+            <div className="nav-icon">🏠</div>
             <span className="nav-label">Início</span>
           </Link>
           <Link to="/fatura" className={`nav-item ${isActive('/fatura') ? 'active' : ''}`} data-label="Fatura">
-            <Icons.CreditCard size={18} className="nav-icon" />
+            <div className="nav-icon">💳</div>
             <span className="nav-label">Fatura</span>
           </Link>
           <Link to="/conta" className={`nav-item ${isActive('/conta') ? 'active' : ''}`} data-label="Conta">
-            <Icons.Wallet size={18} className="nav-icon" />
+            <div className="nav-icon">💰</div>
             <span className="nav-label">Conta</span>
           </Link>
           <Link to="/investimentos" className={`nav-item ${isActive('/investimentos') ? 'active' : ''}`} data-label="Investimentos">
-            <Icons.TrendingUp size={18} className="nav-icon" />
+            <div className="nav-icon">📈</div>
             <span className="nav-label">Investimentos</span>
           </Link>
 
@@ -81,11 +81,11 @@ function Sidebar() {
           <div className="nav-label">Outros</div>
 
           <Link to="/revisar" className={`nav-item ${isActive('/revisar') ? 'active' : ''}`} data-label="Revisar">
-            <Icons.Eye size={18} className="nav-icon" />
+            <div className="nav-icon">👁️</div>
             <span className="nav-label">Revisar {pendentes > 0 && <span className="counter">{pendentes}</span>}</span>
           </Link>
           <Link to="/config" className={`nav-item ${isActive('/config') ? 'active' : ''}`} data-label="Configurações">
-            <Icons.Settings size={18} className="nav-icon" />
+            <div className="nav-icon">⚙️</div>
             <span className="nav-label">Configurações</span>
           </Link>
         </div>
