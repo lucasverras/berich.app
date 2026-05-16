@@ -606,6 +606,39 @@
   }
 }
 
+/* 2-COLUMN LAYOUT */
+.fatura-content {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 28px;
+  margin-top: 32px;
+}
+
+@media (max-width: 1200px) {
+  .fatura-content {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* LEFT COLUMN - Sticky Fatura Card */
+.fatura-column-left {
+  position: sticky;
+  top: 0;
+  height: fit-content;
+}
+
+@media (max-width: 1200px) {
+  .fatura-column-left {
+    position: static;
+  }
+}
+
+/* RIGHT COLUMN - Transações List */
+.fatura-column-right {
+  min-height: 100vh;
+}
+
 /* FATURA CARD */
 .fatura-card {
   position: relative;
