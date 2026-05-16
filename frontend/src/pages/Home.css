@@ -1748,6 +1748,12 @@
   gap: 16px;
 }
 
+/* Alinhar os dois últimos lançamentos - mesmo card superior e inferior */
+.desktop-col:first-child .card:last-child,
+.desktop-col:last-child .card:last-child {
+  min-height: 350px;
+}
+
 .chart-card-full {
   width: 100%;
   margin-bottom: 16px;
@@ -1790,15 +1796,23 @@
   border-bottom: 1px solid var(--border);
   font-weight: 600;
   font-size: 13px;
+  height: 24px;
 }
 
 .badge {
-  background: rgba(34, 197, 94, 0.12);
+  background: rgba(34, 197, 94, 0.15);
   color: #86efac;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 32px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  letter-spacing: 0.3px;
 }
 
 .lancamento-row {
