@@ -1,0 +1,87 @@
+.closing-days-config {
+  padding: 24px;
+  background: hsl(var(--card));
+  border-radius: 12px;
+  border: 1px solid hsl(var(--border));
+}
+
+.config-header {
+  margin-bottom: 24px;
+}
+
+.config-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+  margin: 0 0 8px 0;
+}
+
+.config-header p {
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+  margin: 0;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.day-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.day-input-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+.day-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.day-input {
+  width: 60px;
+  padding: 8px 12px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.day-input:focus {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+}
+
+.day-label {
+  font-size: 12px;
+  color: hsl(var(--muted-foreground));
+  white-space: nowrap;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .days-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .closing-days-config {
+    padding: 16px;
+  }
+
+  .day-input-wrapper {
+    flex-wrap: wrap;
+  }
+}

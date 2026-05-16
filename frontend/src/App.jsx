@@ -15,6 +15,7 @@ import Config from './pages/Config'
 import Relatorios from './pages/Relatorios'
 import Historico from './pages/Historico'
 import Onboarding from './pages/Onboarding'
+import { ShadcnDemo } from './components/ShadcnDemo'
 import './App.css'
 
 function AppContent() {
@@ -42,7 +43,7 @@ function AppContent() {
   }
 
   return (
-    <div className={`app ${isMobile ? 'mobile' : 'desktop'}`}>
+    <div className={`dark app ${isMobile ? 'mobile' : 'desktop'}`}>
       {!isMobile && <Sidebar />}
       <main className="main-content">
         <Routes>

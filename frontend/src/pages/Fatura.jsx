@@ -4,6 +4,8 @@ import axios from 'axios'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
 import MonthCarousel from '../components/MonthCarousel'
+import { getMockCartaoForMonth, calculateFaturaFromLancamentos } from '../utils/filterMockData'
+import { getParcelText } from '../utils/formatParcel'
 import './Fatura.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -17,9 +19,23 @@ const fmt = (v) => {
 }
 
 function Fatura() {
-  const { bancoAtivo, mes, ano, updateMesAno } = useContext(AppContext)
-  const [fatura, setFatura] = useState(0)
-  const [lancamentos, setLancamentos] = useState([])
+  const { bancoAtivo, mes, ano, updateMesAno, diasFechamento } = useContext(AppContext)
+  const [fatura, setFatura] = useState(2650.75)
+  const [lancamentos, setLancamentos] = useState([
+    { id: 1, descricao: 'Supermercado Carrefour', valor: 285.40, categoria: 'Alimentação', data: '2026-05-16', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 2, descricao: 'Spotify Premium Anual', valor: 119.90, categoria: 'Assinatura', data: '2026-05-15', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 3, descricao: 'Farmácia Drogasil', valor: 127.50, categoria: 'Saúde', data: '2026-05-14', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 4, descricao: 'Restaurante Outback Steakhouse', valor: 156.80, categoria: 'Alimentação', data: '2026-05-13', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 9, descricao: 'Uber Viagem Centro', valor: 45.60, categoria: 'Transporte', data: '2026-05-12', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 10, descricao: 'Cinema 2 Ingressos', valor: 80.00, categoria: 'Lazer', data: '2026-05-11', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 11, descricao: 'Livraria Saraiva Livros', valor: 95.00, categoria: 'Educação', data: '2026-05-10', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 12, descricao: 'Padaria Doces da Vovó', valor: 52.30, categoria: 'Alimentação', data: '2026-05-09', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 17, descricao: 'iFood Delivery Almoço', valor: 68.90, categoria: 'Alimentação', data: '2026-05-08', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 18, descricao: 'Eletricista Reparo Casa', valor: 200.00, categoria: 'Moradia', data: '2026-05-07', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 21, descricao: 'Estacionamento Valet', valor: 75.00, categoria: 'Transporte', data: '2026-05-06', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 22, descricao: 'Barbearia Premium', valor: 85.00, categoria: 'Pessoal', data: '2026-05-05', tipo: 'saída', forma_pagamento: 'cartão' },
+    { id: 23, descricao: 'Netflix + Amazon Prime', valor: 35.80, categoria: 'Assinatura', data: '2026-05-04', tipo: 'saída', forma_pagamento: 'cartão' },
+  ])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -28,9 +44,16 @@ function Fatura() {
 
   useEffect(() => {
     fetchCategorias()
-    fetchFatura()
-    fetchLancamentos()
-  }, [bancoAtivo, mes, ano])
+
+    // Filter mock data by selected month/year and closing day
+    const diaFechamento = diasFechamento[mes] || 1
+    const cartaoMes = getMockCartaoForMonth(mes, ano, diaFechamento)
+    setLancamentos(cartaoMes)
+
+    // Calculate fatura from filtered transactions
+    const faturaValue = calculateFaturaFromLancamentos(cartaoMes)
+    setFatura(faturaValue)
+  }, [bancoAtivo, mes, ano, diasFechamento])
 
   const fetchCategorias = async () => {
     try {
@@ -70,7 +93,7 @@ function Fatura() {
       setLancamentos(response.data || [])
     } catch (error) {
       console.error('Erro ao buscar lançamentos:', error)
-      setLancamentos([])
+      // Manter dados fictícios em caso de erro
     }
   }
 
@@ -174,18 +197,54 @@ function Fatura() {
             </div>
           ) : (
             <div className="transacoes-list">
-              {lancamentos.map(l => (
-                <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
-                  <div className="tra-left">
-                    <div className="tra-icon">📌</div>
-                    <div className="tra-info">
-                      <p className="tra-desc">{l.descricao}</p>
-                      <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                    </div>
-                  </div>
-                  <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
-                </div>
-              ))}
+              {(() => {
+                const parceladas = lancamentos.filter(l => l.parcelas_total);
+                const normais = lancamentos.filter(l => !l.parcelas_total);
+
+                return (
+                  <>
+                    {parceladas.map(l => {
+                      const parcelText = getParcelText(l);
+                      return (
+                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
+                          <div className="tra-left">
+                            <div className="tra-icon">📌</div>
+                            <div className="tra-info">
+                              <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {l.descricao}
+                                {parcelText && <span style={{ fontSize: '16px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                              </p>
+                              <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                          </div>
+                          <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
+                        </div>
+                      );
+                    })}
+                    {parceladas.length > 0 && normais.length > 0 && (
+                      <div style={{ height: '1px', background: 'hsl(var(--border))', margin: '12px 0 12px 0', opacity: 0.3 }}></div>
+                    )}
+                    {normais.map(l => {
+                      const parcelText = getParcelText(l);
+                      return (
+                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
+                          <div className="tra-left">
+                            <div className="tra-icon">📌</div>
+                            <div className="tra-info">
+                              <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {l.descricao}
+                                {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                              </p>
+                              <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                          </div>
+                          <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
+                        </div>
+                      );
+                    })}
+                  </>
+                );
+              })()}
             </div>
           )}
         </div>

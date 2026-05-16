@@ -1,0 +1,177 @@
+/* Modal Theme - Minimalista e profissional para shadcn Dialog */
+
+/* Overlay */
+div[role="presentation"] {
+  opacity: 1 !important;
+}
+
+div[role="presentation"] > div {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Dialog Content */
+[data-radix-dialog-content] {
+  background: hsl(var(--card)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 12px !important;
+  gap: 0 !important;
+}
+
+/* Responsive sizing */
+[data-radix-dialog-content] {
+  width: auto !important;
+  max-width: 384px !important;
+}
+
+@media (max-width: 640px) {
+  [data-radix-dialog-content] {
+    max-width: 90vw !important;
+    width: 90vw !important;
+    margin: 16px !important;
+  }
+}
+
+/* Dialog Header */
+[data-radix-dialog-content] [role="heading"],
+[data-radix-dialog-title] {
+  color: hsl(var(--foreground)) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Dialog description */
+[data-radix-dialog-content] p:first-of-type {
+  font-size: 0.75rem !important;
+  color: hsl(var(--muted-foreground)) !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0 !important;
+}
+
+/* Form Elements */
+[data-radix-dialog-content] input,
+[data-radix-dialog-content] textarea,
+[data-radix-dialog-content] select {
+  background: hsl(var(--input)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-radius: 6px !important;
+  font-size: 0.875rem !important;
+}
+
+[data-radix-dialog-content] input::placeholder,
+[data-radix-dialog-content] textarea::placeholder {
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+[data-radix-dialog-content] input:focus,
+[data-radix-dialog-content] textarea:focus,
+[data-radix-dialog-content] select:focus {
+  border-color: hsl(var(--ring)) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.1) !important;
+}
+
+/* Labels */
+[data-radix-dialog-content] label {
+  color: hsl(var(--foreground)) !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  display: block !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Checkboxes */
+[data-radix-dialog-content] input[type="checkbox"] {
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 3px !important;
+  cursor: pointer !important;
+  accent-color: hsl(var(--ring)) !important;
+}
+
+[data-radix-dialog-content] input[type="checkbox"]:checked {
+  background: hsl(var(--ring)) !important;
+  border-color: hsl(var(--ring)) !important;
+}
+
+/* Checkbox wrapper */
+[data-radix-dialog-content] .flex.items-center.gap-2 label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  margin: 0 !important;
+  font-weight: normal !important;
+}
+
+/* Buttons */
+[data-radix-dialog-content] button {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+  height: auto !important;
+}
+
+/* Button sizes - compacto */
+[data-radix-dialog-content] button[type="submit"],
+[data-radix-dialog-content] button:not([class*="secondary"]):not([aria-label="Close"]) {
+  padding: 0.5rem 1rem !important;
+  height: auto !important;
+  min-height: 32px !important;
+}
+
+/* Buttons secundários */
+[data-radix-dialog-content] button[class*="secondary"],
+[data-radix-dialog-content] button[variant="outline"] {
+  background: transparent !important;
+  border: 1px solid hsl(var(--border)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+[data-radix-dialog-content] button[class*="secondary"]:hover,
+[data-radix-dialog-content] button[variant="outline"]:hover {
+  background: hsl(var(--accent)) !important;
+}
+
+/* Hide close button via native selector */
+[data-radix-dialog-content] button[aria-label="Close"] {
+  display: flex !important;
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  color: hsl(var(--muted-foreground)) !important;
+  cursor: pointer !important;
+  opacity: 0.7 !important;
+  transition: opacity 0.2s !important;
+}
+
+[data-radix-dialog-content] button[aria-label="Close"]:hover {
+  opacity: 1 !important;
+}
+
+/* Text de alerta/erro */
+[data-radix-dialog-content] .text-destructive,
+[data-radix-dialog-content] .error-message {
+  color: hsl(0 84% 60%) !important;
+  font-size: 0.875rem !important;
+}
+
+/* Espaçamento de form groups */
+[data-radix-dialog-content] .space-y-2 {
+  margin-bottom: 1rem !important;
+}
+
+/* Sem padding duplo */
+[data-radix-dialog-content] {
+  padding: 24px !important;
+}

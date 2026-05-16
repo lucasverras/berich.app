@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import '../styles/ConfirmDeleteModal.css'
+import { AppDialog } from './ui/AppDialog'
+import { Button } from './ui/button'
 
 function ConfirmDeleteModal({ isOpen, lancamento, onClose, onDeleted }) {
   const [isDeleting, setIsDeleting] = React.useState(false)
@@ -26,61 +27,65 @@ function ConfirmDeleteModal({ isOpen, lancamento, onClose, onDeleted }) {
   if (!isOpen || !lancamento) return null
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content confirm-delete-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Confirmar exclusão</h2>
-          <button className="modal-close" onClick={onClose}>✕</button>
-        </div>
-
-        <div className="modal-body">
-          <div className="delete-warning">
-            <span className="warning-icon">⚠️</span>
-            <p>Tem certeza que deseja deletar este lançamento?</p>
-          </div>
-
-          <div className="delete-preview">
-            <div className="preview-row">
-              <span className="preview-label">Descrição</span>
-              <span className="preview-value">{lancamento.descricao}</span>
-            </div>
-            <div className="preview-row">
-              <span className="preview-label">Valor</span>
-              <span className="preview-value">{lancamento.valor?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-            </div>
-            <div className="preview-row">
-              <span className="preview-label">Data</span>
-              <span className="preview-value">{new Date(lancamento.data).toLocaleDateString('pt-BR')}</span>
-            </div>
-          </div>
-
-          {error && (
-            <div className="error-message">
-              {error}
-            </div>
-          )}
-
-          <p className="delete-notice">Esta ação não pode ser desfeita.</p>
-        </div>
-
-        <div className="modal-footer">
-          <button
-            className="btn btn-secondary"
+    <AppDialog
+      open={isOpen}
+      onOpenChange={onClose}
+      title="Deletar Lançamento"
+      description="Esta ação não pode ser desfeita."
+      size="sm"
+      footer={
+        <div className="flex gap-2 w-full">
+          <Button
+            type="button"
+            variant="outline"
             onClick={onClose}
             disabled={isDeleting}
+            className="h-8 text-xs flex-1"
           >
             Cancelar
-          </button>
-          <button
-            className="btn btn-danger"
+          </Button>
+          <Button
+            type="button"
             onClick={handleDelete}
             disabled={isDeleting}
+            className="h-8 text-xs bg-red-600 hover:bg-red-700 text-white"
           >
             {isDeleting ? 'Deletando...' : 'Deletar'}
-          </button>
+          </Button>
         </div>
+      }
+    >
+      <div className="space-y-4">
+        <p className="text-sm text-muted-foreground">
+          Tem certeza que deseja deletar este lançamento?
+        </p>
+
+        <div className="space-y-2 bg-accent/30 p-3 rounded-lg">
+          <div className="flex justify-between items-start text-sm">
+            <span className="text-muted-foreground">Descrição:</span>
+            <span className="text-foreground font-medium">{lancamento.descricao}</span>
+          </div>
+          <div className="flex justify-between items-start text-sm">
+            <span className="text-muted-foreground">Valor:</span>
+            <span className="text-foreground font-medium">
+              {lancamento.valor?.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            </span>
+          </div>
+          <div className="flex justify-between items-start text-sm">
+            <span className="text-muted-foreground">Data:</span>
+            <span className="text-foreground font-medium">
+              {new Date(lancamento.data).toLocaleDateString('pt-BR')}
+            </span>
+          </div>
+        </div>
+
+        {error && (
+          <div className="text-xs text-red-600 bg-red-50 p-2 rounded">
+            {error}
+          </div>
+        )}
       </div>
-    </div>
+    </AppDialog>
   )
 }
 

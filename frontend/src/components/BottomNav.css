@@ -28,8 +28,8 @@
 
 /* Navigation Buttons */
 .nav-btn {
-  width: 56px;
-  height: 56px;
+  width: 60px;
+  height: 60px;
   border-radius: 16px;
   background: transparent;
   border: none;
@@ -47,8 +47,8 @@
 }
 
 .nav-btn svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   transition: all 0.25s ease;
 }
 

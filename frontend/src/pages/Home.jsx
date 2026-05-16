@@ -14,6 +14,8 @@ import MonthCarousel from '../components/MonthCarousel'
 import OutrosBancos from '../components/OutrosBancos'
 import { UtensilsCrossed, Car, Home as HomeIcon, Heart, Gamepad2, BookOpen, ShoppingBag, Film, Plane, Zap } from 'lucide-react'
 import logo from '../assets/logo/logo.svg'
+import { getMockCartaoForMonth, getMockContaForMonth, calculateResumoFromLancamentos, calculateFaturaFromLancamentos } from '../utils/filterMockData'
+import { getParcelText } from '../utils/formatParcel'
 import './Home.css'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -47,18 +49,47 @@ const fmt = (v) => {
 }
 
 function Home() {
-  const { bancoAtivo, mes, ano, updateMesAno, isAddModalOpen, setIsAddModalOpen } = useContext(AppContext)
+  const { bancoAtivo, mes, ano, updateMesAno, isAddModalOpen, setIsAddModalOpen, diasFechamento } = useContext(AppContext)
   const navigate = useNavigate()
   const [resumo, setResumo] = useState({
-    entradas: 0,
-    saidas: 0,
-    saldo: 0,
-    por_categoria: {}
+    entradas: 8500,
+    saidas: 3240.50,
+    saldo: 5259.50,
+    por_categoria: {
+      'Alimentação': 850,
+      'Transporte': 320,
+      'Moradia': 1200,
+      'Saúde': 450,
+      'Lazer': 320,
+      'Educação': 100
+    }
   })
-  const [fatura, setFatura] = useState(0)
-  const [saldoAtual, setSaldoAtual] = useState(0)
-  const [lancamentosCartao, setLancamentosCartao] = useState([])
-  const [lancamentosConta, setLancamentosConta] = useState([])
+  const [fatura, setFatura] = useState(2450.75)
+  const [saldoAtual, setSaldoAtual] = useState(12450.00)
+  const [lancamentosCartao, setLancamentosCartao] = useState([
+    { id: 1, descricao: 'Supermercado Carrefour', valor: 285.40, categoria: 'Alimentação', data: '2026-05-16', tipo: 'saída' },
+    { id: 2, descricao: 'Spotify Premium Anual', valor: 119.90, categoria: 'Assinatura', data: '2026-05-15', tipo: 'saída' },
+    { id: 3, descricao: 'Farmácia Drogasil', valor: 127.50, categoria: 'Saúde', data: '2026-05-14', tipo: 'saída' },
+    { id: 4, descricao: 'Restaurante Outback Steakhouse', valor: 156.80, categoria: 'Alimentação', data: '2026-05-13', tipo: 'saída' },
+    { id: 9, descricao: 'Uber Viagem', valor: 45.60, categoria: 'Transporte', data: '2026-05-12', tipo: 'saída' },
+    { id: 10, descricao: 'Cinema 2 Ingressos', valor: 80.00, categoria: 'Lazer', data: '2026-05-11', tipo: 'saída' },
+    { id: 11, descricao: 'Livraria Saraiva Livros', valor: 95.00, categoria: 'Educação', data: '2026-05-10', tipo: 'saída' },
+    { id: 12, descricao: 'Padaria Doces da Vovó', valor: 52.30, categoria: 'Alimentação', data: '2026-05-09', tipo: 'saída' },
+    { id: 17, descricao: 'iFood Delivery', valor: 68.90, categoria: 'Alimentação', data: '2026-05-08', tipo: 'saída' },
+    { id: 18, descricao: 'Eletricista Serviço Casa', valor: 200.00, categoria: 'Moradia', data: '2026-05-07', tipo: 'saída' },
+  ])
+  const [lancamentosConta, setLancamentosConta] = useState([
+    { id: 5, descricao: 'Salário Empresa XYZ', valor: 5500.00, categoria: 'Entrada', data: '2026-05-01', tipo: 'entrada' },
+    { id: 6, descricao: 'Aluguel Apartamento 3Q', valor: -1800.00, categoria: 'Moradia', data: '2026-05-02', tipo: 'saída' },
+    { id: 7, descricao: 'Freelance Design Gráfico', valor: 2000.00, categoria: 'Entrada', data: '2026-05-05', tipo: 'entrada' },
+    { id: 8, descricao: 'Academia Smart Fit', valor: -99.90, categoria: 'Saúde', data: '2026-05-03', tipo: 'saída' },
+    { id: 13, descricao: 'Cashback Cartão Crédito', valor: 156.30, categoria: 'Entrada', data: '2026-05-06', tipo: 'entrada' },
+    { id: 14, descricao: 'Venda Livro OLX', valor: 45.00, categoria: 'Entrada', data: '2026-05-07', tipo: 'entrada' },
+    { id: 15, descricao: 'Conta Telefone Claro', valor: -89.90, categoria: 'Assinatura', data: '2026-05-08', tipo: 'saída' },
+    { id: 16, descricao: 'Dividendos Investimento', valor: 298.70, categoria: 'Entrada', data: '2026-05-09', tipo: 'entrada' },
+    { id: 19, descricao: 'Seguro Carro Anual', valor: -450.00, categoria: 'Transporte', data: '2026-05-10', tipo: 'saída' },
+    { id: 20, descricao: 'Venda Produto Ebay', valor: 320.00, categoria: 'Entrada', data: '2026-05-12', tipo: 'entrada' },
+  ])
   const [categorias, setCategorias] = useState([])
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -66,26 +97,42 @@ function Home() {
   const [lancamentos, setLancamentos] = useState([])
   const [isEditInvestimentoModalOpen, setIsEditInvestimentoModalOpen] = useState(false)
   const [investimentoData, setInvestimentoData] = useState({
-    investido: 16000,
-    valor_atual: 16670,
+    investido: 15000,
+    valor_atual: 17850,
   })
   const [selectedCategoryCartao, setSelectedCategoryCartao] = useState('Todas')
   const [selectedCategoryConta, setSelectedCategoryConta] = useState('Todas')
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [lancamentoToDelete, setLancamentoToDelete] = useState(null)
-  const [resumoItau, setResumoItau] = useState({ entradas: 0, saidas: 0, saldo: 0 })
-  const [resumoVamoNessa, setResumoVamoNessa] = useState({ entradas: 0, saidas: 0, saldo: 0 })
+  const [resumoItau, setResumoItau] = useState({ entradas: 0, saidas: 0, saldo: 6400 })
+  const [resumoVamoNessa, setResumoVamoNessa] = useState({ entradas: 0, saidas: 0, saldo: 2100.50 })
 
   useEffect(() => {
     fetchCategorias()
-    fetchFatura()
-    fetchSaldo()
-    fetchChartData()
-    fetchLancamentosCartao()
-    fetchLancamentosConta()
+
+    // Filter mock data by selected month/year and closing day
+    const diaFechamento = diasFechamento[mes] || 1
+    const cartaoMes = getMockCartaoForMonth(mes, ano, diaFechamento)
+    const contaMes = getMockContaForMonth(mes, ano, diaFechamento)
+
+    setLancamentosCartao(cartaoMes)
+    setLancamentosConta(contaMes)
+
+    // Calculate fatura from filtered cartão transactions
+    const faturaValue = calculateFaturaFromLancamentos(cartaoMes)
+    setFatura(faturaValue)
+
+    // Calculate resumo from filtered conta transactions
+    const resumoValue = calculateResumoFromLancamentos(contaMes)
+    setSaldoAtual(resumoValue.saldo)
+    setResumo(prev => ({
+      ...prev,
+      ...resumoValue
+    }))
+
     fetchResumoItau()
     fetchResumoVamoNessa()
-  }, [bancoAtivo, mes, ano])
+  }, [bancoAtivo, mes, ano, diasFechamento])
 
   const fetchCategorias = async () => {
     try {
@@ -130,7 +177,7 @@ function Home() {
 
   const fetchLancamentosCartao = async () => {
     try {
-      const response = await axios.get('/api/lancamentos', {
+      const response = await axios.get('/api lancamentos', {
         params: {
           banco: bancoAtivo,
           forma_pagamento: 'cartão',
@@ -142,7 +189,7 @@ function Home() {
       setLancamentosCartao(response.data || [])
     } catch (error) {
       console.error('Erro ao buscar lançamentos cartão:', error)
-      setLancamentosCartao([])
+      // Manter dados fictícios em caso de erro
     }
   }
 
@@ -160,7 +207,7 @@ function Home() {
       setLancamentosConta(response.data || [])
     } catch (error) {
       console.error('Erro ao buscar lançamentos conta:', error)
-      setLancamentosConta([])
+      // Manter dados fictícios em caso de erro
     }
   }
 
@@ -300,10 +347,12 @@ function Home() {
   }
 
   const chartData = resumo.por_categoria
-    ? Object.entries(resumo.por_categoria).map(([cat, val]) => ({
-        name: cat,
-        valor: parseFloat(val)
-      })).sort((a, b) => b.valor - a.valor)
+    ? Object.entries(resumo.por_categoria)
+        .filter(([cat]) => cat !== 'Entrada') // Exclude income entries
+        .map(([cat, val]) => ({
+          name: cat,
+          valor: parseFloat(val)
+        })).sort((a, b) => b.valor - a.valor)
     : []
 
   const totalGastos = chartData.reduce((sum, item) => sum + item.valor, 0)
@@ -424,7 +473,8 @@ function Home() {
               <div className="mobile-transactions">
                 {getFilteredTransactions(selectedCategoryCartao, 'cartao').length > 0 ? (
                   getFilteredTransactions(selectedCategoryCartao, 'cartao').map(l => {
-                    const IconComponent = CATEGORY_ICONS[l.categoria]
+                    const IconComponent = CATEGORY_ICONS[l.categoria];
+                    const parcelText = getParcelText(l);
                     return (
                       <div
                         key={l.id}
@@ -436,7 +486,10 @@ function Home() {
                             {IconComponent ? <IconComponent size={20} /> : <span>{l.tipo === 'entrada' ? '↑' : '↓'}</span>}
                           </div>
                           <div className="mobile-trans-info">
-                            <div className="mobile-trans-desc">{l.descricao}</div>
+                            <div className="mobile-trans-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                              {l.descricao}
+                              {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                            </div>
                             <div className="mobile-trans-meta">{l.categoria} • {new Date(l.data).toLocaleDateString('pt-BR')}</div>
                           </div>
                         </div>
@@ -500,12 +553,34 @@ function Home() {
                 {lancamentosCartao.length === 0 ? (
                   <p className="empty-text">Nenhum lançamento no cartão. Use o botão + para adicionar.</p>
                 ) : (
-                  lancamentosCartao.map(l => (
-                    <div key={l.id} className="lancamento-row" onClick={() => handleEditLancamento(l)}>
-                      <span>{l.descricao}</span>
-                      <span className="negative">{fmt(Math.abs(l.valor))}</span>
-                    </div>
-                  ))
+                  <>
+                    {lancamentosCartao.slice(0, 5).map((l, idx) => {
+                      const parcelText = getParcelText(l);
+                      return (
+                        <div
+                          key={l.id}
+                          className="lancamento-row"
+                          onClick={() => handleEditLancamento(l)}
+                          style={{ opacity: 1 - (idx * 0.15) }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', width: '100%' }}>
+                            <span>{l.descricao}</span>
+                            {parcelText && <span style={{ fontSize: '12px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '8px' }}>{parcelText}</span>}
+                          </div>
+                          <span className="negative">{fmt(Math.abs(l.valor))}</span>
+                        </div>
+                      );
+                    })}
+                    {lancamentosCartao.length > 5 && (
+                      <div
+                        className="lancamento-row"
+                        onClick={() => navigate('/fatura')}
+                        style={{ textAlign: 'center', cursor: 'pointer', color: 'var(--green-hero)', fontWeight: '500', marginTop: '8px' }}
+                      >
+                        Ver todos {lancamentosCartao.length} →
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -525,14 +600,36 @@ function Home() {
                 {lancamentosConta.length === 0 ? (
                   <p className="empty-text">Nenhum lançamento na conta. Use o botão + para adicionar.</p>
                 ) : (
-                  lancamentosConta.map(l => (
-                    <div key={l.id} className="lancamento-row" onClick={() => handleEditLancamento(l)}>
-                      <span>{l.descricao}</span>
-                      <span className={l.tipo === 'entrada' ? 'positive' : 'negative'}>
-                        {l.tipo === 'entrada' ? '+' : '-'}{fmt(Math.abs(l.valor))}
-                      </span>
-                    </div>
-                  ))
+                  <>
+                    {lancamentosConta.slice(0, 5).map((l, idx) => {
+                      const parcelText = getParcelText(l);
+                      return (
+                        <div
+                          key={l.id}
+                          className="lancamento-row"
+                          onClick={() => handleEditLancamento(l)}
+                          style={{ opacity: 1 - (idx * 0.15) }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', width: '100%' }}>
+                            <span>{l.descricao}</span>
+                            {parcelText && <span style={{ fontSize: '12px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '8px' }}>{parcelText}</span>}
+                          </div>
+                          <span className={l.tipo === 'entrada' ? 'positive' : 'negative'}>
+                            {l.tipo === 'entrada' ? '+' : '-'}{fmt(Math.abs(l.valor))}
+                          </span>
+                        </div>
+                      );
+                    })}
+                    {lancamentosConta.length > 5 && (
+                      <div
+                        className="lancamento-row"
+                        onClick={() => navigate('/conta')}
+                        style={{ textAlign: 'center', cursor: 'pointer', color: 'var(--green-hero)', fontWeight: '500', marginTop: '8px' }}
+                      >
+                        Ver todos {lancamentosConta.length} →
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

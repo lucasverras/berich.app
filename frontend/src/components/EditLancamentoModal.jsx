@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Trash2, X, Check } from 'lucide-react'
-import './EditLancamentoModal.css'
+import { Trash2 } from 'lucide-react'
+import { AppDialog } from './ui/AppDialog'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
+import { Textarea } from './ui/textarea'
+import ConfirmDeleteModal from './ConfirmDeleteModal'
 
 function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias }) {
   const [formData, setFormData] = useState({
@@ -12,6 +16,7 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
   })
   const [categoriaSuggestions, setCategoriaSuggestions] = useState([])
   const [loading, setLoading] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   useEffect(() => {
     if (isOpen && lancamento) {
@@ -65,51 +70,66 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
     }
   }
 
-  const handleDelete = async () => {
-    if (!window.confirm('Tem certeza que quer deletar este lançamento?')) {
-      return
-    }
-
-    setLoading(true)
-    try {
-      await axios.delete(`/api/lancamentos/${lancamento.id}`)
-      onSaved()
-      onClose()
-    } catch (error) {
-      console.error('Erro ao deletar:', error)
-      alert('Erro ao deletar lançamento')
-    } finally {
-      setLoading(false)
-    }
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true)
   }
 
-  if (!isOpen || !lancamento) return null
+  const handleDeleteConfirmed = () => {
+    setIsDeleteModalOpen(false)
+    onSaved()
+    onClose()
+  }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Editar Lançamento</h2>
-          <button className="close-btn" onClick={onClose}>✕</button>
-        </div>
-
-        <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
-          <div className="form-group">
-            <label>Descrição</label>
-            <textarea
+    <>
+      <AppDialog
+        open={isOpen && !!lancamento}
+        onOpenChange={onClose}
+        title="Editar Lançamento"
+        size="sm"
+        footer={
+          <div className="flex gap-2 items-center w-full">
+            <Button
+              type="button"
+              onClick={handleDeleteClick}
+              variant="ghost"
+              size="sm"
+              className="h-8 px-2 text-xs text-red-500 hover:text-red-600 hover:bg-red-50"
+              disabled={loading}
+            >
+              <Trash2 size={16} />
+            </Button>
+            <div className="flex-1" />
+            <Button type="button" variant="outline" onClick={onClose} className="h-8 text-xs" disabled={loading}>
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              className="h-8 text-xs bg-green-600 hover:bg-green-700 text-white"
+              form="edit-form"
+              disabled={loading}
+            >
+              {loading ? 'Salvando...' : 'Salvar'}
+            </Button>
+          </div>
+        }
+      >
+        <form id="edit-form" onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Descrição</label>
+            <Textarea
               name="descricao"
               value={formData.descricao}
               onChange={handleChange}
-              rows="2"
               placeholder="O que foi comprado/recebido?"
             />
           </div>
 
-          <div className="form-group">
-            <label>Valor</label>
-            <div className="valor-input-wrapper">
-              <span className="valor-prefix">R$</span>
-              <input
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Valor</label>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">R$</span>
+              <Input
                 type="number"
                 name="valor"
                 value={formData.valor}
@@ -120,9 +140,9 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Data</label>
-            <input
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Data</label>
+            <Input
               type="date"
               name="data"
               value={formData.data}
@@ -130,10 +150,10 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
             />
           </div>
 
-          <div className="form-group">
-            <label>Categoria</label>
-            <div className="categoria-input-wrapper">
-              <input
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Categoria</label>
+            <div className="relative">
+              <Input
                 type="text"
                 name="categoria"
                 value={formData.categoria}
@@ -141,12 +161,12 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
                 placeholder="Digite uma categoria"
               />
               {formData.categoria && categoriaSuggestions.length > 0 && (
-                <div className="categoria-suggestions">
+                <div className="absolute top-full left-0 right-0 mt-1 border border-border bg-card rounded-md shadow-lg z-50 max-h-40 overflow-y-auto">
                   {categoriaSuggestions.map(cat => (
                     <button
                       key={cat.id}
                       type="button"
-                      className="categoria-suggestion"
+                      className="w-full text-left px-3 py-2 hover:bg-accent hover:text-accent-foreground text-sm"
                       onClick={() => {
                         setFormData(prev => ({ ...prev, categoria: cat.nome }))
                         setCategoriaSuggestions([])
@@ -160,37 +180,16 @@ function EditLancamentoModal({ isOpen, lancamento, onClose, onSaved, categorias 
             </div>
           </div>
 
-          <div className="modal-actions-icons">
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="action-icon-btn delete"
-              disabled={loading}
-              title="Deletar"
-            >
-              <Trash2 size={28} color="#ef4444" />
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="action-icon-btn cancel"
-              disabled={loading}
-              title="Cancelar"
-            >
-              <X size={28} color="#808080" />
-            </button>
-            <button
-              type="submit"
-              className="action-icon-btn save"
-              disabled={loading}
-              title="Salvar"
-            >
-              <Check size={28} color="#22c55e" />
-            </button>
-          </div>
         </form>
-      </div>
-    </div>
+      </AppDialog>
+
+      <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        lancamento={lancamento}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDeleted={handleDeleteConfirmed}
+      />
+    </>
   )
 }
 

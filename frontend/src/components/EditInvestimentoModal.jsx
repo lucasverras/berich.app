@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import './EditInvestimentoModal.css'
+import { AppDialog } from './ui/AppDialog'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
 
 function EditInvestimentoModal({ isOpen, investimento, onClose, onSaved }) {
   const [formData, setFormData] = useState({
@@ -54,67 +56,81 @@ function EditInvestimentoModal({ isOpen, investimento, onClose, onSaved }) {
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Editar Investimento</h2>
-          <button className="close-btn" onClick={onClose}>✕</button>
+    <AppDialog
+      open={isOpen}
+      onOpenChange={onClose}
+      title="Editar Investimento"
+      size="sm"
+      footer={
+        <div className="flex gap-2 w-full">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onClose}
+            className="h-8 text-xs flex-1"
+          >
+            Cancelar
+          </Button>
+          <Button
+            type="submit"
+            className="h-8 text-xs bg-green-600 hover:bg-green-700 text-white"
+            form="invest-form"
+          >
+            Salvar
+          </Button>
+        </div>
+      }
+    >
+      <form id="invest-form" onSubmit={(e) => { e.preventDefault(); handleSave(); }} className="space-y-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Valor Investido</label>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">R$</span>
+            <Input
+              type="number"
+              name="investido"
+              value={formData.investido}
+              onChange={handleChange}
+              step="0.01"
+              placeholder="0,00"
+              className="text-sm"
+            />
+          </div>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
-          <div className="form-group">
-            <label>Valor Investido</label>
-            <div className="input-currency">
-              <span className="currency-prefix">R$</span>
-              <input
-                type="number"
-                name="investido"
-                value={formData.investido}
-                onChange={handleChange}
-                step="0.01"
-                placeholder="0,00"
-              />
-            </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Valor Atual</label>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">R$</span>
+            <Input
+              type="number"
+              name="valor_atual"
+              value={formData.valor_atual}
+              onChange={handleChange}
+              step="0.01"
+              placeholder="0,00"
+              className="text-sm"
+            />
           </div>
+        </div>
 
-          <div className="form-group">
-            <label>Valor Atual</label>
-            <div className="input-currency">
-              <span className="currency-prefix">R$</span>
-              <input
-                type="number"
-                name="valor_atual"
-                value={formData.valor_atual}
-                onChange={handleChange}
-                step="0.01"
-                placeholder="0,00"
-              />
-            </div>
+        {/* Resultado */}
+        <div className="space-y-2 bg-accent/40 p-3 rounded-lg">
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-muted-foreground">Ganho/Perda:</span>
+            <span className={`font-medium ${resultado >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {resultado >= 0 ? '+' : '−'}{fmt(Math.abs(resultado))}
+            </span>
           </div>
-
-          {/* RESULTADO */}
-          <div className="resultado-section">
-            <div className="resultado-item">
-              <span className="resultado-label">Ganho/Perda</span>
-              <span className={`resultado-valor ${resultado >= 0 ? 'positive' : 'negative'}`}>
-                {resultado >= 0 ? '+' : '−'}{fmt(Math.abs(resultado))}
-              </span>
-            </div>
-            <div className="resultado-item">
-              <span className="resultado-label">Rentabilidade</span>
-              <span className={`resultado-valor ${resultado >= 0 ? 'positive' : 'negative'}`}>
-                {resultado >= 0 ? '+' : '−'}{percentual}%
-              </span>
-            </div>
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-muted-foreground">Rentabilidade:</span>
+            <span className={`font-medium ${resultado >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {resultado >= 0 ? '+' : '−'}{percentual}%
+            </span>
           </div>
-
-          <div className="form-actions">
-            <button type="button" onClick={onClose} className="secondary">Cancelar</button>
-            <button type="submit">Salvar</button>
-          </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </form>
+    </AppDialog>
   )
 }
 

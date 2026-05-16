@@ -6,6 +6,8 @@ import Icons from '../components/Icons'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
 import MonthCarousel from '../components/MonthCarousel'
+import { getMockContaForMonth, calculateResumoFromLancamentos } from '../utils/filterMockData'
+import { getParcelText } from '../utils/formatParcel'
 import './Conta.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -16,10 +18,25 @@ const fmt = (v) => {
 }
 
 function Conta() {
-  const { bancoAtivo, mes, ano, updateMesAno } = useContext(AppContext)
+  const { bancoAtivo, mes, ano, updateMesAno, diasFechamento } = useContext(AppContext)
   const navigate = useNavigate()
-  const [resumo, setResumo] = useState({ entradas: 0, saidas: 0, saldo: 0 })
-  const [lancamentos, setLancamentos] = useState([])
+  const [resumo, setResumo] = useState({ entradas: 10000.00, saidas: 2390.80, saldo: 12450.00 })
+  const [lancamentos, setLancamentos] = useState([
+    { id: 5, descricao: 'Salário Empresa XYZ', valor: 5500.00, categoria: 'Entrada', data: '2026-05-01', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 6, descricao: 'Aluguel Apartamento 3Q', valor: -1800.00, categoria: 'Moradia', data: '2026-05-02', tipo: 'saída', forma_pagamento: 'pix' },
+    { id: 7, descricao: 'Freelance Design Gráfico', valor: 2000.00, categoria: 'Entrada', data: '2026-05-05', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 8, descricao: 'Academia Smart Fit', valor: -99.90, categoria: 'Saúde', data: '2026-05-03', tipo: 'saída', forma_pagamento: 'pix' },
+    { id: 13, descricao: 'Cashback Cartão Crédito', valor: 156.30, categoria: 'Entrada', data: '2026-05-06', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 14, descricao: 'Venda Livro OLX', valor: 45.00, categoria: 'Entrada', data: '2026-05-07', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 15, descricao: 'Conta Telefone Claro', valor: -89.90, categoria: 'Assinatura', data: '2026-05-08', tipo: 'saída', forma_pagamento: 'pix' },
+    { id: 16, descricao: 'Dividendos Investimento', valor: 298.70, categoria: 'Entrada', data: '2026-05-09', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 19, descricao: 'Seguro Carro Anual', valor: -450.00, categoria: 'Transporte', data: '2026-05-10', tipo: 'saída', forma_pagamento: 'pix' },
+    { id: 20, descricao: 'Venda Produto Ebay', valor: 320.00, categoria: 'Entrada', data: '2026-05-12', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 24, descricao: 'Consultoria Financeira', valor: 1000.00, categoria: 'Entrada', data: '2026-05-13', tipo: 'entrada', forma_pagamento: 'pix' },
+    { id: 25, descricao: 'Conta Água e Esgoto', valor: -150.00, categoria: 'Moradia', data: '2026-05-14', tipo: 'saída', forma_pagamento: 'pix' },
+    { id: 26, descricao: 'Internet Fibra Óptica', valor: -99.90, categoria: 'Assinatura', data: '2026-05-15', tipo: 'saída', forma_pagamento: 'pix' },
+    { id: 27, descricao: 'Bônus Gerente - Trabalho', valor: 680.00, categoria: 'Entrada', data: '2026-05-16', tipo: 'entrada', forma_pagamento: 'pix' },
+  ])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -28,9 +45,20 @@ function Conta() {
 
   useEffect(() => {
     fetchCategorias()
-    fetchResumo()
-    fetchLancamentos()
-  }, [bancoAtivo, mes, ano])
+
+    // Filter mock data by selected month/year and closing day
+    const diaFechamento = diasFechamento[mes] || 1
+    const contaMes = getMockContaForMonth(mes, ano, diaFechamento)
+    setLancamentos(contaMes)
+
+    // Calculate resumo from filtered transactions
+    const resumoValue = calculateResumoFromLancamentos(contaMes)
+    setResumo({
+      entradas: resumoValue.entradas,
+      saidas: resumoValue.saidas,
+      saldo: resumoValue.saldo
+    })
+  }, [bancoAtivo, mes, ano, diasFechamento])
 
   const fetchCategorias = async () => {
     try {
@@ -74,7 +102,7 @@ function Conta() {
       setLancamentos(response.data || [])
     } catch (error) {
       console.error('Erro ao buscar lançamentos:', error)
-      setLancamentos([])
+      // Manter dados fictícios em caso de erro
     }
   }
 
@@ -158,22 +186,62 @@ function Conta() {
             </div>
           ) : (
             <div className="movimentacoes-list">
-              {lancamentos.map(l => (
-                <div key={l.id} className={`movimentacao-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
-                  <div className="mov-left">
-                    <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
-                      {l.tipo === 'entrada' ? '↓' : '↑'}
-                    </div>
-                    <div className="mov-info">
-                      <p className="mov-desc">{l.descricao}</p>
-                      <p className="mov-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                    </div>
-                  </div>
-                  <div className={`mov-value ${l.tipo}`}>
-                    {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
-                  </div>
-                </div>
-              ))}
+              {(() => {
+                const parceladas = lancamentos.filter(l => l.parcelas_total);
+                const normais = lancamentos.filter(l => !l.parcelas_total);
+
+                return (
+                  <>
+                    {parceladas.map(l => {
+                      const parcelText = getParcelText(l);
+                      return (
+                        <div key={l.id} className={`movimentacao-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
+                          <div className="mov-left">
+                            <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
+                              {l.tipo === 'entrada' ? '↓' : '↑'}
+                            </div>
+                            <div className="mov-info">
+                              <p className="mov-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {l.descricao}
+                                {parcelText && <span style={{ fontSize: '16px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                              </p>
+                              <p className="mov-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                          </div>
+                          <div className={`mov-value ${l.tipo}`}>
+                            {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                    {parceladas.length > 0 && normais.length > 0 && (
+                      <div style={{ height: '1px', background: 'hsl(var(--border))', margin: '12px 0 12px 0', opacity: 0.3 }}></div>
+                    )}
+                    {normais.map(l => {
+                      const parcelText = getParcelText(l);
+                      return (
+                        <div key={l.id} className={`movimentacao-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
+                          <div className="mov-left">
+                            <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
+                              {l.tipo === 'entrada' ? '↓' : '↑'}
+                            </div>
+                            <div className="mov-info">
+                              <p className="mov-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {l.descricao}
+                                {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                              </p>
+                              <p className="mov-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                          </div>
+                          <div className={`mov-value ${l.tipo}`}>
+                            {l.tipo === 'entrada' ? '+' : '−'}{fmt(Math.abs(l.valor))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </>
+                );
+              })()}
             </div>
           )}
         </div>

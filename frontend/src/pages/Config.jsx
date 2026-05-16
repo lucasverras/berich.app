@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Icons from '../components/Icons'
+import ClosingDaysConfig from '../components/ClosingDaysConfig'
+import { AppDialog } from '../components/ui/AppDialog'
+import { Button } from '../components/ui/button'
 import './Config.css'
 
 function Config() {
@@ -10,6 +13,8 @@ function Config() {
   const [regras, setRegras] = useState([])
   const [novaCategoria, setNovaCategoria] = useState('')
   const [novoBanco, setNovoBanco] = useState('')
+  const [confirmDelete, setConfirmDelete] = useState(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   useEffect(() => {
     fetchDados()
@@ -51,14 +56,32 @@ function Config() {
     }
   }
 
-  const handleDeleteCategoria = async (id) => {
-    if (!window.confirm('Desativar categoria?')) return
+  const handleDeleteCategoria = (id) => {
+    const categoria = categorias.find(c => c.id === id)
+    setConfirmDelete({
+      type: 'categoria',
+      id,
+      label: categoria?.nome,
+      message: 'Tem certeza que deseja desativar esta categoria?'
+    })
+  }
 
+  const handleConfirmDelete = async () => {
+    if (!confirmDelete) return
+
+    setIsDeleting(true)
     try {
-      await axios.delete(`/api/categorias/${id}`)
+      if (confirmDelete.type === 'categoria') {
+        await axios.delete(`/api/categorias/${confirmDelete.id}`)
+      } else if (confirmDelete.type === 'regra') {
+        await axios.delete(`/api/regras/${confirmDelete.id}`)
+      }
       fetchDados()
+      setConfirmDelete(null)
     } catch (error) {
-      alert('Erro ao deletar categoria')
+      alert('Erro ao deletar')
+    } finally {
+      setIsDeleting(false)
     }
   }
 
@@ -79,15 +102,14 @@ function Config() {
     }
   }
 
-  const handleDeleteRegra = async (id) => {
-    if (!window.confirm('Deletar regra?')) return
-
-    try {
-      await axios.delete(`/api/regras/${id}`)
-      fetchDados()
-    } catch (error) {
-      alert('Erro ao deletar regra')
-    }
+  const handleDeleteRegra = (id) => {
+    const regra = regras.find(r => r.id === id)
+    setConfirmDelete({
+      type: 'regra',
+      id,
+      label: regra?.palavra_chave,
+      message: 'Tem certeza que deseja deletar esta regra de categorização?'
+    })
   }
 
   const handleExportBackup = async () => {
@@ -125,6 +147,9 @@ function Config() {
       </h1>
 
       <div className="config-tabs">
+        <button className={`tab ${tabs === 'cartoes' ? 'active' : ''}`} onClick={() => setTabs('cartoes')}>
+          Cartões
+        </button>
         <button className={`tab ${tabs === 'categorias' ? 'active' : ''}`} onClick={() => setTabs('categorias')}>
           Categorias
         </button>
@@ -138,6 +163,12 @@ function Config() {
           Backup
         </button>
       </div>
+
+      {tabs === 'cartoes' && (
+        <div className="config-section">
+          <ClosingDaysConfig />
+        </div>
+      )}
 
       {tabs === 'categorias' && (
         <div className="config-section card">
@@ -249,6 +280,44 @@ function Config() {
           </div>
         </div>
       )}
+
+      <AppDialog
+        open={!!confirmDelete}
+        onOpenChange={() => setConfirmDelete(null)}
+        title={confirmDelete?.type === 'categoria' ? 'Desativar Categoria' : 'Deletar Regra'}
+        description="Esta ação não pode ser desfeita."
+        size="sm"
+        footer={
+          <div className="flex gap-2 w-full">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setConfirmDelete(null)}
+              disabled={isDeleting}
+              className="h-8 text-xs flex-1"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+              className="h-8 text-xs bg-red-600 hover:bg-red-700 text-white"
+            >
+              {isDeleting ? 'Deletando...' : 'Deletar'}
+            </Button>
+          </div>
+        }
+      >
+        <div className="space-y-3 text-sm">
+          <p className="text-muted-foreground">{confirmDelete?.message}</p>
+          {confirmDelete?.label && (
+            <div className="bg-accent/30 p-3 rounded-lg">
+              <span className="text-foreground font-medium">{confirmDelete.label}</span>
+            </div>
+          )}
+        </div>
+      </AppDialog>
     </div>
   )
 }
