@@ -1309,6 +1309,20 @@
   width: 100%;
 }
 
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
 .bank-item {
   display: flex;
   align-items: center;

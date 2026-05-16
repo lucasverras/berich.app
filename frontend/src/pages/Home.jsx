@@ -82,6 +82,14 @@ function Home() {
       'Saúde': 450,
       'Lazer': 320,
       'Educação': 100
+    },
+    por_categoria_entrada: {
+      'Entrada': 5500,
+      'Renda': 2000,
+      'Cashback': 156.30,
+      'Freelance': 0,
+      'Investimento': 298.70,
+      'Bônus': 680
     }
   })
   const [fatura, setFatura] = useState(2450.75)
@@ -385,12 +393,35 @@ function Home() {
 
   const totalGastos = chartData.reduce((sum, item) => sum + item.valor, 0)
 
+  const chartDataEntrada = resumo.por_categoria_entrada
+    ? Object.entries(resumo.por_categoria_entrada)
+        .filter(([_, val]) => val > 0)
+        .map(([cat, val]) => ({
+          name: cat,
+          valor: parseFloat(val)
+        })).sort((a, b) => b.valor - a.valor)
+    : []
+
+  const totalGanhos = chartDataEntrada.reduce((sum, item) => sum + item.valor, 0)
+
   const doughnutChartData = {
     labels: chartData.map(e => e.name),
     datasets: [
       {
         data: chartData.map(e => e.valor),
         backgroundColor: chartData.map((e, i) => CORES_PIZZA[i] || '#052e16'),
+        borderWidth: 0,
+        hoverOffset: 10,
+      }
+    ]
+  }
+
+  const doughnutChartDataEntrada = {
+    labels: chartDataEntrada.map(e => e.name),
+    datasets: [
+      {
+        data: chartDataEntrada.map(e => e.valor),
+        backgroundColor: chartDataEntrada.map((e, i) => ['#4ade80', '#86efac', '#bbf7d0', '#22c55e', '#16a34a', '#15803d'][i] || '#052e16'),
         borderWidth: 0,
         hoverOffset: 10,
       }
@@ -417,11 +448,40 @@ function Home() {
     }
   }
 
+  const tooltipOptsEntrada = {
+    backgroundColor: '#071007',
+    borderColor: 'rgba(34,197,94,0.4)',
+    borderWidth: 1,
+    titleColor: '#f0fdf4',
+    bodyColor: '#86efac',
+    padding: 14,
+    cornerRadius: 10,
+    displayColors: true,
+    callbacks: {
+      title: (items) => items[0].label,
+      label: (ctx) => {
+        const val = ctx.parsed
+        const pct = ((val / totalGanhos) * 100).toFixed(1)
+        const formatted = val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+        return `  ${formatted}  ·  ${pct}%`
+      }
+    }
+  }
+
   const doughnutOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       tooltip: tooltipOpts,
+      legend: { display: false }
+    }
+  }
+
+  const doughnutOptionsEntrada = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: tooltipOptsEntrada,
       legend: { display: false }
     }
   }
@@ -673,38 +733,75 @@ function Home() {
             </div>
           </div>
 
-          {/* LINHA 2 — Gráfico largura total */}
+          {/* LINHA 2 — Gráficos de Gastos e Ganhos lado a lado */}
           <div className="chart-card-section">
-            <div className="card chart-card">
-              <p className="card-title">Gastos por categoria</p>
-              {chartData.length > 0 ? (
-                <>
-                  <div className="chart-wrapper">
-                    <Doughnut data={doughnutChartData} options={doughnutOptions} />
-                    <div className="chart-center">
-                      <span className="chart-center-val">{fmt(totalGastos)}</span>
-                      <span className="chart-center-label">gasto no mês</span>
+            <div className="charts-grid">
+              {/* Gráfico de Gastos */}
+              <div className="card chart-card">
+                <p className="card-title">Gastos por categoria</p>
+                {chartData.length > 0 ? (
+                  <>
+                    <div className="chart-wrapper">
+                      <Doughnut data={doughnutChartData} options={doughnutOptions} />
+                      <div className="chart-center">
+                        <span className="chart-center-val">{fmt(totalGastos)}</span>
+                        <span className="chart-center-label">gasto no mês</span>
+                      </div>
                     </div>
+                    <div className="chart-legend">
+                      {chartData.filter(item => item.valor > 0).map((item, i) => {
+                        const pct = ((item.valor / totalGastos) * 100).toFixed(1)
+                        const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                        const catColor = CORES_PIZZA[i] || '#052e16'
+                        return (
+                          <div key={item.name} className="legend-tag" style={{ borderColor: catColor }}>
+                            <span className="legend-tag-name">{item.name}</span>
+                            <span className="legend-tag-info"> - {valorFmt} - {pct}%</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  <div className="chart-empty">
+                    <p>Sem dados para este período</p>
                   </div>
-                  <div className="chart-legend">
-                    {chartData.filter(item => item.valor > 0).map((item, i) => {
-                      const pct = ((item.valor / totalGastos) * 100).toFixed(1)
-                      const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-                      const catColor = CORES_PIZZA[i] || '#052e16'
-                      return (
-                        <div key={item.name} className="legend-tag" style={{ borderColor: catColor }}>
-                          <span className="legend-tag-name">{item.name}</span>
-                          <span className="legend-tag-info"> - {valorFmt} - {pct}%</span>
-                        </div>
-                      )
-                    })}
+                )}
+              </div>
+
+              {/* Gráfico de Ganhos */}
+              <div className="card chart-card">
+                <p className="card-title">Ganhos por categoria</p>
+                {chartDataEntrada.length > 0 ? (
+                  <>
+                    <div className="chart-wrapper">
+                      <Doughnut data={doughnutChartDataEntrada} options={doughnutOptionsEntrada} />
+                      <div className="chart-center">
+                        <span className="chart-center-val">{fmt(totalGanhos)}</span>
+                        <span className="chart-center-label">ganho no mês</span>
+                      </div>
+                    </div>
+                    <div className="chart-legend">
+                      {chartDataEntrada.filter(item => item.valor > 0).map((item, i) => {
+                        const pct = ((item.valor / totalGanhos) * 100).toFixed(1)
+                        const valorFmt = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                        const cores = ['#4ade80', '#86efac', '#bbf7d0', '#22c55e', '#16a34a', '#15803d']
+                        const catColor = cores[i] || '#052e16'
+                        return (
+                          <div key={item.name} className="legend-tag" style={{ borderColor: catColor }}>
+                            <span className="legend-tag-name">{item.name}</span>
+                            <span className="legend-tag-info"> - {valorFmt} - {pct}%</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  <div className="chart-empty">
+                    <p>Sem dados para este período</p>
                   </div>
-                </>
-              ) : (
-                <div className="chart-empty">
-                  <p>Sem dados para este período</p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
