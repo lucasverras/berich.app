@@ -12,6 +12,27 @@ import './Conta.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
+const CATEGORY_EMOJIS = {
+  'Alimentação': '🍔',
+  'Bebidas': '🍷',
+  'Transporte': '🚗',
+  'Moradia': '🏠',
+  'Saúde': '⚕️',
+  'Lazer': '🎮',
+  'Educação': '📚',
+  'Compras': '🛍️',
+  'Diversão': '🎬',
+  'Viagem': '✈️',
+  'Assinatura': '⚡',
+  'Entrada': '💰',
+  'Renda': '💵',
+  'Cashback': '🎁',
+  'Freelance': '💼',
+  'Investimento': '📈',
+  'Pessoal': '💇',
+  'Sem categoria': '📌',
+}
+
 const fmt = (v) => {
   if (!v) return 'R$ 0,00'
   return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -59,6 +80,14 @@ function Conta() {
       saldo: resumoValue.saldo
     })
   }, [bancoAtivo, mes, ano, diasFechamento])
+
+  const getCategoryEmoji = (lancamento) => {
+    if (lancamento.parcelado) {
+      return '📌'
+    }
+    const categoria = lancamento.categoria || 'Sem categoria'
+    return CATEGORY_EMOJIS[categoria] || '📌'
+  }
 
   const fetchCategorias = async () => {
     try {
@@ -194,17 +223,19 @@ function Conta() {
                   <>
                     {parceladas.map(l => {
                       const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
                       return (
                         <div key={l.id} className={`movimentacao-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
                           <div className="mov-left">
-                            <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
-                              {l.tipo === 'entrada' ? '↓' : '↑'}
+                            <div className="mov-icon-emoji">
+                              {emoji}
                             </div>
                             <div className="mov-info">
                               <p className="mov-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {l.descricao}
-                                {parcelText && <span style={{ fontSize: '16px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                                {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
                               </p>
+                              <p className="mov-category">{l.categoria || 'Sem categoria'}</p>
                               <p className="mov-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                             </div>
                           </div>
@@ -219,17 +250,19 @@ function Conta() {
                     )}
                     {normais.map(l => {
                       const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
                       return (
                         <div key={l.id} className={`movimentacao-item ${l.tipo}`} onClick={() => handleEditLancamento(l)}>
                           <div className="mov-left">
-                            <div className="mov-icon" style={{ background: l.tipo === 'entrada' ? 'rgba(74, 222, 128, 0.2)' : 'rgba(248, 113, 113, 0.2)' }}>
-                              {l.tipo === 'entrada' ? '↓' : '↑'}
+                            <div className="mov-icon-emoji">
+                              {emoji}
                             </div>
                             <div className="mov-info">
                               <p className="mov-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {l.descricao}
                                 {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
                               </p>
+                              <p className="mov-category">{l.categoria || 'Sem categoria'}</p>
                               <p className="mov-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                             </div>
                           </div>

@@ -13,6 +13,27 @@ const LIMITE_CARTAO = 4800
 const DIA_FECHAMENTO = 1
 const DIA_VENCIMENTO = 10
 
+const CATEGORY_EMOJIS = {
+  'Alimentação': '🍔',
+  'Bebidas': '🍷',
+  'Transporte': '🚗',
+  'Moradia': '🏠',
+  'Saúde': '⚕️',
+  'Lazer': '🎮',
+  'Educação': '📚',
+  'Compras': '🛍️',
+  'Diversão': '🎬',
+  'Viagem': '✈️',
+  'Assinatura': '⚡',
+  'Entrada': '💰',
+  'Renda': '💵',
+  'Cashback': '🎁',
+  'Freelance': '💼',
+  'Investimento': '📈',
+  'Pessoal': '💇',
+  'Sem categoria': '📌',
+}
+
 const fmt = (v) => {
   if (!v) return 'R$ 0,00'
   return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -100,6 +121,14 @@ function Fatura() {
   const handleMesChange = (novoMes) => {
     setMesSelecionado(novoMes)
     updateMesAno(novoMes + 1, ano)
+  }
+
+  const getCategoryEmoji = (lancamento) => {
+    if (lancamento.parcelado) {
+      return '📌'
+    }
+    const categoria = lancamento.categoria || 'Sem categoria'
+    return CATEGORY_EMOJIS[categoria] || '📌'
   }
 
   const handleAddLancamento = () => {
@@ -205,15 +234,17 @@ function Fatura() {
                   <>
                     {parceladas.map(l => {
                       const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
                       return (
                         <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
                           <div className="tra-left">
-                            <div className="tra-icon">📌</div>
+                            <div className="tra-icon">{emoji}</div>
                             <div className="tra-info">
                               <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {l.descricao}
-                                {parcelText && <span style={{ fontSize: '16px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                                {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
                               </p>
+                              <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
                               <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                             </div>
                           </div>
@@ -226,15 +257,17 @@ function Fatura() {
                     )}
                     {normais.map(l => {
                       const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
                       return (
                         <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
                           <div className="tra-left">
-                            <div className="tra-icon">📌</div>
+                            <div className="tra-icon">{emoji}</div>
                             <div className="tra-info">
                               <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                                 {l.descricao}
                                 {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
                               </p>
+                              <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
                               <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                             </div>
                           </div>
