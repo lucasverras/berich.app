@@ -612,20 +612,32 @@
   grid-template-columns: 1fr 1fr;
   gap: 28px;
   margin-top: 32px;
+  align-items: start;
 }
 
 @media (max-width: 1024px) {
   .fatura-content {
     grid-template-columns: 1fr;
     gap: 16px;
+    align-items: auto;
   }
 }
 
-/* LEFT COLUMN - Fatura Card Centered */
+/* LEFT COLUMN - Fatura Card Sticky & Centered */
 .fatura-column-left {
+  position: sticky;
+  top: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: fit-content;
+}
+
+@media (max-width: 1024px) {
+  .fatura-column-left {
+    position: static;
+    top: auto;
+  }
 }
 
 /* RIGHT COLUMN - Transações List */
