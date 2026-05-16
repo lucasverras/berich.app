@@ -177,114 +177,109 @@ function Fatura() {
           onChange={(novoMes) => handleMesChange(novoMes)}
         />
 
-        {/* 2-COLUMN LAYOUT */}
-        <div className="fatura-content">
-          {/* LEFT COLUMN - Transações */}
-          <div className="fatura-column-right">
-            <div className="transacoes-section">
-              <div className="section-header">
-                <h2 className="section-title">Transações</h2>
-                <span className="section-count">{lancamentos.length} itens</span>
+        {/* STATS GRID */}
+        <div className="stats-grid single">
+          <div className="stat-card stat-card-glass stat-card-glow fatura-card">
+            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
+            <div className="fatura-card-top">
+              <div>
+                <div className="stat-icon stat-icon-red">💳</div>
+                <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
               </div>
-
-              {lancamentos.length === 0 ? (
-                <div className="card empty-state">
-                  <p>Sem transações para este período</p>
-                </div>
-              ) : (
-                <div className="transacoes-list">
-                  {(() => {
-                    const parceladas = lancamentos.filter(l => l.parcelas_total);
-                    const normais = lancamentos.filter(l => !l.parcelas_total);
-
-                    return (
-                      <>
-                        {parceladas.map(l => {
-                          const parcelText = getParcelText(l);
-                          const emoji = getCategoryEmoji(l);
-                          return (
-                            <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
-                              <div className="tra-left">
-                                <div className="tra-icon">{emoji}</div>
-                                <div className="tra-info">
-                                  <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    {l.descricao}
-                                    {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
-                                  </p>
-                                  <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
-                                  <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                                </div>
-                              </div>
-                              <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
-                            </div>
-                          );
-                        })}
-                        {parceladas.length > 0 && normais.length > 0 && (
-                          <div style={{ height: '1px', background: 'hsl(var(--border))', margin: '12px 0 12px 0', opacity: 0.3 }}></div>
-                        )}
-                        {normais.map(l => {
-                          const parcelText = getParcelText(l);
-                          const emoji = getCategoryEmoji(l);
-                          return (
-                            <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
-                              <div className="tra-left">
-                                <div className="tra-icon">{emoji}</div>
-                                <div className="tra-info">
-                                  <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    {l.descricao}
-                                    {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
-                                  </p>
-                                  <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
-                                  <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
-                                </div>
-                              </div>
-                              <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
-                            </div>
-                          );
-                        })}
-                      </>
-                    );
-                  })()}
-                </div>
-              )}
+              <div className="fatura-badges">
+                {faturaFechada && <span className="badge-orange">Fatura fechada</span>}
+                {!faturaFechada && diasParaVencer > 0 && <span className="badge-red">Vence em {diasParaVencer} dia{diasParaVencer > 1 ? 's' : ''}</span>}
+              </div>
             </div>
-          </div>
+            <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
 
-          {/* RIGHT COLUMN - Fatura Card (Fixed) */}
-          <div className="fatura-column-left">
-            <div className="stat-card stat-card-glass stat-card-glow fatura-card">
-              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
-              <div className="fatura-card-top">
-                <div>
-                  <div className="stat-icon stat-icon-red">💳</div>
-                  <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
-                </div>
-                <div className="fatura-badges">
-                  {faturaFechada && <span className="badge-orange">Fatura fechada</span>}
-                  {!faturaFechada && diasParaVencer > 0 && <span className="badge-red">Vence em {diasParaVencer} dia{diasParaVencer > 1 ? 's' : ''}</span>}
-                </div>
+            <div className="fatura-progress-wrapper">
+              <div className="fatura-progress-bar">
+                <div className="fatura-progress-fill" style={{ width: `${Math.min(percentualFatura, 100)}%`, background: corProgresso }}></div>
               </div>
-              <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
+              <span className="fatura-progress-text">{percentualFatura.toFixed(0)}% do limite</span>
+            </div>
 
-              <div className="fatura-progress-wrapper">
-                <div className="fatura-progress-bar">
-                  <div className="fatura-progress-fill" style={{ width: `${Math.min(percentualFatura, 100)}%`, background: corProgresso }}></div>
-                </div>
-                <span className="fatura-progress-text">{percentualFatura.toFixed(0)}% do limite</span>
+            <div className="fatura-info">
+              <div className="info-item">
+                <span className="info-label">Limite disponível</span>
+                <span className="info-value">{fmt(limiteDisponivel)}</span>
               </div>
-
-              <div className="fatura-info">
-                <div className="info-item">
-                  <span className="info-label">Limite disponível</span>
-                  <span className="info-value">{fmt(limiteDisponivel)}</span>
-                </div>
-                <div className="info-divider"></div>
-                <div className="info-item">
-                  <span className="info-label">Fecha dia {DIA_FECHAMENTO} · Vence dia {DIA_VENCIMENTO}</span>
-                </div>
+              <div className="info-divider"></div>
+              <div className="info-item">
+                <span className="info-label">Fecha dia {DIA_FECHAMENTO} · Vence dia {DIA_VENCIMENTO}</span>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* TRANSAÇÕES */}
+        <div className="transacoes-section">
+          <div className="section-header">
+            <h2 className="section-title">Transações</h2>
+            <span className="section-count">{lancamentos.length} itens</span>
+          </div>
+
+          {lancamentos.length === 0 ? (
+            <div className="card empty-state">
+              <p>Sem transações para este período</p>
+            </div>
+          ) : (
+            <div className="transacoes-list">
+              {(() => {
+                const parceladas = lancamentos.filter(l => l.parcelas_total);
+                const normais = lancamentos.filter(l => !l.parcelas_total);
+
+                return (
+                  <>
+                    {parceladas.map(l => {
+                      const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
+                      return (
+                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
+                          <div className="tra-left">
+                            <div className="tra-icon">{emoji}</div>
+                            <div className="tra-info">
+                              <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {l.descricao}
+                                {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                              </p>
+                              <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
+                              <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                          </div>
+                          <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
+                        </div>
+                      );
+                    })}
+                    {parceladas.length > 0 && normais.length > 0 && (
+                      <div style={{ height: '1px', background: 'hsl(var(--border))', margin: '12px 0 12px 0', opacity: 0.3 }}></div>
+                    )}
+                    {normais.map(l => {
+                      const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
+                      return (
+                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
+                          <div className="tra-left">
+                            <div className="tra-icon">{emoji}</div>
+                            <div className="tra-info">
+                              <p className="tra-desc" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                {l.descricao}
+                                {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
+                              </p>
+                              <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
+                              <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                          </div>
+                          <div className="tra-value negative">{fmt(Math.abs(l.valor))}</div>
+                        </div>
+                      );
+                    })}
+                  </>
+                );
+              })()}
+            </div>
+          )}
         </div>
       </div>
 

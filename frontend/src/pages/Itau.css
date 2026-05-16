@@ -1,0 +1,356 @@
+.itau-layout {
+  font-family: 'DM Sans', 'Nunito', sans-serif;
+  background: #050a05;
+  min-height: 100vh;
+  color: #f0fdf4;
+  overflow-x: hidden;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .itau-layout {
+    margin-left: var(--sidebar-w, 220px);
+  }
+}
+
+.itau-main {
+  position: relative;
+  z-index: 5;
+  padding: 32px 36px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .itau-main {
+    padding: 20px 16px;
+  }
+}
+
+.itau-header {
+  margin-bottom: 32px;
+}
+
+.itau-header h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #f0fdf0;
+  margin: 0 0 8px 0;
+}
+
+.itau-header p {
+  font-size: 14px;
+  color: rgba(120, 180, 120, 0.6);
+}
+
+.saldo-total-card {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.saldo-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(120, 180, 120, 0.5);
+  margin-bottom: 8px;
+}
+
+.saldo-valor {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: #3b82f6;
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+
+.saldo-sub {
+  font-size: 12px;
+  color: rgba(120, 180, 120, 0.5);
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid rgba(40, 100, 40, 0.1);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(120, 180, 120, 0.6);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tab-btn:hover {
+  color: rgba(120, 180, 120, 0.8);
+}
+
+.tab-btn.active {
+  color: #4ade80;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #4ade80;
+}
+
+.tab-content {
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* STATS */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-item {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  font-size: 28px;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(120, 180, 120, 0.5);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+/* SECTION TITLE */
+.section-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(120, 180, 120, 0.5);
+  margin: 32px 0 16px 0;
+}
+
+/* TRANSAÇÕES */
+.transacoes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.transacao-item {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.transacao-item:hover {
+  border-color: rgba(40, 100, 40, 0.4);
+  background: rgba(10, 22, 10, 0.75);
+}
+
+.transacao-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.transacao-icon {
+  font-size: 20px;
+}
+
+.transacao-info {
+  flex: 1;
+}
+
+.transacao-desc {
+  font-size: 13px;
+  font-weight: 500;
+  color: #dcfce7;
+  margin-bottom: 2px;
+}
+
+.transacao-data {
+  font-size: 11px;
+  color: rgba(120, 180, 120, 0.5);
+}
+
+.transacao-valor {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+.transacao-valor.positivo {
+  color: #4ade80;
+}
+
+.transacao-valor.negativo {
+  color: #f87171;
+}
+
+/* CONTAS */
+.contas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.conta-item {
+  background: rgba(10, 22, 10, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(40, 100, 40, 0.25);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.conta-item:hover {
+  border-color: rgba(40, 100, 40, 0.4);
+  background: rgba(10, 22, 10, 0.75);
+}
+
+.conta-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.conta-icon {
+  font-size: 24px;
+}
+
+.conta-details {
+  flex: 1;
+}
+
+.conta-tipo {
+  font-size: 13px;
+  font-weight: 600;
+  color: #dcfce7;
+  margin-bottom: 4px;
+}
+
+.conta-numero {
+  font-size: 11px;
+  color: rgba(120, 180, 120, 0.5);
+}
+
+.conta-saldo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+@media (max-width: 480px) {
+  .itau-main {
+    padding: 16px;
+  }
+
+  .itau-header h1 {
+    font-size: 24px;
+  }
+
+  .saldo-valor {
+    font-size: 28px;
+  }
+
+  .tabs {
+    gap: 4px;
+  }
+
+  .tab-btn {
+    padding: 12px 12px;
+    font-size: 11px;
+  }
+
+  .stat-item {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .conta-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .conta-saldo {
+    align-self: flex-end;
+  }
+}

@@ -6,7 +6,11 @@ import BottomNav from './components/BottomNav'
 import Home from './pages/Home'
 import Fatura from './pages/Fatura'
 import Conta from './pages/Conta'
+import Saldo from './pages/Saldo'
+import Cartao from './pages/Cartao'
 import Investimentos from './pages/Investimentos'
+import Itau from './pages/Itau'
+import NuBank from './pages/NuBank'
 import InvestimentoDetalhe from './pages/InvestimentoDetalhe'
 import BancoDetalhe from './pages/BancoDetalhe'
 import Revisar from './pages/Revisar'
@@ -49,10 +53,14 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/saldo" element={<Saldo />} />
           <Route path="/fatura" element={<Fatura />} />
+          <Route path="/cartao" element={<Cartao />} />
           <Route path="/conta" element={<Conta />} />
           <Route path="/investimentos" element={<Investimentos />} />
           <Route path="/investimentos/:id" element={<InvestimentoDetalhe />} />
+          <Route path="/itau" element={<Itau />} />
+          <Route path="/nubank" element={<NuBank />} />
           <Route path="/banco/:banco" element={<BancoDetalhe />} />
           <Route path="/revisar" element={<Revisar />} />
           <Route path="/config" element={<Config />} />

@@ -19,8 +19,6 @@
   padding: 32px 36px;
   max-width: 1400px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
 }
 
 @media (max-width: 768px) {
@@ -605,61 +603,6 @@
 
   .trans-valor {
     font-size: 13px;
-  }
-}
-
-/* 2-COLUMN LAYOUT */
-.fatura-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  margin-top: 32px;
-  position: relative;
-}
-
-@media (max-width: 1024px) {
-  .fatura-content {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-/* LEFT COLUMN - Transações List */
-.fatura-column-right {
-  width: 100%;
-}
-
-/* RIGHT COLUMN - Fatura Card Fixed & Centered */
-.fatura-column-left {
-  position: fixed;
-  width: calc((100vw - 1400px) / 2 + 700px + 28px + 36px);
-  max-width: 686px;
-  top: 340px;
-  right: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 0;
-  z-index: 40;
-}
-
-@media (max-width: 1400px) {
-  .fatura-column-left {
-    width: calc(50vw - 14px);
-    right: 0;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 1024px) {
-  .fatura-column-left {
-    position: static;
-    width: 100%;
-    top: auto;
-    right: auto;
-    padding-left: 0;
-    max-width: none;
-    justify-content: center;
   }
 }
 
