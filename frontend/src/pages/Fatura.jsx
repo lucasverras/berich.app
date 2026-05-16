@@ -179,43 +179,7 @@ function Fatura() {
 
         {/* 2-COLUMN LAYOUT */}
         <div className="fatura-content">
-          {/* LEFT COLUMN - Fatura Card (Sticky) */}
-          <div className="fatura-column-left">
-            <div className="stat-card stat-card-glass stat-card-glow fatura-card">
-              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
-              <div className="fatura-card-top">
-                <div>
-                  <div className="stat-icon stat-icon-red">💳</div>
-                  <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
-                </div>
-                <div className="fatura-badges">
-                  {faturaFechada && <span className="badge-orange">Fatura fechada</span>}
-                  {!faturaFechada && diasParaVencer > 0 && <span className="badge-red">Vence em {diasParaVencer} dia{diasParaVencer > 1 ? 's' : ''}</span>}
-                </div>
-              </div>
-              <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
-
-              <div className="fatura-progress-wrapper">
-                <div className="fatura-progress-bar">
-                  <div className="fatura-progress-fill" style={{ width: `${Math.min(percentualFatura, 100)}%`, background: corProgresso }}></div>
-                </div>
-                <span className="fatura-progress-text">{percentualFatura.toFixed(0)}% do limite</span>
-              </div>
-
-              <div className="fatura-info">
-                <div className="info-item">
-                  <span className="info-label">Limite disponível</span>
-                  <span className="info-value">{fmt(limiteDisponivel)}</span>
-                </div>
-                <div className="info-divider"></div>
-                <div className="info-item">
-                  <span className="info-label">Fecha dia {DIA_FECHAMENTO} · Vence dia {DIA_VENCIMENTO}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT COLUMN - Transações */}
+          {/* LEFT COLUMN - Transações */}
           <div className="fatura-column-right">
             <div className="transacoes-section">
               <div className="section-header">
@@ -283,6 +247,42 @@ function Fatura() {
                   })()}
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN - Fatura Card (Fixed) */}
+          <div className="fatura-column-left">
+            <div className="stat-card stat-card-glass stat-card-glow fatura-card">
+              <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #f87171, transparent)' }}></div>
+              <div className="fatura-card-top">
+                <div>
+                  <div className="stat-icon stat-icon-red">💳</div>
+                  <div className="stat-label">Fatura de {MESES[mesSelecionado]}</div>
+                </div>
+                <div className="fatura-badges">
+                  {faturaFechada && <span className="badge-orange">Fatura fechada</span>}
+                  {!faturaFechada && diasParaVencer > 0 && <span className="badge-red">Vence em {diasParaVencer} dia{diasParaVencer > 1 ? 's' : ''}</span>}
+                </div>
+              </div>
+              <div className="stat-value negative">{fmt(Math.abs(fatura))}</div>
+
+              <div className="fatura-progress-wrapper">
+                <div className="fatura-progress-bar">
+                  <div className="fatura-progress-fill" style={{ width: `${Math.min(percentualFatura, 100)}%`, background: corProgresso }}></div>
+                </div>
+                <span className="fatura-progress-text">{percentualFatura.toFixed(0)}% do limite</span>
+              </div>
+
+              <div className="fatura-info">
+                <div className="info-item">
+                  <span className="info-label">Limite disponível</span>
+                  <span className="info-value">{fmt(limiteDisponivel)}</span>
+                </div>
+                <div className="info-divider"></div>
+                <div className="info-item">
+                  <span className="info-label">Fecha dia {DIA_FECHAMENTO} · Vence dia {DIA_VENCIMENTO}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

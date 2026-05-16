@@ -624,24 +624,29 @@
   }
 }
 
-/* LEFT COLUMN - Fatura Card Fixed & Centered */
+/* LEFT COLUMN - Transações List */
+.fatura-column-right {
+  width: 100%;
+}
+
+/* RIGHT COLUMN - Fatura Card Fixed & Centered */
 .fatura-column-left {
   position: fixed;
-  width: calc((100vw - 1400px) / 2 + 36px + 686px);
+  width: calc((100vw - 1400px) / 2 + 700px + 28px + 36px);
   max-width: 686px;
   top: 340px;
-  left: 0;
+  right: 36px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 28px;
+  justify-content: flex-start;
+  padding-left: 0;
   z-index: 40;
 }
 
 @media (max-width: 1400px) {
   .fatura-column-left {
     width: calc(50vw - 14px);
-    padding-right: 0;
+    right: 0;
     justify-content: center;
   }
 }
@@ -651,15 +656,11 @@
     position: static;
     width: 100%;
     top: auto;
-    left: auto;
-    padding-right: 0;
+    right: auto;
+    padding-left: 0;
     max-width: none;
+    justify-content: center;
   }
-}
-
-/* RIGHT COLUMN - Transações List */
-.fatura-column-right {
-  width: 100%;
 }
 
 /* FATURA CARD */
