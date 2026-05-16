@@ -163,17 +163,18 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'cartão' 
       <form id="add-form" onSubmit={handleSubmit} className="space-y-4">
 
         {/* Tipo Selector */}
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-6">
           {['cartão', 'entrada', 'saída'].map(t => (
             <button
               key={t}
               type="button"
               onClick={() => handleTipoChange(t)}
-              className={`flex-1 py-1.5 px-2 rounded text-xs font-medium transition-all ${
-                tipo === t
-                  ? 'bg-green-600 text-white border border-green-600'
-                  : 'bg-transparent border border-green-600/40 text-green-400 hover:border-green-600/60'
-              }`}
+              style={{
+                background: tipo === t ? '#22c55e' : 'transparent',
+                color: tipo === t ? '#fff' : '#22c55e',
+                borderColor: tipo === t ? '#22c55e' : 'rgba(34, 197, 94, 0.4)',
+              }}
+              className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all border`}
             >
               {t === 'entrada' ? 'Entrada' : t === 'saída' ? 'Saída' : 'Cartão'}
             </button>

@@ -1,9 +1,8 @@
 import React from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './dialog'
 
 /**
  * AppDialog - Componente base unificado para todos os modais do app
- * Garante padronização visual, spacing, X visível, e comportamento consistente
  */
 export function AppDialog({
   open,
@@ -23,22 +22,22 @@ export function AppDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={`${sizeClass} w-full p-6 gap-6`} showClose={showClose}>
+      <DialogContent className={`${sizeClass} w-full p-0 gap-0`} showClose={false}>
         {title && (
-          <DialogHeader className="border-none p-0">
-            <DialogTitle className="text-sm font-medium">{title}</DialogTitle>
+          <DialogHeader className="border-none px-7 pt-7 pb-4">
+            <DialogTitle className="text-base font-semibold text-foreground">{title}</DialogTitle>
             {description && <p className="text-xs text-muted-foreground mt-1">{description}</p>}
           </DialogHeader>
         )}
 
-        <div className="flex-1 overflow-y-auto max-h-[calc(100vh-180px)]">
+        <div className="px-7 overflow-y-auto max-h-[calc(100vh-200px)]">
           {children}
         </div>
 
         {footer && (
-          <DialogFooter className="flex gap-2 justify-end border-t border-border pt-4 mt-4">
+          <div className="px-7 pb-7 pt-4 flex gap-2 justify-end">
             {footer}
-          </DialogFooter>
+          </div>
         )}
       </DialogContent>
     </Dialog>
