@@ -1823,6 +1823,12 @@
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   font-size: 14px;
+  gap: 12px;
+}
+
+.lancamento-row span:last-child {
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .lancamento-row:last-child {
