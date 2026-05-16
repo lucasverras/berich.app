@@ -1,5 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
+import { transacoesData } from '../data/transacoes'
+import { getCategoryColor, getCategoryEmoji } from '../data/categoriesStore'
 import './Cartao.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -8,21 +10,51 @@ const LIMITE_CARTAO = 5000
 function Cartao() {
   const { ano } = useContext(AppContext)
   const [mesSelecionado, setMesSelecionado] = useState(4) // Maio (índice 4)
+  const [meses, setMeses] = useState([
+    { mes: 3, nome: 'Abril', fatura: 0, transacoes: 0 },
+    { mes: 4, nome: 'Maio', fatura: 0, transacoes: 0 },
+  ])
+  const [resumoPorCategoria, setResumoPorCategoria] = useState({})
 
-  const meses = [
-    {
-      mes: 3,
-      nome: 'Abril',
-      fatura: 2890.50,
-      transacoes: 18,
-    },
-    {
-      mes: 4,
-      nome: 'Maio',
-      fatura: 3245.80,
-      transacoes: 22,
-    },
-  ]
+  useEffect(() => {
+    // Calculate fatura for each month
+    const novosMeses = MESES.slice(0, 2).map((nome, idx) => {
+      const mesNum = idx + 3 // Abril = 3, Maio = 4
+      const sheetKey = `${nome} Cartão ${ano}`
+      const transacoes = transacoesData[sheetKey] || []
+
+      const saidas = transacoes
+        .filter(t => t.tipo === 'saída')
+        .reduce((sum, t) => sum + Math.abs(t.valor), 0)
+
+      return {
+        mes: mesNum,
+        nome,
+        fatura: saidas,
+        transacoes: transacoes.filter(t => t.tipo === 'saída').length,
+      }
+    })
+
+    setMeses(novosMeses)
+
+    // Calculate resumo by category for selected month
+    const mesNome = MESES[mesSelecionado - 1]
+    const sheetKey = `${mesNome} Cartão ${ano}`
+    const transacoes = transacoesData[sheetKey] || []
+
+    const categorias = {}
+    transacoes
+      .filter(t => t.tipo === 'saída')
+      .forEach(t => {
+        const cat = t.categoria || 'Sem categoria'
+        if (!categorias[cat]) {
+          categorias[cat] = 0
+        }
+        categorias[cat] += Math.abs(t.valor)
+      })
+
+    setResumoPorCategoria(categorias)
+  }, [ano, mesSelecionado])
 
   const fmt = (v) => {
     if (!v) return 'R$ 0,00'
@@ -100,34 +132,47 @@ function Cartao() {
         <div className="resumo-section">
           <h2 className="section-title">Resumo por Categoria</h2>
           <div className="resumo-grid">
-            <div className="resumo-item">
-              <div className="resumo-icon">🍔</div>
-              <div className="resumo-info">
-                <div className="resumo-label">Alimentação</div>
-                <div className="resumo-value">R$ 856,30</div>
-              </div>
-            </div>
-            <div className="resumo-item">
-              <div className="resumo-icon">🛍️</div>
-              <div className="resumo-info">
-                <div className="resumo-label">Compras</div>
-                <div className="resumo-value">R$ 542,10</div>
-              </div>
-            </div>
-            <div className="resumo-item">
-              <div className="resumo-icon">🚗</div>
-              <div className="resumo-info">
-                <div className="resumo-label">Transporte</div>
-                <div className="resumo-value">R$ 234,50</div>
-              </div>
-            </div>
-            <div className="resumo-item">
-              <div className="resumo-icon">⚡</div>
-              <div className="resumo-info">
-                <div className="resumo-label">Assinatura</div>
-                <div className="resumo-value">R$ 189,90</div>
-              </div>
-            </div>
+            {Object.entries(resumoPorCategoria)
+              .sort(([, a], [, b]) => b - a)
+              .slice(0, 4)
+              .map(([categoria, valor]) => {
+                const emojis = {
+                  'PARA MIM': '💇',
+                  'PRESENTES': '🎁',
+                  'OUTROS': '📌',
+                  'COMIDA': '🍔',
+                  'BEBIDAS': '🍷',
+                  'UBER': '🚗',
+                  'ESTACIONAMENTO': '🅿️',
+                  'GASOLINA': '⛽',
+                  'VIAGENS': '✈️',
+                  'FESTAS': '🎉',
+                  'VESTUÁRIO': '👕',
+                  'APOSTAS': '🎰',
+                  'INVESTIDO': '📈',
+                  'GANHOS': '💰',
+                  'MENSAL': '📅',
+                  'KAU': '👤',
+                  'LCL': '👤',
+                  'POD': '🎙️',
+                  'CARTÃO': '💳',
+                  'NAVEGANDOSP': '💻',
+                }
+                const catColor = getCategoryColor(categoria)
+                return (
+                  <div key={categoria} className="resumo-item" style={{
+                    backgroundColor: `${catColor}15`,
+                    borderTopColor: catColor,
+                    borderTopWidth: '3px'
+                  }}>
+                    <div className="resumo-icon" style={{ color: catColor }}>{emojis[categoria] || '📌'}</div>
+                    <div className="resumo-info">
+                      <div className="resumo-label" style={{ color: catColor }}>{categoria}</div>
+                      <div className="resumo-value">{fmt(valor)}</div>
+                    </div>
+                  </div>
+                )
+              })}
           </div>
         </div>
       </div>

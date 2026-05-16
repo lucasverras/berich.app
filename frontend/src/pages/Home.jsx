@@ -14,8 +14,9 @@ import MonthCarousel from '../components/MonthCarousel'
 import OutrosBancos from '../components/OutrosBancos'
 import { UtensilsCrossed, Car, Home as HomeIcon, Heart, Gamepad2, BookOpen, ShoppingBag, Film, Plane, Zap } from 'lucide-react'
 import logo from '../assets/logo/logo.svg'
-import { getMockCartaoForMonth, getMockContaForMonth, calculateResumoFromLancamentos, calculateFaturaFromLancamentos } from '../utils/filterMockData'
 import { getParcelText } from '../utils/formatParcel'
+import { getCategoryColor, getCategoryEmoji } from '../data/categoriesStore'
+import { transacoesData } from '../data/transacoes'
 import './Home.css'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -37,25 +38,6 @@ const CATEGORY_ICONS = {
   'Assinatura': Zap,
 }
 
-const CATEGORY_EMOJIS = {
-  'Alimentação': '🍔',
-  'Bebidas': '🍷',
-  'Transporte': '🚗',
-  'Moradia': '🏠',
-  'Saúde': '⚕️',
-  'Lazer': '🎮',
-  'Educação': '📚',
-  'Compras': '🛍️',
-  'Diversão': '🎬',
-  'Viagem': '✈️',
-  'Assinatura': '⚡',
-  'Entrada': '💰',
-  'Renda': '💵',
-  'Cashback': '🎁',
-  'Freelance': '💼',
-  'Investimento': '📈',
-  'Sem categoria': '📌',
-}
 
 const BANKS = [
   { sigla: 'C6', nome: 'C6 Bank', tipo: 'Conta principal', saldo: 4250, bgColor: '#f59e0b' },
@@ -94,30 +76,8 @@ function Home() {
   })
   const [fatura, setFatura] = useState(2450.75)
   const [saldoAtual, setSaldoAtual] = useState(12450.00)
-  const [lancamentosCartao, setLancamentosCartao] = useState([
-    { id: 1, descricao: 'Supermercado Carrefour', valor: 285.40, categoria: 'Alimentação', data: '2026-05-16', tipo: 'saída' },
-    { id: 2, descricao: 'Spotify Premium Anual', valor: 119.90, categoria: 'Assinatura', data: '2026-05-15', tipo: 'saída' },
-    { id: 3, descricao: 'Farmácia Drogasil', valor: 127.50, categoria: 'Saúde', data: '2026-05-14', tipo: 'saída' },
-    { id: 4, descricao: 'Restaurante Outback Steakhouse', valor: 156.80, categoria: 'Alimentação', data: '2026-05-13', tipo: 'saída' },
-    { id: 9, descricao: 'Uber Viagem', valor: 45.60, categoria: 'Transporte', data: '2026-05-12', tipo: 'saída' },
-    { id: 10, descricao: 'Cinema 2 Ingressos', valor: 80.00, categoria: 'Lazer', data: '2026-05-11', tipo: 'saída' },
-    { id: 11, descricao: 'Livraria Saraiva Livros', valor: 95.00, categoria: 'Educação', data: '2026-05-10', tipo: 'saída' },
-    { id: 12, descricao: 'Padaria Doces da Vovó', valor: 52.30, categoria: 'Alimentação', data: '2026-05-09', tipo: 'saída' },
-    { id: 17, descricao: 'iFood Delivery', valor: 68.90, categoria: 'Alimentação', data: '2026-05-08', tipo: 'saída' },
-    { id: 18, descricao: 'Eletricista Serviço Casa', valor: 200.00, categoria: 'Moradia', data: '2026-05-07', tipo: 'saída' },
-  ])
-  const [lancamentosConta, setLancamentosConta] = useState([
-    { id: 5, descricao: 'Salário Empresa XYZ', valor: 5500.00, categoria: 'Entrada', data: '2026-05-01', tipo: 'entrada' },
-    { id: 6, descricao: 'Aluguel Apartamento 3Q', valor: -1800.00, categoria: 'Moradia', data: '2026-05-02', tipo: 'saída' },
-    { id: 7, descricao: 'Freelance Design Gráfico', valor: 2000.00, categoria: 'Entrada', data: '2026-05-05', tipo: 'entrada' },
-    { id: 8, descricao: 'Academia Smart Fit', valor: -99.90, categoria: 'Saúde', data: '2026-05-03', tipo: 'saída' },
-    { id: 13, descricao: 'Cashback Cartão Crédito', valor: 156.30, categoria: 'Entrada', data: '2026-05-06', tipo: 'entrada' },
-    { id: 14, descricao: 'Venda Livro OLX', valor: 45.00, categoria: 'Entrada', data: '2026-05-07', tipo: 'entrada' },
-    { id: 15, descricao: 'Conta Telefone Claro', valor: -89.90, categoria: 'Assinatura', data: '2026-05-08', tipo: 'saída' },
-    { id: 16, descricao: 'Dividendos Investimento', valor: 298.70, categoria: 'Entrada', data: '2026-05-09', tipo: 'entrada' },
-    { id: 19, descricao: 'Seguro Carro Anual', valor: -450.00, categoria: 'Transporte', data: '2026-05-10', tipo: 'saída' },
-    { id: 20, descricao: 'Venda Produto Ebay', valor: 320.00, categoria: 'Entrada', data: '2026-05-12', tipo: 'entrada' },
-  ])
+  const [lancamentosCartao, setLancamentosCartao] = useState([])
+  const [lancamentosConta, setLancamentosConta] = useState([])
   const [categorias, setCategorias] = useState([])
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -138,21 +98,55 @@ function Home() {
   useEffect(() => {
     fetchCategorias()
 
-    // Filter mock data by selected month/year and closing day
-    const diaFechamento = diasFechamento[mes] || 1
-    const cartaoMes = getMockCartaoForMonth(mes, ano, diaFechamento)
-    const contaMes = getMockContaForMonth(mes, ano, diaFechamento)
+    // Load real data from Excel
+    const mesNome = MESES[mes - 1]
+    const cartaoSheetKey = `${mesNome} Cartão ${ano}`
+    const saldoSheetKey = `${mesNome} Saldo ${ano}`
 
-    setLancamentosCartao(cartaoMes)
-    setLancamentosConta(contaMes)
+    const cartaoTransacoes = transacoesData[cartaoSheetKey] || []
+    const saldoTransacoes = transacoesData[saldoSheetKey] || []
 
-    // Calculate fatura from filtered cartão transactions
-    const faturaValue = calculateFaturaFromLancamentos(cartaoMes)
+    // Convert cartão transactions
+    const cartaoFormatted = cartaoTransacoes
+      .filter(t => t.tipo === 'saída')
+      .map((t, idx) => ({
+        id: idx + 1,
+        descricao: t.motivo,
+        valor: Math.abs(t.valor),
+        categoria: t.categoria || 'Sem categoria',
+        data: t.data,
+        tipo: t.tipo,
+        forma_pagamento: 'cartão'
+      }))
+      .sort((a, b) => new Date(b.data) - new Date(a.data))
+
+    // Convert saldo transactions
+    const saldoFormatted = saldoTransacoes
+      .map((t, idx) => ({
+        id: idx + 1,
+        descricao: t.motivo,
+        valor: t.tipo === 'entrada' ? t.valor : Math.abs(t.valor),
+        categoria: t.categoria || 'Sem categoria',
+        data: t.data,
+        tipo: t.tipo,
+        forma_pagamento: 'pix'
+      }))
+      .sort((a, b) => new Date(b.data) - new Date(a.data))
+
+    setLancamentosCartao(cartaoFormatted)
+    setLancamentosConta(saldoFormatted)
+
+    // Calculate fatura
+    const faturaValue = cartaoFormatted.reduce((sum, l) => sum + l.valor, 0)
     setFatura(faturaValue)
 
-    // Calculate resumo from filtered conta transactions
-    const resumoValue = calculateResumoFromLancamentos(contaMes)
-    setSaldoAtual(resumoValue.saldo)
+    // Calculate saldo
+    let entradas = 0, saidas = 0
+    saldoFormatted.forEach(l => {
+      if (l.tipo === 'entrada') entradas += l.valor
+      else saidas += l.valor
+    })
+    setSaldoAtual(entradas - saidas)
     setResumo(prev => ({
       ...prev,
       ...resumoValue
@@ -311,12 +305,11 @@ function Home() {
     return 'Boa noite'
   }
 
-  const getCategoryEmoji = (lancamento) => {
+  const getCatEmoji = (lancamento) => {
     if (lancamento.parcelado) {
-      return '📌'
+      return getCategoryEmoji('Sem categoria')
     }
-    const categoria = lancamento.categoria || 'Sem categoria'
-    return CATEGORY_EMOJIS[categoria] || '📌'
+    return getCategoryEmoji(lancamento.categoria || 'Sem categoria')
   }
 
   const handleMesChange = (novoMes) => {
@@ -409,7 +402,7 @@ function Home() {
     datasets: [
       {
         data: chartData.map(e => e.valor),
-        backgroundColor: chartData.map((e, i) => CORES_PIZZA[i] || '#052e16'),
+        backgroundColor: chartData.map(e => getCategoryColor(e.name)),
         borderWidth: 0,
         hoverOffset: 10,
       }
@@ -421,7 +414,7 @@ function Home() {
     datasets: [
       {
         data: chartDataEntrada.map(e => e.valor),
-        backgroundColor: chartDataEntrada.map((e, i) => ['#4ade80', '#86efac', '#bbf7d0', '#22c55e', '#16a34a', '#15803d'][i] || '#052e16'),
+        backgroundColor: chartDataEntrada.map(e => getCategoryColor(e.name)),
         borderWidth: 0,
         hoverOffset: 10,
       }
@@ -644,19 +637,25 @@ function Home() {
                   <>
                     {lancamentosCartao.slice(0, 5).map((l, idx) => {
                       const parcelText = getParcelText(l);
-                      const emoji = getCategoryEmoji(l);
+                      const emoji = getCatEmoji(l);
+                      const catColor = getCategoryColor(l.categoria);
                       return (
                         <div
                           key={l.id}
                           className="lancamento-row"
                           onClick={() => handleEditLancamento(l)}
-                          style={{ opacity: 1 - (idx * 0.15) }}
+                          style={{
+                            opacity: 1 - (idx * 0.15),
+                            backgroundColor: `${catColor}15`,
+                            borderLeftColor: catColor,
+                            borderLeftWidth: '3px'
+                          }}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
                             <span style={{ fontSize: '16px', minWidth: 'fit-content' }}>{emoji}</span>
                             <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
                               <span>{l.descricao}</span>
-                              <span style={{ fontSize: '12px', color: 'rgba(120, 180, 120, 0.6)' }}>{l.categoria || 'Sem categoria'}</span>
+                              <span style={{ fontSize: '12px', color: catColor }}>{l.categoria || 'Sem categoria'}</span>
                             </div>
                             {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '4px' }}>{parcelText}</span>}
                           </div>
@@ -696,19 +695,25 @@ function Home() {
                   <>
                     {lancamentosConta.slice(0, 5).map((l, idx) => {
                       const parcelText = getParcelText(l);
-                      const emoji = getCategoryEmoji(l);
+                      const emoji = getCatEmoji(l);
+                      const catColor = getCategoryColor(l.categoria);
                       return (
                         <div
                           key={l.id}
                           className="lancamento-row"
                           onClick={() => handleEditLancamento(l)}
-                          style={{ opacity: 1 - (idx * 0.15) }}
+                          style={{
+                            opacity: 1 - (idx * 0.15),
+                            backgroundColor: `${catColor}15`,
+                            borderLeftColor: catColor,
+                            borderLeftWidth: '3px'
+                          }}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
                             <span style={{ fontSize: '16px', minWidth: 'fit-content' }}>{emoji}</span>
                             <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
                               <span>{l.descricao}</span>
-                              <span style={{ fontSize: '12px', color: 'rgba(120, 180, 120, 0.6)' }}>{l.categoria || 'Sem categoria'}</span>
+                              <span style={{ fontSize: '12px', color: catColor }}>{l.categoria || 'Sem categoria'}</span>
                             </div>
                             {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '4px' }}>{parcelText}</span>}
                           </div>

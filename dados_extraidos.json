@@ -1,0 +1,896 @@
+{
+  "Março Cartão 2026": [
+    {
+      "valor": -204.5,
+      "data": "2026-03-11 00:00:00",
+      "motivo": "DMZ 1/3 NICOLAS PAGAS 100",
+      "tipo": "para mim"
+    },
+    {
+      "valor": -97.36,
+      "data": "2026-01-29 00:00:00",
+      "motivo": "vivara kau 2/3",
+      "tipo": "presentes"
+    },
+    {
+      "valor": -23.0,
+      "data": "2026-03-04 00:00:00",
+      "motivo": "NAO SEI",
+      "tipo": "outros"
+    },
+    {
+      "valor": -12.99,
+      "data": "2026-03-06 00:00:00",
+      "motivo": "COCA",
+      "tipo": "comida"
+    },
+    {
+      "valor": -337.27,
+      "data": "2026-03-08 00:00:00",
+      "motivo": "BOTECO DA MOOCA + JATOBAH + FRANCO",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -23.95,
+      "data": "2026-03-08 00:00:00",
+      "motivo": "KAUANY UBER",
+      "tipo": "uber"
+    },
+    {
+      "valor": -124.3,
+      "data": "2026-03-08 00:00:00",
+      "motivo": "TOCCO COM A KAU",
+      "tipo": "comida"
+    },
+    {
+      "valor": -90.98,
+      "data": "2026-03-14 00:00:00",
+      "motivo": "UBER PARA GALPAO",
+      "tipo": "uber"
+    },
+    {
+      "valor": -97.56,
+      "data": "2026-03-14 00:00:00",
+      "motivo": "BEEFMAKERS CARNES CHURRASCO SALLES QUE FICOU PARA DOMINGO",
+      "tipo": "comida"
+    },
+    {
+      "valor": -25.0,
+      "data": "2026-03-14 00:00:00",
+      "motivo": "TABACO",
+      "tipo": "pod"
+    },
+    {
+      "valor": -97.2,
+      "data": "2026-03-15 00:00:00",
+      "motivo": "COMBOS DE VODKA VÓ DO SALLES",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -33.96,
+      "data": "2026-03-15 00:00:00",
+      "motivo": "MCDONALDS + BREJA NO POSTO",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -14.95,
+      "data": "20 3",
+      "motivo": "uber pro enzo",
+      "tipo": "uber"
+    },
+    {
+      "valor": -11.0,
+      "data": "20 3",
+      "motivo": "pepsi",
+      "tipo": "comida"
+    },
+    {
+      "valor": -283.33,
+      "data": "2026-03-21 00:00:00",
+      "motivo": "franco gastrobar com rizzi",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -50.0,
+      "data": "2026-03-21 00:00:00",
+      "motivo": "gasolina",
+      "tipo": "gasolina"
+    },
+    {
+      "valor": -203.38,
+      "data": "2026-03-21 00:00:00",
+      "motivo": "farol da mooca com lorenzo vitinho nick",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -62.6,
+      "data": "2026-03-22 00:00:00",
+      "motivo": "adega do pinho",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -26.57,
+      "data": "2026-03-22 00:00:00",
+      "motivo": "pepsi",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -153.06,
+      "data": "2026-03-24 00:00:00",
+      "motivo": "calca kaua ta pagando",
+      "tipo": "vestuário"
+    },
+    {
+      "valor": -89.9,
+      "data": "2026-03-26 00:00:00",
+      "motivo": "total pass",
+      "tipo": "mensal"
+    },
+    {
+      "valor": -156.94,
+      "data": "2026-03-26 00:00:00",
+      "motivo": "calça fusion",
+      "tipo": "vestuário"
+    },
+    {
+      "valor": -280.7,
+      "data": "2026-03-26 00:00:00",
+      "motivo": "zé delivery c os mlks (todos pagaram)",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -179.72,
+      "data": "2026-03-28 00:00:00",
+      "motivo": "uber para casamento",
+      "tipo": "uber"
+    },
+    {
+      "valor": -50.0,
+      "data": "2026-03-29 00:00:00",
+      "motivo": "tarifa anuidade",
+      "tipo": "cartão"
+    },
+    {
+      "valor": -50.64,
+      "data": "2026-03-30 00:00:00",
+      "motivo": "uber",
+      "tipo": "uber"
+    }
+  ],
+  "Março Saldo 2026": [
+    {
+      "valor": -617.56,
+      "data": "2026-03-01 00:00:00",
+      "motivo": "CONVÊNIO",
+      "tipo": "mensal"
+    },
+    {
+      "valor": -135.0,
+      "data": "2026-03-01 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 3371.92,
+      "data": "2026-03-02 00:00:00",
+      "motivo": "NAVEGANDO FEVEREIRO + UBER",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 50.0,
+      "data": "2026-03-02 00:00:00",
+      "motivo": "PALMEIRAS REEMBOLSO",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -150.0,
+      "data": "2026-03-04 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 300.0,
+      "data": "2026-03-05 00:00:00",
+      "motivo": "COMISSAO FELIPE RADIAL",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 5444.8,
+      "data": "2026-03-05 00:00:00",
+      "motivo": "SALÁRIO MOSAIC",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 19.9,
+      "data": "2026-03-05 00:00:00",
+      "motivo": "PALMEIRAS",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 600.0,
+      "data": "2026-03-06 00:00:00",
+      "motivo": "NAVEGANDO MKT COMISSAO",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -263.9,
+      "data": "2026-03-08 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 100.0,
+      "data": "2026-03-08 00:00:00",
+      "motivo": "rafa dr espeto",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 300.0,
+      "data": "2026-03-08 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -250.0,
+      "data": "2026-03-09 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -283.28,
+      "data": "2026-03-09 00:00:00",
+      "motivo": "fatura nu bank (mensais + carro)",
+      "tipo": "outros"
+    },
+    {
+      "valor": -202.5,
+      "data": "2026-03-10 00:00:00",
+      "motivo": "pagamento gustavo",
+      "tipo": "outros"
+    },
+    {
+      "valor": -100.0,
+      "data": "2026-03-10 00:00:00",
+      "motivo": "CHURRASCO KAU BANCO",
+      "tipo": "comida"
+    },
+    {
+      "valor": 100.0,
+      "data": "2026-03-10 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -495.0,
+      "data": "2026-03-10 00:00:00",
+      "motivo": "mercado pago (1 parte da bateria, flores)",
+      "tipo": "outros"
+    },
+    {
+      "valor": 306.0,
+      "data": "2026-03-11 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 26.97,
+      "data": "2026-03-12 00:00:00",
+      "motivo": "CAMISETA PALMEIRAS, VENDEU A DO CORINTHIANS",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -36.72,
+      "data": "2026-03-14 00:00:00",
+      "motivo": "nao sei",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": 106.0,
+      "data": "2026-03-15 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -3000.0,
+      "data": "2026-03-15 00:00:00",
+      "motivo": "aplicou cdb",
+      "tipo": "investido"
+    },
+    {
+      "valor": 1350.0,
+      "data": "2026-03-19 00:00:00",
+      "motivo": "LARI PAGOU COMISSOES E 20% VERA",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -4000.0,
+      "data": "2026-03-20 00:00:00",
+      "motivo": "APLICOU CDB",
+      "tipo": "investido"
+    },
+    {
+      "valor": 200.0,
+      "data": "2026-03-22 00:00:00",
+      "motivo": "leozinho apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -176.05,
+      "data": "2026-03-25 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -500.0,
+      "data": "2026-03-26 00:00:00",
+      "motivo": "superbet",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 961.59,
+      "data": "2026-03-26 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 22.0,
+      "data": "2026-03-27 00:00:00",
+      "motivo": "rafae",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -155.0,
+      "data": "2026-03-28 00:00:00",
+      "motivo": "cidinha e gravata",
+      "tipo": "outros"
+    },
+    {
+      "valor": -100.0,
+      "data": "2026-03-29 00:00:00",
+      "motivo": "bet",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 975.0,
+      "data": "2026-03-31 00:00:00",
+      "motivo": "navegando comissoes",
+      "tipo": "navegandosp"
+    }
+  ],
+  "Abril Cartão 2026": [
+    {
+      "valor": -204.5,
+      "data": "2026-03-11 00:00:00",
+      "motivo": "DMZ 1/3 NICOLAS PAGAS 100",
+      "tipo": "para mim"
+    },
+    {
+      "valor": -49.99,
+      "data": "2026-04-02 00:00:00",
+      "motivo": "estacionamento",
+      "tipo": "estacionamento"
+    },
+    {
+      "valor": -75.0,
+      "data": "2026-04-04 00:00:00",
+      "motivo": "pizzaria pianossa",
+      "tipo": "comida"
+    },
+    {
+      "valor": -151.97,
+      "data": "2026-04-04 00:00:00",
+      "motivo": "humorfobia bola e carioca",
+      "tipo": "kau"
+    },
+    {
+      "valor": -470.0,
+      "data": "2026-04-06 00:00:00",
+      "motivo": "nonna lasanha",
+      "tipo": "kau"
+    },
+    {
+      "valor": -45.0,
+      "data": "2026-04-06 00:00:00",
+      "motivo": "estacionamento",
+      "tipo": "estacionamento"
+    },
+    {
+      "valor": -145.0,
+      "data": "2026-04-10 00:00:00",
+      "motivo": "primas kau",
+      "tipo": "comida"
+    },
+    {
+      "valor": -13.9,
+      "data": "2026-04-11 00:00:00",
+      "motivo": "zona azu",
+      "tipo": "estacionamento"
+    },
+    {
+      "valor": -121.15,
+      "data": "2026-04-12 00:00:00",
+      "motivo": "jantar eu e kau",
+      "tipo": "comida"
+    },
+    {
+      "valor": -22.0,
+      "data": "2026-04-12 00:00:00",
+      "motivo": "MP",
+      "tipo": "outros"
+    },
+    {
+      "valor": -19.94,
+      "data": "2026-04-13 00:00:00",
+      "motivo": "joarez",
+      "tipo": "outros"
+    },
+    {
+      "valor": -198.03,
+      "data": "2026-04-15 00:00:00",
+      "motivo": "burdog dia do humorfobia",
+      "tipo": "comida"
+    },
+    {
+      "valor": -50.88,
+      "data": "2026-04-16 00:00:00",
+      "motivo": "poke kau",
+      "tipo": "kau"
+    },
+    {
+      "valor": -105.9,
+      "data": "2026-04-16 00:00:00",
+      "motivo": "jogo palmeiras arredores",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -54.6,
+      "data": "2026-04-17 00:00:00",
+      "motivo": "uber agencia",
+      "tipo": "uber"
+    },
+    {
+      "valor": -475.0,
+      "data": "2026-04-19 00:00:00",
+      "motivo": "maru e festa eletrônica",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -27.4,
+      "data": "2026-04-19 00:00:00",
+      "motivo": "uber kau",
+      "tipo": "uber"
+    },
+    {
+      "valor": -19.36,
+      "data": "2026-04-19 00:00:00",
+      "motivo": "farmacia",
+      "tipo": "outros"
+    },
+    {
+      "valor": -71.4,
+      "data": "2026-04-20 00:00:00",
+      "motivo": "almoco com a kau",
+      "tipo": "comida"
+    },
+    {
+      "valor": -13.99,
+      "data": "2026-04-21 00:00:00",
+      "motivo": "coca",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -247.83,
+      "data": "2026-04-24 00:00:00",
+      "motivo": "camisa retro amiga pagas",
+      "tipo": "outros"
+    },
+    {
+      "valor": -80.42,
+      "data": "2026-04-25 00:00:00",
+      "motivo": "save the burger",
+      "tipo": "comida"
+    },
+    {
+      "valor": -33.7,
+      "data": "2026-04-25 00:00:00",
+      "motivo": "jupan",
+      "tipo": "comida"
+    },
+    {
+      "valor": -89.9,
+      "data": "2026-04-26 00:00:00",
+      "motivo": "totalpass",
+      "tipo": "mensal"
+    },
+    {
+      "valor": -47.98,
+      "data": "2026-04-26 00:00:00",
+      "motivo": "indo pro jogo",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -75.0,
+      "data": "2026-04-12 00:00:00",
+      "motivo": "palmeiras ingresso champions",
+      "tipo": "outros"
+    },
+    {
+      "valor": -329.03,
+      "data": "2026-04-21 00:00:00",
+      "motivo": "dani 2 parcelas 1/2",
+      "tipo": "festas"
+    },
+    {
+      "valor": -110.0,
+      "data": "2026-04-22 00:00:00",
+      "motivo": "ingresso palmeiras bragança",
+      "tipo": "outros"
+    },
+    {
+      "valor": -131.0,
+      "data": "2026-04-17 00:00:00",
+      "motivo": "san gennato pizzas",
+      "tipo": "comida"
+    },
+    {
+      "valor": -34.5,
+      "data": "2026-04-24 00:00:00",
+      "motivo": "naosei",
+      "tipo": "bebidas"
+    }
+  ],
+  "Abril Saldo 2026": [
+    {
+      "valor": -679.19,
+      "data": "2026-04-01 00:00:00",
+      "motivo": "superrmed boleto",
+      "tipo": "mensal"
+    },
+    {
+      "valor": 100.0,
+      "data": "2026-04-01 00:00:00",
+      "motivo": "kau",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -215.0,
+      "data": "2026-04-02 00:00:00",
+      "motivo": "páscoa",
+      "tipo": "comida"
+    },
+    {
+      "valor": 3000.0,
+      "data": "2026-04-02 00:00:00",
+      "motivo": "mensal navegando",
+      "tipo": "navegandosp"
+    },
+    {
+      "valor": -2500.0,
+      "data": "2026-04-02 00:00:00",
+      "motivo": "denstias lentes",
+      "tipo": "outros"
+    },
+    {
+      "valor": -50.0,
+      "data": "2026-04-03 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -80.0,
+      "data": "2026-04-03 00:00:00",
+      "motivo": "combo salles",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -380.0,
+      "data": "2026-04-05 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 5444.8,
+      "data": "2026-04-06 00:00:00",
+      "motivo": "salario mosaic",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -98.0,
+      "data": "2026-04-06 00:00:00",
+      "motivo": "1 ano kau",
+      "tipo": "kau"
+    },
+    {
+      "valor": 400.0,
+      "data": "2026-04-07 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -915.23,
+      "data": "2026-04-09 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -3300.0,
+      "data": "2026-04-10 00:00:00",
+      "motivo": "INVESTIU C6 CARTAO",
+      "tipo": "investido"
+    },
+    {
+      "valor": 200.0,
+      "data": "2026-04-10 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 190.0,
+      "data": "2026-04-10 00:00:00",
+      "motivo": "NMAO SEI",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -100.0,
+      "data": "2026-04-11 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -20.0,
+      "data": "2026-04-12 00:00:00",
+      "motivo": "TABACO",
+      "tipo": "pod"
+    },
+    {
+      "valor": 78.34,
+      "data": "2026-04-13 00:00:00",
+      "motivo": "AYALA PAGOU",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 100.0,
+      "data": "2026-04-14 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -400.0,
+      "data": "2026-04-16 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 870.0,
+      "data": "2026-04-19 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -114.78,
+      "data": "2026-04-19 00:00:00",
+      "motivo": "TXA CAMISAS PALMEIRAS",
+      "tipo": "outros"
+    },
+    {
+      "valor": 100.0,
+      "data": "2026-04-20 00:00:00",
+      "motivo": "ganhos",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -495.0,
+      "data": "2026-04-21 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 2798.79,
+      "data": "2026-04-22 00:00:00",
+      "motivo": "comissao FELIPE RADIAL",
+      "tipo": "navegandosp"
+    },
+    {
+      "valor": -1000.0,
+      "data": "2026-04-22 00:00:00",
+      "motivo": "bet",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 1100.0,
+      "data": "2026-04-23 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -3360.0,
+      "data": "2026-04-23 00:00:00",
+      "motivo": "investiu lcl",
+      "tipo": "lcl"
+    },
+    {
+      "valor": -20.0,
+      "data": "2026-04-24 00:00:00",
+      "motivo": "lalamove",
+      "tipo": "outros"
+    },
+    {
+      "valor": 1000.0,
+      "data": "2026-04-24 00:00:00",
+      "motivo": "navegandospcomssao",
+      "tipo": "navegandosp"
+    },
+    {
+      "valor": 152.99,
+      "data": "2026-04-25 00:00:00",
+      "motivo": "churrasco mlks",
+      "tipo": "outros"
+    },
+    {
+      "valor": 150.0,
+      "data": "2026-04-27 00:00:00",
+      "motivo": "kau pagou",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 3.0,
+      "data": "2026-04-28 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": -50.0,
+      "data": "2026-04-30 00:00:00",
+      "motivo": "rafael",
+      "tipo": "bebidas"
+    },
+    {
+      "valor": -679.19,
+      "data": "2026-04-30 00:00:00",
+      "motivo": "segurosaude",
+      "tipo": "mensal"
+    },
+    {
+      "valor": 755.0,
+      "data": "2026-04-30 00:00:00",
+      "motivo": "apostas",
+      "tipo": "apostas"
+    }
+  ],
+  "Maio Cartão 2026": [
+    {
+      "valor": -138.89,
+      "data": "2026-05-01 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -23.7,
+      "data": "2026-05-02 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -209.9,
+      "data": "2026-05-03 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -21.0,
+      "data": "2026-05-04 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -120.0,
+      "data": "2026-05-05 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -28.88,
+      "data": "2026-05-06 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -60.0,
+      "data": "2026-05-07 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -75.0,
+      "data": "2026-05-08 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -50.0,
+      "data": "2026-05-09 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -80.0,
+      "data": "2026-05-10 00:00:00",
+      "motivo": "PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": -10.94,
+      "data": "2026-05-05 00:00:00",
+      "motivo": "uber",
+      "tipo": "uber"
+    },
+    {
+      "valor": -52.12,
+      "data": "2026-05-05 00:00:00",
+      "motivo": "FORMULA BKZ",
+      "tipo": "para mim"
+    },
+    {
+      "valor": -65.0,
+      "data": "2026-05-08 00:00:00",
+      "motivo": "lavagem carro",
+      "tipo": "estacionamento"
+    },
+    {
+      "valor": -18.0,
+      "data": "2026-05-08 00:00:00",
+      "motivo": "pepse",
+      "tipo": "bebidas"
+    }
+  ],
+  "Maio Saldo 2026": [
+    {
+      "valor": -47.4,
+      "data": "2026-05-04 00:00:00",
+      "motivo": "olx",
+      "tipo": "outros"
+    },
+    {
+      "valor": 5444.8,
+      "data": "2026-05-05 00:00:00",
+      "motivo": "salario mosaic",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": 50.0,
+      "data": "2026-05-05 00:00:00",
+      "motivo": "APOSTas",
+      "tipo": "apostas"
+    },
+    {
+      "valor": 70.0,
+      "data": "2026-05-05 00:00:00",
+      "motivo": "RATAO PAGOU",
+      "tipo": "ganhos"
+    },
+    {
+      "valor": -235.0,
+      "data": "2026-05-06 00:00:00",
+      "motivo": "CONTABILIDADE LCL INVEST",
+      "tipo": "lcl"
+    },
+    {
+      "valor": -242.3,
+      "data": "2026-05-06 00:00:00",
+      "motivo": "VIAGEM PARATY",
+      "tipo": "viagens"
+    },
+    {
+      "valor": 3000.0,
+      "data": "2026-05-07 00:00:00",
+      "motivo": "NAVEGANDO MENSAL",
+      "tipo": "navegandosp"
+    },
+    {
+      "valor": -900.0,
+      "data": "2026-05-09 00:00:00",
+      "motivo": "APOSTAS",
+      "tipo": "apostas"
+    }
+  ]
+}

@@ -1,15 +1,43 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { AppContext } from '../context/AppContext'
+import { transacoesData } from '../data/transacoes'
 import './Saldo.css'
 
 function Saldo() {
   const { bancoAtivo } = useContext(AppContext)
-  const [resumo, setResumo] = useState({
-    saldoTotal: 15420.80,
-    entradas: 10000.00,
-    saidas: 2390.80,
-    investimentos: 3030.00,
-  })
+
+  // Calcular saldos dos dados reais
+  const calcularResumo = () => {
+    const marcoSaldo = transacoesData['Março Saldo 2026'] || []
+    const abrilSaldo = transacoesData['Abril Saldo 2026'] || []
+    const maioSaldo = transacoesData['Maio Saldo 2026'] || []
+
+    const todasTransacoes = [...marcoSaldo, ...abrilSaldo, ...maioSaldo]
+
+    let entradas = 0
+    let saidas = 0
+    let investimentos = 0
+
+    todasTransacoes.forEach(t => {
+      if (t.tipo === 'entrada') {
+        entradas += t.valor
+      } else if (t.tipo === 'saída') {
+        saidas += Math.abs(t.valor)
+        if (t.motivo.toLowerCase().includes('investi')) {
+          investimentos += Math.abs(t.valor)
+        }
+      }
+    })
+
+    return {
+      saldoTotal: entradas - saidas,
+      entradas,
+      saidas,
+      investimentos,
+    }
+  }
+
+  const [resumo] = useState(calcularResumo())
 
   const fmt = (v) => {
     if (!v) return 'R$ 0,00'

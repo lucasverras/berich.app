@@ -4,8 +4,9 @@ import axios from 'axios'
 import AddModal from '../components/AddModal'
 import EditLancamentoModal from '../components/EditLancamentoModal'
 import MonthCarousel from '../components/MonthCarousel'
-import { getMockCartaoForMonth, calculateFaturaFromLancamentos } from '../utils/filterMockData'
 import { getParcelText } from '../utils/formatParcel'
+import { transacoesData } from '../data/transacoes'
+import { getCategoryColor, getCategoryEmoji } from '../data/categoriesStore'
 import './Fatura.css'
 
 const MESES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
@@ -13,50 +14,27 @@ const LIMITE_CARTAO = 4800
 const DIA_FECHAMENTO = 1
 const DIA_VENCIMENTO = 10
 
-const CATEGORY_EMOJIS = {
-  'Alimentação': '🍔',
-  'Bebidas': '🍷',
-  'Transporte': '🚗',
-  'Moradia': '🏠',
-  'Saúde': '⚕️',
-  'Lazer': '🎮',
-  'Educação': '📚',
-  'Compras': '🛍️',
-  'Diversão': '🎬',
-  'Viagem': '✈️',
-  'Assinatura': '⚡',
-  'Entrada': '💰',
-  'Renda': '💵',
-  'Cashback': '🎁',
-  'Freelance': '💼',
-  'Investimento': '📈',
-  'Pessoal': '💇',
-  'Sem categoria': '📌',
-}
 
 const fmt = (v) => {
   if (!v) return 'R$ 0,00'
   return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
+const converterParaLancamento = (transacao, id) => ({
+  id,
+  descricao: transacao.motivo,
+  valor: Math.abs(transacao.valor),
+  categoria: transacao.categoria || 'Sem categoria',
+  data: transacao.data,
+  tipo: transacao.tipo,
+  forma_pagamento: 'cartão',
+  parcelas_total: null,
+})
+
 function Fatura() {
-  const { bancoAtivo, mes, ano, updateMesAno, diasFechamento } = useContext(AppContext)
-  const [fatura, setFatura] = useState(2650.75)
-  const [lancamentos, setLancamentos] = useState([
-    { id: 1, descricao: 'Supermercado Carrefour', valor: 285.40, categoria: 'Alimentação', data: '2026-05-16', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 2, descricao: 'Spotify Premium Anual', valor: 119.90, categoria: 'Assinatura', data: '2026-05-15', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 3, descricao: 'Farmácia Drogasil', valor: 127.50, categoria: 'Saúde', data: '2026-05-14', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 4, descricao: 'Restaurante Outback Steakhouse', valor: 156.80, categoria: 'Alimentação', data: '2026-05-13', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 9, descricao: 'Uber Viagem Centro', valor: 45.60, categoria: 'Transporte', data: '2026-05-12', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 10, descricao: 'Cinema 2 Ingressos', valor: 80.00, categoria: 'Lazer', data: '2026-05-11', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 11, descricao: 'Livraria Saraiva Livros', valor: 95.00, categoria: 'Educação', data: '2026-05-10', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 12, descricao: 'Padaria Doces da Vovó', valor: 52.30, categoria: 'Alimentação', data: '2026-05-09', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 17, descricao: 'iFood Delivery Almoço', valor: 68.90, categoria: 'Alimentação', data: '2026-05-08', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 18, descricao: 'Eletricista Reparo Casa', valor: 200.00, categoria: 'Moradia', data: '2026-05-07', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 21, descricao: 'Estacionamento Valet', valor: 75.00, categoria: 'Transporte', data: '2026-05-06', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 22, descricao: 'Barbearia Premium', valor: 85.00, categoria: 'Pessoal', data: '2026-05-05', tipo: 'saída', forma_pagamento: 'cartão' },
-    { id: 23, descricao: 'Netflix + Amazon Prime', valor: 35.80, categoria: 'Assinatura', data: '2026-05-04', tipo: 'saída', forma_pagamento: 'cartão' },
-  ])
+  const { bancoAtivo, mes, ano, updateMesAno } = useContext(AppContext)
+  const [fatura, setFatura] = useState(0)
+  const [lancamentos, setLancamentos] = useState([])
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [editingLancamento, setEditingLancamento] = useState(null)
@@ -66,15 +44,23 @@ function Fatura() {
   useEffect(() => {
     fetchCategorias()
 
-    // Filter mock data by selected month/year and closing day
-    const diaFechamento = diasFechamento[mes] || 1
-    const cartaoMes = getMockCartaoForMonth(mes, ano, diaFechamento)
-    setLancamentos(cartaoMes)
+    // Get real data from transacoes
+    const mesNome = MESES[mes - 1]
+    const sheetKey = `${mesNome} Cartão ${ano}`
+    const transacoes = transacoesData[sheetKey] || []
 
-    // Calculate fatura from filtered transactions
-    const faturaValue = calculateFaturaFromLancamentos(cartaoMes)
+    // Convert transacoes to lancamentos format
+    const novoLancamentos = transacoes
+      .filter(t => t.tipo === 'saída')
+      .map((t, idx) => converterParaLancamento(t, idx + 1))
+      .sort((a, b) => new Date(b.data) - new Date(a.data))
+
+    setLancamentos(novoLancamentos)
+
+    // Calculate fatura from transactions
+    const faturaValue = novoLancamentos.reduce((sum, l) => sum + l.valor, 0)
     setFatura(faturaValue)
-  }, [bancoAtivo, mes, ano, diasFechamento])
+  }, [mes, ano])
 
   const fetchCategorias = async () => {
     try {
@@ -123,12 +109,11 @@ function Fatura() {
     updateMesAno(novoMes + 1, ano)
   }
 
-  const getCategoryEmoji = (lancamento) => {
+  const getCatEmoji = (lancamento) => {
     if (lancamento.parcelado) {
-      return '📌'
+      return getCategoryEmoji('Sem categoria')
     }
-    const categoria = lancamento.categoria || 'Sem categoria'
-    return CATEGORY_EMOJIS[categoria] || '📌'
+    return getCategoryEmoji(lancamento.categoria || 'Sem categoria')
   }
 
   const handleAddLancamento = () => {
@@ -234,9 +219,14 @@ function Fatura() {
                   <>
                     {parceladas.map(l => {
                       const parcelText = getParcelText(l);
-                      const emoji = getCategoryEmoji(l);
+                      const emoji = getCatEmoji(l);
+                      const catColor = getCategoryColor(l.categoria);
                       return (
-                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
+                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)} style={{
+                          backgroundColor: `${catColor}15`,
+                          borderLeftColor: catColor,
+                          borderLeftWidth: '3px'
+                        }}>
                           <div className="tra-left">
                             <div className="tra-icon">{emoji}</div>
                             <div className="tra-info">
@@ -244,7 +234,7 @@ function Fatura() {
                                 {l.descricao}
                                 {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
                               </p>
-                              <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
+                              <p className="tra-category" style={{ color: catColor }}>{l.categoria || 'Sem categoria'}</p>
                               <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                             </div>
                           </div>
@@ -258,8 +248,13 @@ function Fatura() {
                     {normais.map(l => {
                       const parcelText = getParcelText(l);
                       const emoji = getCategoryEmoji(l);
+                      const catColor = getCategoryColor(l.categoria);
                       return (
-                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)}>
+                        <div key={l.id} className="transacao-item" onClick={() => handleEditLancamento(l)} style={{
+                          backgroundColor: `${catColor}15`,
+                          borderLeftColor: catColor,
+                          borderLeftWidth: '3px'
+                        }}>
                           <div className="tra-left">
                             <div className="tra-icon">{emoji}</div>
                             <div className="tra-info">
@@ -267,7 +262,7 @@ function Fatura() {
                                 {l.descricao}
                                 {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold' }}>{parcelText}</span>}
                               </p>
-                              <p className="tra-category">{l.categoria || 'Sem categoria'}</p>
+                              <p className="tra-category" style={{ color: catColor }}>{l.categoria || 'Sem categoria'}</p>
                               <p className="tra-date">{new Date(l.data).toLocaleDateString('pt-BR')}</p>
                             </div>
                           </div>

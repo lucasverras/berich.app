@@ -4,30 +4,48 @@ import Icons from '../components/Icons'
 import ClosingDaysConfig from '../components/ClosingDaysConfig'
 import { AppDialog } from '../components/ui/AppDialog'
 import { Button } from '../components/ui/button'
+import { getAllCategories, addCategory, updateCategory, deleteCategory } from '../data/categoriesStore'
 import './Config.css'
+
+const EMOJI_BANK = {
+  'Comida': ['🍔', '🍕', '🍣', '🌮', '🍜', '🥗', '🍱', '🥩', '🍗', '🍞', '🧁', '🍰', '🍦', '🥐', '🧆'],
+  'Bebidas': ['🍷', '🍺', '🥂', '🍸', '🥃', '☕', '🧃', '🥤', '🍵', '🧋'],
+  'Transporte': ['🚗', '🚕', '🏎️', '✈️', '🚢', '⛽', '🅿️', '🛵', '🚲', '🛺'],
+  'Dinheiro': ['💰', '💵', '💳', '📈', '📉', '🎰', '💹', '🏦', '🪙', '💎'],
+  'Lazer': ['🎮', '🎬', '🎵', '🏋️', '🎯', '⚽', '🎭', '🎪', '🎸', '🎲'],
+  'Pessoas': ['👤', '👥', '💇', '👰', '🤵', '🧑‍💻', '🧑‍🎤'],
+  'Outros': ['📌', '🎁', '🛍️', '👕', '🏠', '⚡', '📅', '🎉', '🔧', '📦', '✂️', '🌿'],
+}
 
 function Config() {
   const [tabs, setTabs] = useState('categorias')
-  const [categorias, setCategorias] = useState([])
+  const [categoriasLocal, setCategoriasLocal] = useState([])
   const [bancos, setBancos] = useState([])
   const [regras, setRegras] = useState([])
   const [novaCategoria, setNovaCategoria] = useState('')
+  const [novaCorCategoria, setNovaCorCategoria] = useState('#22c55e')
+  const [novoEmojiCategoria, setNovoEmojiCategoria] = useState('📌')
   const [novoBanco, setNovoBanco] = useState('')
   const [confirmDelete, setConfirmDelete] = useState(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [emojiPickerOpen, setEmojiPickerOpen] = useState(null)
+  const [colorPickerOpen, setColorPickerOpen] = useState(null)
 
   useEffect(() => {
-    fetchDados()
+    carregarCategorias()
+    fetchOutrosDados()
   }, [])
 
-  const fetchDados = async () => {
+  const carregarCategorias = () => {
+    setCategoriasLocal(getAllCategories())
+  }
+
+  const fetchOutrosDados = async () => {
     try {
-      const [categoriasRes, bancosRes, regrasRes] = await Promise.all([
-        axios.get('/api/categorias'),
+      const [bancosRes, regrasRes] = await Promise.all([
         axios.get('/api/bancos'),
         axios.get('/api/regras'),
       ])
-      setCategorias(categoriasRes.data)
       setBancos(bancosRes.data)
       setRegras(regrasRes.data)
     } catch (error) {
@@ -35,34 +53,30 @@ function Config() {
     }
   }
 
-  const handleAddCategoria = async () => {
+  const handleAddCategoria = () => {
     if (!novaCategoria.trim()) {
       alert('Digite um nome para a categoria')
       return
     }
 
-    try {
-      const ordem = categorias.length > 0 ? Math.max(...categorias.map(c => c.ordem || 0), 0) + 1 : 1
-      const response = await axios.post('/api/categorias', {
-        nome: novaCategoria.trim(),
-        ordem: ordem
-      })
-      console.log('Categoria criada:', response.data)
-      setNovaCategoria('')
-      fetchDados()
-    } catch (error) {
-      console.error('Erro ao adicionar categoria:', error.response?.data || error.message)
-      alert(`Erro ao adicionar categoria: ${error.response?.data?.message || error.message}`)
-    }
+    addCategory(novaCategoria.trim(), novaCorCategoria, novoEmojiCategoria)
+    setNovaCategoria('')
+    setNovaCorCategoria('#22c55e')
+    setNovoEmojiCategoria('📌')
+    carregarCategorias()
   }
 
-  const handleDeleteCategoria = (id) => {
-    const categoria = categorias.find(c => c.id === id)
+  const handleUpdateCategoria = (nome, cor, emoji) => {
+    updateCategory(nome, cor, emoji)
+    carregarCategorias()
+  }
+
+  const handleDeleteCategoria = (nome) => {
     setConfirmDelete({
       type: 'categoria',
-      id,
-      label: categoria?.nome,
-      message: 'Tem certeza que deseja desativar esta categoria?'
+      id: nome,
+      label: nome,
+      message: 'Tem certeza que deseja deletar esta categoria?'
     })
   }
 
@@ -72,11 +86,12 @@ function Config() {
     setIsDeleting(true)
     try {
       if (confirmDelete.type === 'categoria') {
-        await axios.delete(`/api/categorias/${confirmDelete.id}`)
+        deleteCategory(confirmDelete.id)
+        carregarCategorias()
       } else if (confirmDelete.type === 'regra') {
         await axios.delete(`/api/regras/${confirmDelete.id}`)
+        fetchOutrosDados()
       }
-      fetchDados()
       setConfirmDelete(null)
     } catch (error) {
       alert('Erro ao deletar')
@@ -174,29 +189,141 @@ function Config() {
         <div className="config-section card">
           <h3>Categorias</h3>
 
+          {/* Adicionar nova categoria */}
           <div className="add-section">
             <div className="form-group">
-              <label>Adicionar categoria</label>
-              <div className="input-group">
+              <label>Adicionar Nova Categoria</label>
+              <div className="categoria-form">
+                <div className="color-dot-input">
+                  <div
+                    className="color-preview"
+                    style={{ backgroundColor: novaCorCategoria }}
+                    onClick={() => {
+                      const input = document.querySelector('#new-cat-color-input')
+                      input?.click()
+                    }}
+                  />
+                  <input
+                    id="new-cat-color-input"
+                    type="color"
+                    value={novaCorCategoria}
+                    onChange={(e) => setNovaCorCategoria(e.target.value)}
+                    style={{ display: 'none' }}
+                  />
+                </div>
+                <div className="emoji-input" onClick={() => setEmojiPickerOpen('new')}>
+                  {novoEmojiCategoria}
+                </div>
                 <input
                   type="text"
                   value={novaCategoria}
                   onChange={(e) => setNovaCategoria(e.target.value)}
+                  placeholder="Nome da categoria"
                   onKeyPress={(e) => e.key === 'Enter' && handleAddCategoria()}
-                  placeholder="Nova categoria"
                 />
-                <button onClick={handleAddCategoria}>Adicionar</button>
+                <button onClick={handleAddCategoria} className="btn-add">Adicionar</button>
               </div>
+              {emojiPickerOpen === 'new' && (
+                <div className="emoji-picker">
+                  {Object.entries(EMOJI_BANK).map(([categoria, emojis]) => (
+                    <div key={categoria} className="emoji-categoria">
+                      <div className="emoji-categoria-label">{categoria}</div>
+                      <div className="emoji-grid">
+                        {emojis.map((emoji) => (
+                          <button
+                            key={emoji}
+                            className="emoji-btn"
+                            onClick={() => {
+                              setNovoEmojiCategoria(emoji)
+                              setEmojiPickerOpen(null)
+                            }}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
+          {/* Lista de categorias existentes */}
           <div className="list-section">
-            {categorias.map(categoria => (
-              <div key={categoria.id} className="list-item">
-                <span>{categoria.nome}</span>
-                <button onClick={() => handleDeleteCategoria(categoria.id)} className="delete-btn" title="Deletar">
-                  <Icons.AlertCircle size={18} />
-                </button>
+            {categoriasLocal.map((cat) => (
+              <div key={cat.nome} className="categoria-item">
+                <div className="categoria-left">
+                  <div
+                    className="color-dot"
+                    style={{ backgroundColor: cat.cor }}
+                    onClick={() => {
+                      const colorInput = document.createElement('input')
+                      colorInput.type = 'color'
+                      colorInput.value = cat.cor
+                      colorInput.onchange = (e) => {
+                        handleUpdateCategoria(cat.nome, e.target.value, cat.emoji)
+                      }
+                      colorInput.click()
+                    }}
+                  />
+                  <div className="categoria-emoji">{cat.emoji}</div>
+                  <div className="categoria-nome">{cat.nome}</div>
+                </div>
+                <div className="categoria-actions">
+                  <button
+                    className="emoji-edit-btn"
+                    onClick={() => setEmojiPickerOpen(cat.nome)}
+                    title="Editar emoji"
+                  >
+                    😀
+                  </button>
+                  <button
+                    className="color-edit-btn"
+                    onClick={() => {
+                      const colorInput = document.createElement('input')
+                      colorInput.type = 'color'
+                      colorInput.value = cat.cor
+                      colorInput.onchange = (e) => {
+                        handleUpdateCategoria(cat.nome, e.target.value, cat.emoji)
+                      }
+                      colorInput.click()
+                    }}
+                    title="Editar cor"
+                  >
+                    🎨
+                  </button>
+                  <button
+                    onClick={() => handleDeleteCategoria(cat.nome)}
+                    className="delete-btn"
+                    title="Deletar"
+                  >
+                    <Icons.AlertCircle size={18} />
+                  </button>
+                </div>
+                {emojiPickerOpen === cat.nome && (
+                  <div className="emoji-picker">
+                    {Object.entries(EMOJI_BANK).map(([categoria, emojis]) => (
+                      <div key={categoria} className="emoji-categoria">
+                        <div className="emoji-categoria-label">{categoria}</div>
+                        <div className="emoji-grid">
+                          {emojis.map((emoji) => (
+                            <button
+                              key={emoji}
+                              className="emoji-btn"
+                              onClick={() => {
+                                handleUpdateCategoria(cat.nome, cat.cor, emoji)
+                                setEmojiPickerOpen(null)
+                              }}
+                            >
+                              {emoji}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
