@@ -757,6 +757,15 @@ function Home() {
           setLancamentoToDelete(null)
         }}
       />
+
+      {/* FAB - Floating Action Button */}
+      <button
+        className="fab"
+        onClick={() => setIsAddModalOpen(true)}
+        title="Adicionar transação"
+      >
+        +
+      </button>
     </div>
   )
 }
