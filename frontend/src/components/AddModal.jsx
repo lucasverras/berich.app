@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { AppContext } from '../context/AppContext'
 import axios from 'axios'
-import { AppDialog } from './ui/AppDialog'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import { Textarea } from './ui/textarea'
+import './AddModal.css'
 
 function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'cartão' }) {
   const { bancoAtivo, mesAno } = useContext(AppContext)
+  const modalRef = useRef(null)
 
   const getInitialTipo = () => {
     if (isOpen) {
@@ -139,189 +137,219 @@ function AddModal({ isOpen, onClose, onLancamentoAdded, defaultTipo = 'cartão' 
     }
   }
 
-  return (
-    <AppDialog
-      open={isOpen}
-      onOpenChange={onClose}
-      title="Adicionar Movimentação"
-      size="sm"
-      footer={
-        <div className="flex gap-2 w-full">
-          <Button type="button" variant="outline" onClick={onClose} className="h-8 text-xs">
-            Cancelar
-          </Button>
-          <Button
-            type="submit"
-            className="h-8 text-xs bg-green-600 hover:bg-green-700 text-white"
-            form="add-form"
-          >
-            Adicionar
-          </Button>
-        </div>
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose()
       }
-    >
-      <form id="add-form" onSubmit={handleSubmit} className="space-y-4">
+    }
+    if (isOpen) {
+      document.addEventListener('keydown', handleEsc)
+      document.body.style.overflow = 'hidden'
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEsc)
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen, onClose])
 
-        {/* Tipo Selector */}
-        <div className="flex gap-2 mb-6">
-          {['cartão', 'entrada', 'saída'].map(t => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => handleTipoChange(t)}
-              style={{
-                background: tipo === t ? '#22c55e' : 'transparent',
-                color: tipo === t ? '#fff' : '#22c55e',
-                borderColor: tipo === t ? '#22c55e' : 'rgba(34, 197, 94, 0.4)',
-              }}
-              className={`flex-1 py-2 px-3 rounded-lg text-xs font-medium transition-all border`}
-            >
-              {t === 'entrada' ? 'Entrada' : t === 'saída' ? 'Saída' : 'Cartão'}
-            </button>
-          ))}
-        </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Descrição</label>
-            <Textarea
-              name="motivo"
-              value={formData.motivo}
-              onChange={handleChange}
-              placeholder="O que foi comprado/recebido?"
-            />
+  if (!isOpen) return null
+
+  return (
+    <>
+      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal-container">
+        <div className="modal" ref={modalRef}>
+          <div className="modal-header">
+            <h2 className="modal-title">Adicionar Movimentação</h2>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Valor</label>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">R$</span>
-              <Input
-                type="text"
-                name="valor"
-                value={formatCurrency(formData.valor)}
+          <form onSubmit={handleSubmit} className="modal-form">
+            {/* Tipo Selector */}
+            <div className="tipo-selector">
+              {['cartão', 'entrada', 'saída'].map(t => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => handleTipoChange(t)}
+                  className="tipo-btn"
+                  style={{
+                    background: tipo === t ? '#22c55e' : 'transparent',
+                    color: tipo === t ? '#000' : '#22c55e',
+                    borderColor: tipo === t ? '#22c55e' : 'rgba(34, 197, 94, 0.4)',
+                  }}
+                >
+                  {t === 'entrada' ? 'Entrada' : t === 'saída' ? 'Saída' : 'Cartão'}
+                </button>
+              ))}
+            </div>
+
+            {/* Descrição */}
+            <div className="form-group">
+              <label htmlFor="motivo" className="form-label">Descrição</label>
+              <textarea
+                id="motivo"
+                name="motivo"
+                value={formData.motivo}
                 onChange={handleChange}
-                placeholder="0,00"
+                placeholder="O que foi comprado/recebido?"
+                className="form-input textarea"
               />
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Data</label>
-            <Input
-              type="date"
-              name="data"
-              value={formData.data}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Categoria</label>
-            <div className="relative">
-              <Input
-                type="text"
-                name="categoria"
-                value={formData.categoria}
-                onChange={handleChange}
-                placeholder="Digite uma categoria"
-              />
-              {formData.categoria && categoriaSuggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-3 border border-green-500/30 bg-card rounded-md shadow-lg z-50 max-h-40 overflow-y-auto">
-                  {categoriaSuggestions.map(cat => (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      className="w-full text-left px-4 py-3 hover:bg-green-500/10 text-green-400 text-sm transition-colors"
-                      onClick={() => {
-                        setFormData(prev => ({ ...prev, categoria: cat.nome }))
-                        setCategoriaSuggestions([])
-                      }}
-                    >
-                      {cat.nome}
-                    </button>
-                  ))}
-                </div>
-              )}
+            {/* Valor */}
+            <div className="form-group">
+              <label htmlFor="valor" className="form-label">Valor</label>
+              <div className="valor-input-group">
+                <span className="currency-symbol">R$</span>
+                <input
+                  id="valor"
+                  type="text"
+                  name="valor"
+                  value={formatCurrency(formData.valor)}
+                  onChange={handleChange}
+                  placeholder="0,00"
+                  className="form-input"
+                />
+              </div>
             </div>
-          </div>
 
-          {tipo !== 'entrada' && (
-            <label className="flex items-center gap-2 cursor-pointer">
+            {/* Data */}
+            <div className="form-group">
+              <label htmlFor="data" className="form-label">Data</label>
               <input
-                type="checkbox"
-                name="parcelado"
-                checked={formData.parcelado}
-                onChange={(e) => {
-                  setFormData(prev => ({ ...prev, parcelado: e.target.checked }))
-                  if (e.target.checked) {
-                    setShowCustomParcelas(false)
-                  }
-                }}
+                id="data"
+                type="date"
+                name="data"
+                value={formData.data}
+                onChange={handleChange}
+                className="form-input"
               />
-              <span className="text-sm font-medium">Parcelado</span>
-            </label>
-          )}
+            </div>
 
-          {formData.parcelado && tipo !== 'entrada' && (
-            <div className="space-y-3">
-              {!showCustomParcelas ? (
-                <>
-                  <div className="flex gap-2 flex-wrap">
-                    {[2, 3, 5, 6, 12].map(p => (
+            {/* Categoria */}
+            <div className="form-group">
+              <label htmlFor="categoria" className="form-label">Categoria</label>
+              <div className="categoria-wrapper">
+                <input
+                  id="categoria"
+                  type="text"
+                  name="categoria"
+                  value={formData.categoria}
+                  onChange={handleChange}
+                  placeholder="Digite uma categoria"
+                  className="form-input"
+                />
+                {formData.categoria && categoriaSuggestions.length > 0 && (
+                  <div className="categoria-suggestions">
+                    {categoriaSuggestions.map(cat => (
                       <button
-                        key={p}
+                        key={cat.id}
                         type="button"
-                        onClick={() => handleParcelasSelect(p)}
-                        className={`py-1 px-2 rounded text-xs font-medium transition-all ${
-                          formData.parcelas === String(p)
-                            ? 'bg-green-500 text-black shadow-lg shadow-green-500/50'
-                            : 'bg-transparent text-green-400 hover:text-green-300'
-                        }`}
+                        className="suggestion-item"
+                        onClick={() => {
+                          setFormData(prev => ({ ...prev, categoria: cat.nome }))
+                          setCategoriaSuggestions([])
+                        }}
                       >
-                        {p}x
+                        {cat.nome}
                       </button>
                     ))}
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowCustomParcelas(true)}
-                    className="w-full py-2 px-3 rounded-lg text-sm font-medium bg-transparent border border-green-500/40 text-green-400 hover:border-green-500/60 transition-all"
-                  >
-                    Outro
-                  </button>
-                </>
-              ) : (
-                <div className="space-y-2">
-                  <Input
-                    type="number"
-                    name="parcelas"
-                    value={formData.parcelas}
-                    onChange={handleChange}
-                    min="1"
-                    max="48"
-                    placeholder="Digite a quantidade"
-                    autoFocus
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowCustomParcelas(false)}
-                    className="w-full py-2 px-3 rounded-lg text-sm font-medium bg-green-500/10 border border-green-500/40 text-green-400 hover:border-green-500/60 transition-all"
-                  >
-                    Confirmar
-                  </button>
-                </div>
-              )}
-
-              {formData.parcelas && formData.valor && (
-                <div className="text-sm space-y-1 bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                  <p className="text-green-400">Valor por parcela: <strong>{formatCurrency(String(Math.round(parseInt(formData.valor) / parseInt(formData.parcelas))))}</strong></p>
-                  <p className="text-green-600">Começa em: {new Date(formData.data).toLocaleDateString('pt-BR')}</p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          )}
 
-      </form>
-    </AppDialog>
+            {/* Parcelado */}
+            {tipo !== 'entrada' && (
+              <label className="parcelado-label">
+                <input
+                  type="checkbox"
+                  name="parcelado"
+                  checked={formData.parcelado}
+                  onChange={(e) => {
+                    setFormData(prev => ({ ...prev, parcelado: e.target.checked }))
+                    if (e.target.checked) {
+                      setShowCustomParcelas(false)
+                    }
+                  }}
+                />
+                <span>Parcelado</span>
+              </label>
+            )}
+
+            {/* Parcelas Options */}
+            {formData.parcelado && tipo !== 'entrada' && (
+              <div className="parcelas-section">
+                {!showCustomParcelas ? (
+                  <>
+                    <div className="parcelas-quick-select">
+                      {[2, 3, 5, 6, 12].map(p => (
+                        <button
+                          key={p}
+                          type="button"
+                          onClick={() => handleParcelasSelect(p)}
+                          className={`parcelas-btn ${
+                            formData.parcelas === String(p) ? 'parcelas-btn-selected' : ''
+                          }`}
+                        >
+                          {p}x
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowCustomParcelas(true)}
+                      className="parcelas-outro-btn"
+                    >
+                      Outro
+                    </button>
+                  </>
+                ) : (
+                  <div className="parcelas-custom-section">
+                    <input
+                      type="number"
+                      name="parcelas"
+                      value={formData.parcelas}
+                      onChange={handleChange}
+                      min="1"
+                      max="48"
+                      placeholder="Digite a quantidade"
+                      autoFocus
+                      className="form-input"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCustomParcelas(false)}
+                      className="parcelas-confirm-btn"
+                    >
+                      Confirmar
+                    </button>
+                  </div>
+                )}
+
+                {formData.parcelas && formData.valor && (
+                  <div className="parcelas-info">
+                    <p className="parcelas-info-title">Valor por parcela: <strong>{formatCurrency(String(Math.round(parseInt(formData.valor) / parseInt(formData.parcelas))))}</strong></p>
+                    <p className="parcelas-info-date">Começa em: {new Date(formData.data).toLocaleDateString('pt-BR')}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="modal-footer">
+              <button type="button" onClick={onClose} className="btn-cancel">
+                Cancelar
+              </button>
+              <button type="submit" className="btn-submit">
+                Adicionar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
   )
 }
 
