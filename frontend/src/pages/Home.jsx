@@ -37,6 +37,26 @@ const CATEGORY_ICONS = {
   'Assinatura': Zap,
 }
 
+const CATEGORY_EMOJIS = {
+  'Alimentação': '🍔',
+  'Bebidas': '🍷',
+  'Transporte': '🚗',
+  'Moradia': '🏠',
+  'Saúde': '⚕️',
+  'Lazer': '🎮',
+  'Educação': '📚',
+  'Compras': '🛍️',
+  'Diversão': '🎬',
+  'Viagem': '✈️',
+  'Assinatura': '⚡',
+  'Entrada': '💰',
+  'Renda': '💵',
+  'Cashback': '🎁',
+  'Freelance': '💼',
+  'Investimento': '📈',
+  'Sem categoria': '📌',
+}
+
 const BANKS = [
   { sigla: 'C6', nome: 'C6 Bank', tipo: 'Conta principal', saldo: 4250, bgColor: '#f59e0b' },
   { sigla: 'VN', nome: 'VamoNessa SP', tipo: 'Conta corrente', saldo: 2100.50, bgColor: '#a78bfa' },
@@ -281,6 +301,14 @@ function Home() {
     if (h >= 5 && h < 12) return 'Bom dia'
     if (h >= 12 && h < 18) return 'Boa tarde'
     return 'Boa noite'
+  }
+
+  const getCategoryEmoji = (lancamento) => {
+    if (lancamento.parcelado) {
+      return '📌'
+    }
+    const categoria = lancamento.categoria || 'Sem categoria'
+    return CATEGORY_EMOJIS[categoria] || '📌'
   }
 
   const handleMesChange = (novoMes) => {
@@ -556,6 +584,7 @@ function Home() {
                   <>
                     {lancamentosCartao.slice(0, 5).map((l, idx) => {
                       const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
                       return (
                         <div
                           key={l.id}
@@ -563,9 +592,13 @@ function Home() {
                           onClick={() => handleEditLancamento(l)}
                           style={{ opacity: 1 - (idx * 0.15) }}
                         >
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', width: '100%' }}>
-                            <span>{l.descricao}</span>
-                            {parcelText && <span style={{ fontSize: '12px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '8px' }}>{parcelText}</span>}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                            <span style={{ fontSize: '16px', minWidth: 'fit-content' }}>{emoji}</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+                              <span>{l.descricao}</span>
+                              <span style={{ fontSize: '12px', color: 'rgba(120, 180, 120, 0.6)' }}>{l.categoria || 'Sem categoria'}</span>
+                            </div>
+                            {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '4px' }}>{parcelText}</span>}
                           </div>
                           <span className="negative">{fmt(Math.abs(l.valor))}</span>
                         </div>
@@ -603,6 +636,7 @@ function Home() {
                   <>
                     {lancamentosConta.slice(0, 5).map((l, idx) => {
                       const parcelText = getParcelText(l);
+                      const emoji = getCategoryEmoji(l);
                       return (
                         <div
                           key={l.id}
@@ -610,9 +644,13 @@ function Home() {
                           onClick={() => handleEditLancamento(l)}
                           style={{ opacity: 1 - (idx * 0.15) }}
                         >
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', width: '100%' }}>
-                            <span>{l.descricao}</span>
-                            {parcelText && <span style={{ fontSize: '12px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '8px' }}>{parcelText}</span>}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                            <span style={{ fontSize: '16px', minWidth: 'fit-content' }}>{emoji}</span>
+                            <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+                              <span>{l.descricao}</span>
+                              <span style={{ fontSize: '12px', color: 'rgba(120, 180, 120, 0.6)' }}>{l.categoria || 'Sem categoria'}</span>
+                            </div>
+                            {parcelText && <span style={{ fontSize: '11px', color: 'var(--green-hero)', fontWeight: 'bold', minWidth: 'fit-content', marginLeft: '4px' }}>{parcelText}</span>}
                           </div>
                           <span className={l.tipo === 'entrada' ? 'positive' : 'negative'}>
                             {l.tipo === 'entrada' ? '+' : '-'}{fmt(Math.abs(l.valor))}
