@@ -1554,6 +1554,8 @@
   cursor: pointer;
   margin-bottom: 0;
   flex-grow: 1;
+  width: 100%;
+  grid-column: 1 / -1;
 }
 
 .investment-card:hover {
