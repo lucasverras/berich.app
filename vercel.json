@@ -1,6 +1,7 @@
 {
   "buildCommand": "cd frontend && pnpm run build",
-  "installCommand": "pnpm install",
+  "installCommand": "cd frontend && pnpm install",
+  "outputDirectory": "frontend/dist",
   "env": {
     "PNPM_HOME": "/pnpm",
     "PATH": "$PNPM_HOME:$PATH"
