@@ -2,128 +2,72 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Investimentos.css'
 
-const CATEGORIAS_ICONS = {
-  'Criptomoedas': '₿',
-  'Renda Fixa': '📊',
-  'Títulos Públicos': '🏛️',
-  'Poupança': '💾',
-  'Fundos': '🏢',
-  'Ações': '📈',
-  'Conta Corrente': '🏦'
-}
-
 const fmt = (v) => {
   if (!v) return 'R$ 0,00'
   return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
+const BANCOS = [
+  'C6 BANK',
+  'ITAU',
+  'VAMO NESSA',
+  'MERCADO LIVRE',
+  'CRIPTOMOEDAS',
+  'POUPANÇA',
+  'TESOURO'
+]
+
 function Investimentos() {
   const navigate = useNavigate()
+  const [showModal, setShowModal] = useState(false)
+  const [investimentos, setInvestimentos] = useState([
+    { id: 1, banco: 'C6 BANK', descricao: 'PAI LCA 91.5% JULHO 26', valor: 148000.90 },
+    { id: 2, banco: 'C6 BANK', descricao: 'C6 CRÉDITO', valor: 5246.44 },
+    { id: 3, banco: 'C6 BANK', descricao: 'CDB C6 APLICADO 20/3', valor: 5000.00 },
+    { id: 4, banco: 'C6 BANK', descricao: 'INVEST C6 CRÉDITO', valor: 3300.00 },
+    { id: 5, banco: 'C6 BANK', descricao: 'BONUS MOSAIC CDB C6 APLICADO 21/3', valor: 3000.00 },
+    { id: 6, banco: 'C6 BANK', descricao: 'BONUS MOSAIC CDB C6 APLICADO 21/3', valor: 4000.00 },
+    { id: 7, banco: 'ITAU', descricao: 'ITAU CDB', valor: 20044.00 },
+    { id: 8, banco: 'ITAU', descricao: 'LCL ECOM', valor: 4510.00 },
+    { id: 9, banco: 'VAMO NESSA', descricao: 'VAMO NESSA', valor: 2207.29 },
+    { id: 10, banco: 'MERCADO LIVRE', descricao: 'ML 106% +14/7/2026', valor: 11520.00 },
+    { id: 11, banco: 'CRIPTOMOEDAS', descricao: 'BINANCE BTC', valor: 10702.31 },
+    { id: 12, banco: 'CRIPTOMOEDAS', descricao: 'WORLD COIN BTC', valor: 391.00 },
+    { id: 13, banco: 'POUPANÇA', descricao: 'COFRINHO 120% CDI', valor: 10000.00 },
+    { id: 14, banco: 'POUPANÇA', descricao: '110% cdi 6 meses - 16/03/2026', valor: 4600.00 },
+    { id: 15, banco: 'POUPANÇA', descricao: '19/11 2025 caixinha nu bank turbo 115', valor: 5000.00 },
+    { id: 16, banco: 'POUPANÇA', descricao: '19/11/2025 reserva de emergência', valor: 5000.00 }
+  ])
 
-  const investimentosInitial = [
-    {
-      id: 1,
-      nome: 'Bitcoin',
-      categoria: 'Criptomoedas',
-      investido: 2000,
-      valor_atual: 2450,
-      primeiro_aporte: '10/03/2026',
-      ultimo_aporte: '15/05/2026',
-      observacoes: 'Mantendo como ativo de longo prazo'
-    },
-    {
-      id: 2,
-      nome: 'CDB Itaú',
-      categoria: 'Renda Fixa',
-      investido: 5000,
-      valor_atual: 5180,
-      primeiro_aporte: '02/01/2026',
-      ultimo_aporte: '20/04/2026',
-      observacoes: 'Vencimento em 12 meses'
-    },
-    {
-      id: 3,
-      nome: 'Tesouro Selic',
-      categoria: 'Títulos Públicos',
-      investido: 3500,
-      valor_atual: 3610,
-      primeiro_aporte: '15/02/2026',
-      ultimo_aporte: '30/05/2026',
-      observacoes: 'Rendimento diário'
-    },
-    {
-      id: 4,
-      nome: 'Reserva de Emergência',
-      categoria: 'Poupança',
-      investido: 4000,
-      valor_atual: 4080,
-      primeiro_aporte: '01/01/2026',
-      ultimo_aporte: '25/05/2026',
-      observacoes: '6 meses de gastos'
-    },
-    {
-      id: 5,
-      nome: 'Fundo Imobiliário',
-      categoria: 'Fundos',
-      investido: 2500,
-      valor_atual: 2410,
-      primeiro_aporte: '15/03/2026',
-      ultimo_aporte: '10/05/2026',
-      observacoes: 'Distribuição mensal de dividendos'
-    },
-    {
-      id: 6,
-      nome: 'Ações (IBOV)',
-      categoria: 'Ações',
-      investido: 3000,
-      valor_atual: 3150,
-      primeiro_aporte: '01/04/2026',
-      ultimo_aporte: '20/05/2026',
-      observacoes: 'Carteira diversificada'
-    },
-    {
-      id: 7,
-      nome: 'C6 Bank',
-      categoria: 'Conta Corrente',
-      investido: 5000,
-      valor_atual: 5000,
-      primeiro_aporte: '15/01/2026',
-      ultimo_aporte: '01/05/2026',
-      observacoes: 'Reserva em conta corrente'
-    },
-    {
-      id: 8,
-      nome: 'Itaú',
-      categoria: 'Conta Corrente',
-      investido: 2500,
-      valor_atual: 2500,
-      primeiro_aporte: '10/02/2026',
-      ultimo_aporte: '15/05/2026',
-      observacoes: 'Conta do banco principal'
-    },
-    {
-      id: 9,
-      nome: 'Nubank',
-      categoria: 'Conta Corrente',
-      investido: 1500,
-      valor_atual: 1500,
-      primeiro_aporte: '20/03/2026',
-      ultimo_aporte: '10/05/2026',
-      observacoes: 'Cartão de crédito'
+  const [novoInvestimento, setNovoInvestimento] = useState({
+    banco: BANCOS[0],
+    descricao: '',
+    valor: ''
+  })
+
+  // Agrupar por banco
+  const investPorBanco = {}
+  BANCOS.forEach(banco => {
+    investPorBanco[banco] = investimentos.filter(i => i.banco === banco)
+  })
+
+  // Total geral
+  const totalGeral = investimentos.reduce((sum, i) => sum + i.valor, 0)
+
+  const handleAddInvestimento = () => {
+    if (!novoInvestimento.descricao || !novoInvestimento.valor) {
+      alert('Preencha descrição e valor')
+      return
     }
-  ]
-
-  const [investimentos] = useState(investimentosInitial.map(inv => ({
-    ...inv,
-    icone: CATEGORIAS_ICONS[inv.categoria] || '📈'
-  })))
-
-  const totalInvestido = investimentos.reduce((sum, inv) => sum + inv.investido, 0)
-  const totalAtual = investimentos.reduce((sum, inv) => sum + inv.valor_atual, 0)
-  const rendimento = totalAtual - totalInvestido
-
-  const handleInvestimentoClick = (investimento) => {
-    navigate(`/investimentos/${investimento.id}`, { state: { investimento } })
+    const novo = {
+      id: Math.max(...investimentos.map(i => i.id), 0) + 1,
+      banco: novoInvestimento.banco,
+      descricao: novoInvestimento.descricao,
+      valor: parseFloat(novoInvestimento.valor)
+    }
+    setInvestimentos([...investimentos, novo])
+    setNovoInvestimento({ banco: BANCOS[0], descricao: '', valor: '' })
+    setShowModal(false)
   }
 
   return (
@@ -132,84 +76,94 @@ function Investimentos() {
         {/* HEADER */}
         <div className="header">
           <div className="header-left">
-            <h1>
-              <span className="header-icon">📈</span>
-              Investimentos
-            </h1>
-            <p>Acompanhe seus ativos e evolução patrimonial</p>
+            <h1>💼 Investimentos</h1>
+            <p>Total: {fmt(totalGeral)}</p>
           </div>
+          <button className="btn-adicionar" onClick={() => setShowModal(true)}>
+            + Adicionar
+          </button>
         </div>
 
-        {/* STATS GRID */}
-        <div className="stats-grid">
-          <div className="stat-card stat-card-glass stat-card-glow">
-            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #9c27b0, transparent)' }}></div>
-            <div className="stat-icon stat-icon-purple">💰</div>
-            <div className="stat-label">Total Investido</div>
-            <div className="stat-value">{fmt(totalInvestido)}</div>
-            <div className="stat-sub">Capital inicial</div>
-          </div>
+        {/* INVESTIMENTOS POR BANCO */}
+        <div className="investimentos-container">
+          {BANCOS.map((banco) => {
+            const itens = investPorBanco[banco]
+            if (itens.length === 0) return null
 
-          <div className="stat-card stat-card-glass stat-card-glow">
-            <div className="stat-corner-decoration" style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }}></div>
-            <div className="stat-icon stat-icon-blue">💎</div>
-            <div className="stat-label">Valor Atual</div>
-            <div className="stat-value">{fmt(totalAtual)}</div>
-            <div className="stat-sub">Patrimônio total</div>
-          </div>
+            const totalBanco = itens.reduce((sum, i) => sum + i.valor, 0)
 
-          <div className="stat-card stat-card-glass stat-card-glow">
-            <div className="stat-corner-decoration" style={{ background: `radial-gradient(circle, ${rendimento >= 0 ? '#4ade80' : '#f87171'}, transparent)` }}></div>
-            <div className={`stat-icon ${rendimento >= 0 ? 'stat-icon-green' : 'stat-icon-red'}`}>📊</div>
-            <div className="stat-label">Rendimento</div>
-            <div className={`stat-value ${rendimento >= 0 ? 'positive' : 'negative'}`}>{rendimento >= 0 ? '+' : '−'}{fmt(Math.abs(rendimento))}</div>
-            <div className="stat-sub">{((rendimento / totalInvestido) * 100).toFixed(2)}% ganho</div>
-          </div>
-        </div>
-
-        {/* INVESTIMENTOS */}
-        <div className="investimentos-section">
-          <div className="section-header">
-            <h2 className="section-title">Meus Investimentos</h2>
-            <span className="section-count">{investimentos.length} ativos</span>
-          </div>
-
-          <div className="investimentos-grid">
-            {investimentos.map((inv) => {
-              const rendInv = inv.valor_atual - inv.investido
-              const pctInv = ((rendInv / inv.investido) * 100).toFixed(2)
-              return (
-                <div
-                  key={inv.id}
-                  className="investimento-card"
-                  onClick={() => handleInvestimentoClick(inv)}
-                  role="button"
-                >
-                  <div className="inv-icon">{CATEGORIAS_ICONS[inv.categoria] || '📈'}</div>
-                  <h3 className="inv-nome">{inv.nome}</h3>
-                  <p className="inv-categoria">{inv.categoria}</p>
-
-                  <div className="inv-valores">
-                    <div className="inv-val">
-                      <span className="inv-label">Investido</span>
-                      <span className="inv-number">{fmt(inv.investido)}</span>
-                    </div>
-                    <div className="inv-val">
-                      <span className="inv-label">Atual</span>
-                      <span className={`inv-number ${rendInv >= 0 ? 'positive' : 'negative'}`}>{fmt(inv.valor_atual)}</span>
-                    </div>
-                  </div>
-
-                  <div className={`inv-badge ${rendInv >= 0 ? 'positive' : 'negative'}`}>
-                    {rendInv >= 0 ? '+' : '−'}{fmt(Math.abs(rendInv))} ({pctInv}%)
-                  </div>
+            return (
+              <div key={banco} className="banco-card">
+                <div className="banco-titulo">
+                  <h2>{banco}</h2>
+                  <span className="banco-total">{fmt(totalBanco)}</span>
                 </div>
-              )
-            })}
-          </div>
+
+                <div className="investimentos-lista">
+                  {itens.map((inv) => (
+                    <div key={inv.id} className="investimento-row">
+                      <div className="inv-valor">{fmt(inv.valor)}</div>
+                      <div className="inv-banco">{inv.banco}</div>
+                      <div className="inv-descricao">{inv.descricao}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
 
+      {/* MODAL */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Adicionar Investimento</h2>
+              <button className="btn-close" onClick={() => setShowModal(false)}>✕</button>
+            </div>
+
+            <div className="modal-body">
+              <div className="form-group">
+                <label>BANCO</label>
+                <select
+                  value={novoInvestimento.banco}
+                  onChange={(e) => setNovoInvestimento({...novoInvestimento, banco: e.target.value})}
+                >
+                  {BANCOS.map(banco => (
+                    <option key={banco} value={banco}>{banco}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>DESCRIÇÃO</label>
+                <input
+                  type="text"
+                  placeholder="Ex: CDB 120%"
+                  value={novoInvestimento.descricao}
+                  onChange={(e) => setNovoInvestimento({...novoInvestimento, descricao: e.target.value})}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>VALOR</label>
+                <input
+                  type="number"
+                  placeholder="0,00"
+                  value={novoInvestimento.valor}
+                  onChange={(e) => setNovoInvestimento({...novoInvestimento, valor: e.target.value})}
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn-cancel" onClick={() => setShowModal(false)}>Cancelar</button>
+              <button className="btn-confirm" onClick={handleAddInvestimento}>Adicionar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

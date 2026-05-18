@@ -1,39 +1,47 @@
-import React, { useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { AppContext } from '../context/AppContext'
+import { transacoesData } from '../data/transacoes'
+import { getCategoryColor } from '../data/categoriesStore'
 import './Itau.css'
 
+const fmt = (v) => {
+  if (!v) return 'R$ 0,00'
+  return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
+
 function Itau() {
-  const [abaSelecionada, setAbaSelecionada] = useState('visao-geral')
+  const { mes, ano } = useContext(AppContext)
+  const [abaSelecionada, setAbaSelecionada] = useState('transacoes')
+  const [transacoes, setTransacoes] = useState([])
+  const [resumo, setResumo] = useState({ entradas: 0, mensal: 0, pontual: 0 })
 
-  const fmt = (v) => {
-    if (!v) return 'R$ 0,00'
-    return parseFloat(v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-  }
+  useEffect(() => {
+    const itauTransacoes = transacoesData['Itaú'] || []
 
-  const contas = [
-    {
-      id: 1,
-      tipo: 'Conta Corrente',
-      numero: '12345-6',
-      agencia: '1234',
-      saldo: 3890.50,
-      icon: '💼',
-    },
-    {
-      id: 2,
-      tipo: 'Poupança',
-      numero: '12345-8',
-      agencia: '1234',
-      saldo: 12500.00,
-      icon: '🏦',
-    },
-  ]
+    const transacoesMes = itauTransacoes
+      .sort((a, b) => new Date(b.data || '2000-01-01') - new Date(a.data || '2000-01-01'))
 
-  const transacoes = [
-    { id: 1, desc: 'Transferência Enviada', valor: -500.00, data: '2026-05-15', icon: '📤' },
-    { id: 2, desc: 'Depósito Recebido', valor: 2000.00, data: '2026-05-14', icon: '📥' },
-    { id: 3, desc: 'Saque', valor: -300.00, data: '2026-05-13', icon: '💵' },
-    { id: 4, desc: 'DOC Enviado', valor: -1500.00, data: '2026-05-12', icon: '📄' },
-  ]
+    setTransacoes(transacoesMes)
+
+    let mensal = 0
+    let pontual = 0
+    let total = 0
+
+    transacoesMes.forEach(t => {
+      if (t.categoria === 'MENSAL') {
+        mensal += t.valor || 0
+      } else if (t.categoria === 'PONTUAL') {
+        pontual += t.valor || 0
+      }
+      total += t.valor || 0
+    })
+
+    setResumo({
+      entradas: total,
+      mensal,
+      pontual
+    })
+  }, [mes, ano])
 
   return (
     <div className="itau-layout">
@@ -41,29 +49,23 @@ function Itau() {
         {/* HEADER */}
         <div className="itau-header">
           <h1>🏛️ Itaú Unibanco</h1>
-          <p>Saldo consolidado de suas contas</p>
+          <p>Conta gerenciada</p>
         </div>
 
         {/* SALDO TOTAL */}
         <div className="saldo-total-card">
-          <div className="saldo-label">Saldo Total</div>
-          <div className="saldo-valor">{fmt(3890.50 + 12500.00)}</div>
-          <div className="saldo-sub">2 contas</div>
+          <div className="saldo-label">Renda Total</div>
+          <div className="saldo-valor positive">{fmt(resumo.entradas)}</div>
+          <div className="saldo-sub">{transacoes.length} transações</div>
         </div>
 
         {/* ABAS */}
         <div className="tabs">
           <button
-            className={`tab-btn ${abaSelecionada === 'visao-geral' ? 'active' : ''}`}
-            onClick={() => setAbaSelecionada('visao-geral')}
+            className={`tab-btn ${abaSelecionada === 'resumo' ? 'active' : ''}`}
+            onClick={() => setAbaSelecionada('resumo')}
           >
-            Visão Geral
-          </button>
-          <button
-            className={`tab-btn ${abaSelecionada === 'contas' ? 'active' : ''}`}
-            onClick={() => setAbaSelecionada('contas')}
-          >
-            Contas
+            Resumo
           </button>
           <button
             className={`tab-btn ${abaSelecionada === 'transacoes' ? 'active' : ''}`}
@@ -74,82 +76,68 @@ function Itau() {
         </div>
 
         {/* CONTEÚDO */}
-        {abaSelecionada === 'visao-geral' && (
+        {abaSelecionada === 'resumo' && (
           <div className="tab-content">
             <div className="stats-grid">
               <div className="stat-item">
-                <div className="stat-icon">💼</div>
+                <div className="stat-icon">📅</div>
                 <div className="stat-info">
-                  <div className="stat-label">Conta Corrente</div>
-                  <div className="stat-value">{fmt(3890.50)}</div>
+                  <div className="stat-label">Mensal</div>
+                  <div className="stat-value positive">{fmt(resumo.mensal)}</div>
                 </div>
               </div>
               <div className="stat-item">
-                <div className="stat-icon">🏦</div>
+                <div className="stat-icon">⚡</div>
                 <div className="stat-info">
-                  <div className="stat-label">Poupança</div>
-                  <div className="stat-value">{fmt(12500.00)}</div>
+                  <div className="stat-label">Pontual</div>
+                  <div className="stat-value positive">{fmt(resumo.pontual)}</div>
                 </div>
               </div>
-            </div>
-
-            <h3 className="section-title">Últimas Movimentações</h3>
-            <div className="transacoes-list">
-              {transacoes.map(t => (
-                <div key={t.id} className="transacao-item">
-                  <div className="transacao-left">
-                    <span className="transacao-icon">{t.icon}</span>
-                    <div className="transacao-info">
-                      <div className="transacao-desc">{t.desc}</div>
-                      <div className="transacao-data">{t.data}</div>
-                    </div>
-                  </div>
-                  <div className={`transacao-valor ${t.valor > 0 ? 'positivo' : 'negativo'}`}>
-                    {t.valor > 0 ? '+' : ''}{fmt(t.valor)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {abaSelecionada === 'contas' && (
-          <div className="tab-content">
-            <div className="contas-lista">
-              {contas.map(conta => (
-                <div key={conta.id} className="conta-item">
-                  <div className="conta-header">
-                    <span className="conta-icon">{conta.icon}</span>
-                    <div className="conta-details">
-                      <div className="conta-tipo">{conta.tipo}</div>
-                      <div className="conta-numero">Ag. {conta.agencia} · CC {conta.numero}</div>
-                    </div>
-                  </div>
-                  <div className="conta-saldo">{fmt(conta.saldo)}</div>
-                </div>
-              ))}
             </div>
           </div>
         )}
 
         {abaSelecionada === 'transacoes' && (
           <div className="tab-content">
-            <div className="transacoes-list">
-              {transacoes.map(t => (
-                <div key={t.id} className="transacao-item">
-                  <div className="transacao-left">
-                    <span className="transacao-icon">{t.icon}</span>
-                    <div className="transacao-info">
-                      <div className="transacao-desc">{t.desc}</div>
-                      <div className="transacao-data">{t.data}</div>
+            <h3 className="section-title">Todas as Transações</h3>
+            {transacoes.length === 0 ? (
+              <div className="card empty-state">
+                <p>Sem transações</p>
+              </div>
+            ) : (
+              <div className="transacoes-list">
+                {transacoes.map((t, idx) => {
+                  const catColor = getCategoryColor(t.categoria)
+                  const emoji = t.categoria === 'MENSAL' ? '📅' : t.categoria === 'PONTUAL' ? '⚡' : '📌'
+
+                  return (
+                    <div
+                      key={idx}
+                      className="transacao-item"
+                      style={{
+                        backgroundColor: `${catColor}15`,
+                        borderLeftColor: catColor,
+                        borderLeftWidth: '3px'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                        <span style={{ fontSize: '16px', minWidth: 'fit-content' }}>{emoji}</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, flex: 1 }}>
+                          <span>{t.motivo}</span>
+                          <span style={{ fontSize: '12px', color: catColor }}>{t.categoria}</span>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 'fit-content' }}>
+                        <span style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                          {t.data}
+                        </span>
+                        <span className="positive">{fmt(t.valor)}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className={`transacao-valor ${t.valor > 0 ? 'positivo' : 'negativo'}`}>
-                    {t.valor > 0 ? '+' : ''}{fmt(t.valor)}
-                  </div>
-                </div>
-              ))}
-            </div>
+                  )
+                })}
+              </div>
+            )}
           </div>
         )}
       </div>

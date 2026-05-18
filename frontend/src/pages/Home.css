@@ -1883,3 +1883,149 @@
     display: none;
   }
 }
+
+/* BANCOS GRID */
+.bancos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.banco-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.banco-card:hover {
+  background: rgba(76, 175, 80, 0.15);
+  border-color: rgba(76, 175, 80, 0.4);
+  transform: translateY(-2px);
+}
+
+.banco-icon {
+  font-size: 28px;
+  min-width: fit-content;
+}
+
+.banco-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.banco-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.banco-valor {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.banco-valor.positive {
+  color: #22c55e;
+}
+
+.banco-valor.negative {
+  color: #ef4444;
+}
+
+/* CHARTS SECTION */
+.charts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.chart-card {
+  min-height: 350px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+}
+
+@media (max-width: 1024px) {
+  .charts-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.category-tag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.category-tag:hover {
+  transform: translateX(4px);
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .category-tags {
+    gap: 8px;
+  }
+
+  .category-tag {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* CATEGORY TAGS */
+.category-tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+  align-items: center;
+}
+
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.category-tag:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .category-tags {
+    gap: 8px;
+  }
+
+  .category-tag {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}

@@ -11,6 +11,7 @@ import Cartao from './pages/Cartao'
 import Investimentos from './pages/Investimentos'
 import Itau from './pages/Itau'
 import NuBank from './pages/NuBank'
+import VamoNessa from "./pages/VamoNessa"
 import InvestimentoDetalhe from './pages/InvestimentoDetalhe'
 import BancoDetalhe from './pages/BancoDetalhe'
 import Revisar from './pages/Revisar'
@@ -18,6 +19,8 @@ import Mobile from './pages/Mobile'
 import Config from './pages/Config'
 import Relatorios from './pages/Relatorios'
 import Historico from './pages/Historico'
+import Debug from "./pages/Debug"
+import Planilha from './pages/Planilha'
 import Onboarding from './pages/Onboarding'
 import { ShadcnDemo } from './components/ShadcnDemo'
 import './App.css'
@@ -61,12 +64,15 @@ function AppContent() {
           <Route path="/investimentos/:id" element={<InvestimentoDetalhe />} />
           <Route path="/itau" element={<Itau />} />
           <Route path="/nubank" element={<NuBank />} />
+          <Route path="/vamonessa" element={<VamoNessa />} />
           <Route path="/banco/:banco" element={<BancoDetalhe />} />
           <Route path="/revisar" element={<Revisar />} />
           <Route path="/config" element={<Config />} />
           <Route path="/mobile" element={<Mobile />} />
           <Route path="/relatorios" element={<Relatorios />} />
           <Route path="/historico" element={<Historico />} />
+          <Route path="/planilha" element={<Planilha />} />
+          <Route path="/debug" element={<Debug />} />
         </Routes>
       </main>
       {isMobile && <BottomNav />}

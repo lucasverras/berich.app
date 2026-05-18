@@ -1,0 +1,2194 @@
+{
+  "cartao_saldo": {
+    "Março": {
+      "Cartão": [
+        {
+          "valor": -204.5,
+          "data": "2026-03-01",
+          "motivo": "DMZ 1/3",
+          "categoria": "PARA MIM",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -97.36,
+          "data": "2026-03-01",
+          "motivo": "VIVARA KAU 2/3",
+          "categoria": "PRESENTES",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -23,
+          "data": "2026-03-04",
+          "motivo": "NAO SEI",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -12.99,
+          "data": "2026-03-06",
+          "motivo": "COCA",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -337.27,
+          "data": "2026-03-08",
+          "motivo": "BOTECO DA MOOCA + JATOBAH + FRANCO",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -23.95,
+          "data": "2026-03-08",
+          "motivo": "KAUANY UBER",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -124.3,
+          "data": "2026-03-08",
+          "motivo": "TOCCO COM A KAU",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -90.98,
+          "data": "2026-03-14",
+          "motivo": "UBER PARA GALPAO",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -97.56,
+          "data": "2026-03-14",
+          "motivo": "BEEFMAKERS CARNES CHURRASCO SALLES QUE FICOU PARA DOMINGO",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -25,
+          "data": "2026-03-14",
+          "motivo": "TABACO",
+          "categoria": "POD",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -97.2,
+          "data": "2026-03-15",
+          "motivo": "COMBOS DE VODKA VÓ DO SALLES",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -33.96,
+          "data": "2026-03-15",
+          "motivo": "MCDONALDS + BREJA NO POSTO",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -14.95,
+          "data": "20 3",
+          "motivo": "uber pro enzo",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -11,
+          "data": "20 3",
+          "motivo": "pepsi",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -283.33,
+          "data": "2026-03-21",
+          "motivo": "franco gastrobar com rizzi",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -50,
+          "data": "2026-03-21",
+          "motivo": "gasolina",
+          "categoria": "GASOLINA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -203.38,
+          "data": "2026-03-21",
+          "motivo": "farol da mooca com lorenzo vitinho nick",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -62.6,
+          "data": "2026-03-22",
+          "motivo": "adega do pinho",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -26.57,
+          "data": "2026-03-22",
+          "motivo": "pepsi",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -153.06,
+          "data": "2026-03-24",
+          "motivo": "calca kaua ta pagando",
+          "categoria": "VESTUÁRIO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -89.9,
+          "data": "2026-03-26",
+          "motivo": "total pass",
+          "categoria": "MENSAL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -156.94,
+          "data": "2026-03-26",
+          "motivo": "calça fusion",
+          "categoria": "VESTUÁRIO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -280.7,
+          "data": "2026-03-26",
+          "motivo": "zé delivery c os mlks (todos pagaram)",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -179.72,
+          "data": "2026-03-28",
+          "motivo": "uber para casamento",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -50,
+          "data": "2026-03-29",
+          "motivo": "tarifa anuidade",
+          "categoria": "CARTÃO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -50.64,
+          "data": "2026-03-30",
+          "motivo": "uber",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        }
+      ],
+      "Saldo": [
+        {
+          "valor": 757.49,
+          "data": null,
+          "motivo": "MES PASSADO",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": -617.56,
+          "data": "2026-03-01",
+          "motivo": "CONVÊNIO",
+          "categoria": "MENSAL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -135,
+          "data": "2026-03-01",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 3371.92,
+          "data": "2026-03-02",
+          "motivo": "NAVEGANDO FEVEREIRO + UBER",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 50,
+          "data": "2026-03-02",
+          "motivo": "PALMEIRAS REEMBOLSO",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -150,
+          "data": "2026-03-04",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 300,
+          "data": "2026-03-05",
+          "motivo": "COMISSAO FELIPE RADIAL",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 5444.8,
+          "data": "2026-03-05",
+          "motivo": "SALÁRIO MOSAIC",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 19.9,
+          "data": "2026-03-05",
+          "motivo": "PALMEIRAS",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 600,
+          "data": "2026-03-06",
+          "motivo": "NAVEGANDO MKT COMISSAO",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -263.9,
+          "data": "2026-03-08",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 100,
+          "data": "2026-03-08",
+          "motivo": "rafa dr espeto",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 300,
+          "data": "2026-03-08",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -250,
+          "data": "2026-03-09",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -283.28,
+          "data": "2026-03-09",
+          "motivo": "fatura nu bank (mensais + carro)",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -202.5,
+          "data": "2026-03-10",
+          "motivo": "pagamento gustavo",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -100,
+          "data": "2026-03-10",
+          "motivo": "CHURRASCO KAU BANCO",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 100,
+          "data": "2026-03-10",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -2396.36,
+          "data": "2026-03-10",
+          "motivo": "FATURA C6",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": -495,
+          "data": "2026-03-10",
+          "motivo": "mercado pago (1 parte da bateria, flores)",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 306,
+          "data": "2026-03-11",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": null,
+          "data": "2026-03-11",
+          "motivo": "enviou LCL",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": 26.97,
+          "data": "2026-03-12",
+          "motivo": "CAMISETA PALMEIRAS, VENDEU A DO CORINTHIANS",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -36.72,
+          "data": "2026-03-14",
+          "motivo": "nao sei",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 106,
+          "data": "2026-03-15",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -3000,
+          "data": "2026-03-15",
+          "motivo": "aplicou cdb",
+          "categoria": "INVESTIDO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 1350,
+          "data": "2026-03-19",
+          "motivo": "LARI PAGOU COMISSOES E 20% VERA",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -4000,
+          "data": "2026-03-20",
+          "motivo": "APLICOU CDB",
+          "categoria": "INVESTIDO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 200,
+          "data": "2026-03-22",
+          "motivo": "leozinho apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -176.05,
+          "data": "2026-03-25",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -500,
+          "data": "2026-03-26",
+          "motivo": "superbet",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 961.59,
+          "data": "2026-03-26",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 22,
+          "data": "2026-03-27",
+          "motivo": "rafae",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -155,
+          "data": "2026-03-28",
+          "motivo": "cidinha e gravata",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -100,
+          "data": "2026-03-29",
+          "motivo": "bet",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 975,
+          "data": "2026-03-31",
+          "motivo": "navegando comissoes",
+          "categoria": "NAVEGANDOSP",
+          "tipo": "transacao"
+        }
+      ]
+    },
+    "Abril": {
+      "Cartão": [
+        {
+          "valor": -204.5,
+          "data": "2026-04-02",
+          "motivo": "dmz 2/3",
+          "categoria": "PARA MIM",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -49.99,
+          "data": "2026-04-02",
+          "motivo": "estacionamento",
+          "categoria": "ESTACIONAMENTO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -75,
+          "data": "2026-04-04",
+          "motivo": "pizzaria pianossa",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -151.97,
+          "data": "2026-04-04",
+          "motivo": "humorfobia bola e carioca",
+          "categoria": "KAU",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -470,
+          "data": "2026-04-06",
+          "motivo": "nonna lasanha",
+          "categoria": "KAU",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -45,
+          "data": "2026-04-06",
+          "motivo": "estacionamento",
+          "categoria": "ESTACIONAMENTO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -145,
+          "data": "2026-04-10",
+          "motivo": "primas kau",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -13.9,
+          "data": "2026-04-11",
+          "motivo": "zona azu",
+          "categoria": "ESTACIONAMENTO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -121.15,
+          "data": "2026-04-12",
+          "motivo": "jantar eu e kau",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -22,
+          "data": "2026-04-12",
+          "motivo": "MP",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -19.94,
+          "data": "2026-04-13",
+          "motivo": "joarez",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -198.03,
+          "data": "2026-04-15",
+          "motivo": "burdog dia do humorfobia",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -50.88,
+          "data": "2026-04-16",
+          "motivo": "poke kau",
+          "categoria": "KAU",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -105.9,
+          "data": "2026-04-16",
+          "motivo": "jogo palmeiras arredores",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -54.6,
+          "data": "2026-04-17",
+          "motivo": "uber agencia",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -475,
+          "data": "2026-04-19",
+          "motivo": "maru e festa eletrônica",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -27.4,
+          "data": "2026-04-19",
+          "motivo": "uber kau",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -19.36,
+          "data": "2026-04-19",
+          "motivo": "farmacia",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -71.4,
+          "data": "2026-04-20",
+          "motivo": "almoco com a kau",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -13.99,
+          "data": "2026-04-21",
+          "motivo": "coca",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -247.83,
+          "data": "2026-04-24",
+          "motivo": "camisa retro amiga pagas",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -80.42,
+          "data": "2026-04-25",
+          "motivo": "save the burger",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -33.7,
+          "data": "2026-04-25",
+          "motivo": "jupan",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -89.9,
+          "data": "2026-04-26",
+          "motivo": "totalpass",
+          "categoria": "MENSAL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -47.98,
+          "data": "2026-04-26",
+          "motivo": "indo pro jogo",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -75,
+          "data": "2026-04-12",
+          "motivo": "palmeiras ingresso champions",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -329.03,
+          "data": "2026-04-02",
+          "motivo": "dani show 1/2",
+          "categoria": "FESTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -110,
+          "data": "2026-04-22",
+          "motivo": "ingresso palmeiras bragança",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -131,
+          "data": "2026-04-17",
+          "motivo": "san gennato pizzas",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -34.5,
+          "data": "2026-04-24",
+          "motivo": "naosei",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        }
+      ],
+      "Saldo": [
+        {
+          "valor": 2130,
+          "data": "2026-04-01",
+          "motivo": "mês passado",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": -679.19,
+          "data": "2026-04-01",
+          "motivo": "superrmed boleto",
+          "categoria": "MENSAL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 100,
+          "data": "2026-04-01",
+          "motivo": "kau",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -215,
+          "data": "2026-04-02",
+          "motivo": "páscoa",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 3000,
+          "data": "2026-04-02",
+          "motivo": "mensal navegando",
+          "categoria": "NAVEGANDOSP",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -2500,
+          "data": "2026-04-02",
+          "motivo": "denstias lentes",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -50,
+          "data": "2026-04-03",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -80,
+          "data": "2026-04-03",
+          "motivo": "combo salles",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -380,
+          "data": "2026-04-05",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 5444.8,
+          "data": "2026-04-06",
+          "motivo": "salario mosaic",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -98,
+          "data": "2026-04-06",
+          "motivo": "1 ano kau",
+          "categoria": "KAU",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 400,
+          "data": "2026-04-07",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -915.23,
+          "data": "2026-04-09",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -2780.86,
+          "data": "2026-04-10",
+          "motivo": "FATURA",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": -3300,
+          "data": "2026-04-10",
+          "motivo": "INVESTIU C6 CARTAO",
+          "categoria": "INVESTIDO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 200,
+          "data": "2026-04-10",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 190,
+          "data": "2026-04-10",
+          "motivo": "NMAO SEI",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -100,
+          "data": "2026-04-11",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -20,
+          "data": "2026-04-12",
+          "motivo": "TABACO",
+          "categoria": "POD",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 78.34,
+          "data": "2026-04-13",
+          "motivo": "AYALA PAGOU",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 100,
+          "data": "2026-04-14",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -400,
+          "data": "2026-04-16",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 870,
+          "data": "2026-04-19",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -114.78,
+          "data": "2026-04-19",
+          "motivo": "TXA CAMISAS PALMEIRAS",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 100,
+          "data": "2026-04-20",
+          "motivo": "ganhos",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -495,
+          "data": "2026-04-21",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 2798.79,
+          "data": "2026-04-22",
+          "motivo": "comissao FELIPE RADIAL",
+          "categoria": "NAVEGANDOSP",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -1000,
+          "data": "2026-04-22",
+          "motivo": "bet",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 1100,
+          "data": "2026-04-23",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -3360,
+          "data": "2026-04-23",
+          "motivo": "investiu lcl",
+          "categoria": "LCL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -20,
+          "data": "2026-04-24",
+          "motivo": "lalamove",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 1000,
+          "data": "2026-04-24",
+          "motivo": "navegandospcomssao",
+          "categoria": "NAVEGANDOSP",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 152.99,
+          "data": "2026-04-25",
+          "motivo": "churrasco mlks",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -100,
+          "data": null,
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 150,
+          "data": "2026-04-27",
+          "motivo": "kau pagou",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 200,
+          "data": null,
+          "motivo": "franco cardapio",
+          "categoria": "NAVEGANDOSP",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 3,
+          "data": "2026-04-28",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -50,
+          "data": "2026-04-30",
+          "motivo": "rafael",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -679.19,
+          "data": "2026-04-30",
+          "motivo": "segurosaude",
+          "categoria": "MENSAL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 755,
+          "data": "2026-04-30",
+          "motivo": "apostas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        }
+      ]
+    },
+    "Maio": {
+      "Cartão": [
+        {
+          "valor": -329.03,
+          "data": "01 05",
+          "motivo": "dani show  2/2",
+          "categoria": "FESTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -204.5,
+          "data": "01 04",
+          "motivo": "dmz 3/3",
+          "categoria": "PARA MIM",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -29.8,
+          "data": "2026-05-01",
+          "motivo": "macdonalds",
+          "categoria": "COMIDA",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -807.37,
+          "data": "2026-05-01",
+          "motivo": "PARATY",
+          "categoria": "VIAGENS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -10.94,
+          "data": "2026-05-05",
+          "motivo": "uber",
+          "categoria": "UBER",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -52.12,
+          "data": "2026-05-05",
+          "motivo": "FORMULA BKZ",
+          "categoria": "PARA MIM",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -65,
+          "data": "2026-05-08",
+          "motivo": "lavagem carro",
+          "categoria": "ESTACIONAMENTO",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -18,
+          "data": "2026-05-08",
+          "motivo": "pepse",
+          "categoria": "BEBIDAS",
+          "tipo": "transacao"
+        }
+      ],
+      "Saldo": [
+        {
+          "valor": 1435.67,
+          "data": "2026-05-01",
+          "motivo": "mês passado",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": -47.4,
+          "data": "2026-05-04",
+          "motivo": "olx",
+          "categoria": "OUTROS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 5444.8,
+          "data": "2026-05-05",
+          "motivo": "salario mosaic",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -3515.25,
+          "data": "2026-05-05",
+          "motivo": "FATURA CARTÃO",
+          "categoria": null,
+          "tipo": "transacao"
+        },
+        {
+          "valor": 50,
+          "data": "2026-05-05",
+          "motivo": "APOSTas",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 70,
+          "data": "2026-05-05",
+          "motivo": "RATAO PAGOU",
+          "categoria": "GANHOS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -235,
+          "data": "2026-05-06",
+          "motivo": "CONTABILIDADE LCL INVEST",
+          "categoria": "LCL",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -242.3,
+          "data": "2026-05-06",
+          "motivo": "VIAGEM PARATY",
+          "categoria": "VIAGENS",
+          "tipo": "transacao"
+        },
+        {
+          "valor": 3000,
+          "data": "2026-05-07",
+          "motivo": "NAVEGANDO MENSAL",
+          "categoria": "NAVEGANDOSP",
+          "tipo": "transacao"
+        },
+        {
+          "valor": -900,
+          "data": "2026-05-09",
+          "motivo": "APOSTAS",
+          "categoria": "APOSTAS",
+          "tipo": "transacao"
+        }
+      ]
+    }
+  },
+  "itau": [
+    {
+      "mes": "ABRIL",
+      "data": "2026-04-09",
+      "valor": 600,
+      "motivo": "BAR DO ESPANHOL - Mensal abril",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": "2026-04-15",
+      "valor": 150,
+      "motivo": "BAR DO ESPANHOL - Cardápio 1/2",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": "2026-04-21",
+      "valor": 500,
+      "motivo": "BEWILL - Matsuya reestruturação",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": "2026-04-22",
+      "valor": -381.57,
+      "motivo": "GASTOS - Case drone, visor, película, luminária, camera de peito, dupla face, arrumar fio",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "ABRIL",
+      "data": "2026-05-02",
+      "valor": -55.88,
+      "motivo": "GASTOS - FATURA ABRIL",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-12",
+      "valor": 200,
+      "motivo": "OMDR - OMDR VIDEO DRONE - DOMINGUERVAS",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-12",
+      "valor": 300,
+      "motivo": "BAR DO ESPANHOL - MENSAL MAIO 1/2",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-19",
+      "valor": 500,
+      "motivo": "SPORT BAR - SPORT BAR VÍDEO MAKER IFOOD",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-20",
+      "valor": -1600,
+      "motivo": "GASTOS - 2/12 DRONE PAI",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-26",
+      "valor": 1000,
+      "motivo": "LETÍCIA ENFERMEIRA - VÍDEO IA LETÍCIA",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-29",
+      "valor": 250,
+      "motivo": "LETÍCIA ENFERMEIRA - CORTE PODCAST 1/5",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-29",
+      "valor": -32.16,
+      "motivo": "M3 - UBER IDA E VOLTA",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-30",
+      "valor": 1190,
+      "motivo": "LETÍCIA ENFERMEIRA - 5 CORTES - APP",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "MAIO",
+      "data": "2026-05-30",
+      "valor": 500,
+      "motivo": "FUGITA - NESTOR ANIV",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-02",
+      "valor": -229.04,
+      "motivo": "GASTOS - CARTÃO",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-03",
+      "valor": 600,
+      "motivo": "BAR DO ESPANHOL - BAR DO ESPANHOL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-03",
+      "valor": -122,
+      "motivo": "GASTOS - CHAT GPT MENSAL",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-03",
+      "valor": 450,
+      "motivo": "KES SPORTWEAR - LOGO",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-09",
+      "valor": -1052.9,
+      "motivo": "GASTOS - ESTABILIZADOR",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-10",
+      "valor": 700,
+      "motivo": "DI RAPHA 1 MÊS - MENSAL DI RAPHA 1/2",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-12",
+      "valor": 1500,
+      "motivo": "M3 - MENSAL M3",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-20",
+      "valor": -3000,
+      "motivo": "INVESTIMENTO CAIXINHA",
+      "categoria": null
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-25",
+      "valor": -800,
+      "motivo": "GASTOS - DRONE 3/12 pai",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JUNHO",
+      "data": "2026-06-30",
+      "valor": 990,
+      "motivo": "SOCCER STATION - soccer mensal",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-02",
+      "valor": 1300,
+      "motivo": "GABI ENFERMEIRA - VÍDEO IA + APRESENTAÇÃO COM PÉ EM PODCAST",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-03",
+      "valor": 350,
+      "motivo": "DOM TUGAS - PRODUÇÃO DE CONTEÚDO COM UM PÉ NO MENSAL - 50 DE APOSTA PQ SOU BABACA",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-15",
+      "valor": -3200,
+      "motivo": "INVESTIMENTO CAIXINHA",
+      "categoria": null
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-16",
+      "valor": 550,
+      "motivo": "DIEGO DRONE (ainda falta) - 2 vídeos de apartamentos q vao subir",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-17",
+      "valor": 600,
+      "motivo": "BAR DO ESPANHOL - JULHO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-18",
+      "valor": -600,
+      "motivo": "LEDS - 2 leds e tripé",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-21",
+      "valor": -800,
+      "motivo": "GASTOS - DRONE 4/12 PAI",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-21",
+      "valor": 1500,
+      "motivo": "ENFERMEIRAS - MENSAL - GRAVAÇÃO 2 ENFERMEIRAS",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-07-28",
+      "valor": -35.9,
+      "motivo": "GASTOS - MENSAL TURBO CLOUD",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "JULHO",
+      "data": "2026-08-26",
+      "valor": 990,
+      "motivo": "SOCCER MENSAL - SOCCER MENSAL JULHO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-04",
+      "valor": -130,
+      "motivo": "COMBO JATOBAH",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-04",
+      "valor": -242,
+      "motivo": "CHAT GPT VEIO DOBRADO - CHAT GPT JUNHO E JULHO",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-05",
+      "valor": -96.67,
+      "motivo": "FATURA JULHO",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-05",
+      "valor": -839.14,
+      "motivo": "GASTOS - MICROFONE E REBATEDOR",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-06",
+      "valor": 150,
+      "motivo": "BAR DO ESPANHOL - PAGOU TUDO DO CARDÁPIO",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-07",
+      "valor": -100,
+      "motivo": "GASTOS - GASOLINA PRA IR GRAVAR DE DRONE",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-11",
+      "valor": -80,
+      "motivo": "GASTOS - DRINKS ESPANHOL",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-13",
+      "valor": -10.73,
+      "motivo": "GASTOS - UBER ATÉ M3",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-13",
+      "valor": -35.9,
+      "motivo": "GASTOS - MENSAL TURBO CLOUD",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-20",
+      "valor": 600,
+      "motivo": "THIAGO DRONE - THIAGO DRONE AMIGO FUGITA FAZENDA",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-20",
+      "valor": -800,
+      "motivo": "DRONE - DRONE 5/12 PAI",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": null,
+      "data": "2026-08-22",
+      "valor": 6296.95,
+      "motivo": "SACOU INVESTIMENTO",
+      "categoria": null
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-24",
+      "valor": 950,
+      "motivo": "RAFA DR ESPETO E DR PIZZA - dr espeto e dr pizza (900e450)",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": null,
+      "valor": null,
+      "motivo": "TECLADO E MOUSE DELL PRO MCBOOK",
+      "categoria": null
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-29",
+      "valor": 1500,
+      "motivo": "ENFERMEIRAS - ENFERMEIRAS 2 CONTRATO MENSAL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-29",
+      "valor": -196.29,
+      "motivo": "INVESTIMENTO - SUPORTE MONITOR DE PAREDE",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-29",
+      "valor": -419.99,
+      "motivo": "INVESTIMENTO - TECLADO E MOUSE LOGITECH",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-30",
+      "valor": -94.46,
+      "motivo": "FATURA - CARTÃO FATURA CHAT GPT",
+      "categoria": "CARTÃO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-08-30",
+      "valor": 990,
+      "motivo": "SOCCER - SOCCER AGOSTO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-09-05",
+      "valor": 1000,
+      "motivo": "NAVEGANDO SP 10 DIAS - PRIMEIRO PAGAMENTO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-09-10",
+      "valor": -505.25,
+      "motivo": "INVESTIMENTO - SSD",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "AGOSTO",
+      "data": "2026-09-11",
+      "valor": -98.87,
+      "motivo": "ALMOÇO - ALMOÇO PECATTO ENTRE ENFERMEIRAS E RENAN",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-13",
+      "valor": -10000,
+      "motivo": "INVESTIMENTO - INVESTIMENTO M PAGO",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-22",
+      "valor": 900,
+      "motivo": "DR ESPETO - DR ESPETO ULTIMA MENSAL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-23",
+      "valor": 450,
+      "motivo": "DR ESPETO - DR ESPETO ÚLTIMA MENSAL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-02",
+      "valor": 996.66,
+      "motivo": "GESTAO PRÁTICA - PRIMEIRO PAGAMENTO GESTÃO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-03",
+      "valor": 700,
+      "motivo": "DI RAPHA PAGOU - NONNA ULTIMO MENSAL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-03",
+      "valor": -40,
+      "motivo": "INVESTIMENTO - REGISTRO BR",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-15",
+      "valor": 600,
+      "motivo": "BAR DO ESPANHOL - ESPANHOL AGOSTO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-15",
+      "valor": -150,
+      "motivo": "PAGOU PARA RALPH AP DA KAU - RALPH",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-17",
+      "valor": 826.2,
+      "motivo": "AUDREY VIANA CASAMENTO - CASAMENTO AUDREY 1/2",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-18",
+      "valor": 900,
+      "motivo": "NONNALIA - NONNA PAGOU ULTIMO MENSAL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-19",
+      "valor": 100,
+      "motivo": "ENFERMEIRAS - VÍDEO AVULSO ENFERMEIRAS",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-19",
+      "valor": 750,
+      "motivo": "M3 - M3 O QUE ESTAVA DEVENDO PARA REINICIAR",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-19",
+      "valor": -800,
+      "motivo": "PAGAMENTO DRONE PAI - PAGAMENTO DRONE PAI",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-24",
+      "valor": 800,
+      "motivo": "DOM TUGAS - DOM TUGAS PAGAMENTO 1",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": "2026-09-24",
+      "valor": 1500,
+      "motivo": "ENFERMEIRAS - ENFERMEIRAS PAGAMENTO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "TURBO CLOUD - TURBO CLOUD",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": null,
+      "valor": -3000,
+      "motivo": "99 TAXI INVESTIMENTO - 99 TAXI INVESTIMENTO",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": null,
+      "valor": 990,
+      "motivo": "SOCCER SETEMBRO - SOCCER SETEMBRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "SETEMBRO",
+      "data": null,
+      "valor": 900,
+      "motivo": "FREELA LOGO AVÓ - FREELA LOGO AVÓ 1 DE 2",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "TURBO CLOUD - TURBO CLOUD",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 1700,
+      "motivo": "MENSAL ENZO - MENSAL ENZO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -3000,
+      "motivo": "INVESTIU EM BITCOIN - BITCOIN 3000",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -277.53,
+      "motivo": "FILTRO DRONE - filtro nd pro drone",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 400,
+      "motivo": "MAM VANDERLEI B - QUINTAL DA GRANJA",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 650,
+      "motivo": "LEOZINHO - LEOZINHO DRONE",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -333.3,
+      "motivo": "LENTE ANGULAR DRONE - LENTE DRONE",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 300,
+      "motivo": "BAR DO ESPANHOL - FALTA 2 PARTE DE SETEMBRO E TODA DE OUTUBRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 1300,
+      "motivo": "DOM TUGAS - NAO PAGOU A. KAU PQ ABATEU DO QUE ELA DEVIA PRO NUBANK",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 201.48,
+      "motivo": "EDU HOLANDA RIMAR CARTÃO - EDU HOLANDA RIMAR CARTÃO",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 990,
+      "motivo": "SOCCER STATION OUTUBRO - SOCCER OUTUBRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "TURBO CLOUD - TURBO CLOUD",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": 423,
+      "motivo": "NONNA LIA RAPHA FALTA 450 - RAPHA PAGA PF",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -319.71,
+      "motivo": "DISKDRILL SOFTWARE - DISKDRILL DA LIMO, DESIGNI, OPEN IA",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "OUTUBRO",
+      "data": null,
+      "valor": -50,
+      "motivo": "BET - PAGAR BET DE VOLTA",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": -800,
+      "motivo": "DRONE PAI - DRONE PAI 7 de 12",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": 6000,
+      "motivo": "NAVEGANDO MKT - NAVEGANDO MKT OUTUBRO E NOVEMBRO _ COMISSAO SORVETERIA",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": 2000,
+      "motivo": "ENZAO MENSAL - ENZAO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": 808,
+      "motivo": "NAVEGANDO MKT - COMISSAO ICE YELLOW E RADIAL",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": -5000,
+      "motivo": "BINANCE - BITCOIN 5000",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": -10000,
+      "motivo": "INVESTIMENTO - INVESTIMENTO NU BANK (CAIXINHA E RESERVA)",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": -133.17,
+      "motivo": "TAXA CNH",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "TAXA SITE",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": 1050,
+      "motivo": "DOM TUGAS - NOVEMBRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": -800,
+      "motivo": "PAI DRONE - DRONE PAI 8 de 12",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "NOVEMBRO",
+      "data": null,
+      "valor": 990,
+      "motivo": "SOCCER - SOCCER NOVEMBRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -41.26,
+      "motivo": "fogos palmeiras",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 1800,
+      "motivo": "ENZO MENSAL - ENZO MENSAL LOGO ETC",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -122.31,
+      "motivo": "FATURA ITI - chat gpt",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -39,
+      "motivo": "JONAY PAGAR - JONAY PAGAR",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -43.6,
+      "motivo": "SÓLIDA TRANSPORTES - S´PLIDA TRANSPORTES - MCDONALDS",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 3000,
+      "motivo": "navegandomktq - mensaliadade",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 1000,
+      "motivo": "SÓLIDA TRANSPORTES - avulso",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -7500,
+      "motivo": "enviou pra rico",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 1500,
+      "motivo": "logo le precisa devolver",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "mensalidade turbo",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 2670,
+      "motivo": "enzão mensal",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 300,
+      "motivo": "devedor - espanhol devendo + 600",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": -1600,
+      "motivo": "FALTA 2 MENSALIDADES - FALTA 2 MENSALIDADES",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "DEZEMBRO",
+      "data": null,
+      "valor": 990,
+      "motivo": "SOCCER MENSAL - SOCCER MENSAL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -122.1,
+      "motivo": "CARTÃO IA - IA CHAT GPT",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -800,
+      "motivo": "FINALIZOU DRONE PAI - FINALIZOU DRONE",
+      "categoria": null
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 1100,
+      "motivo": "DOM TUGAS PAGOU DEZEMBRO - DEZEMBERO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 1100,
+      "motivo": "DOM TUGAS PAGOU JANEIRO - JANEIRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 1200,
+      "motivo": "ARTE BAND BIANCA - PONTUAL",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -7000,
+      "motivo": "MERCADO PAGO COFRINHO INVESTIU - PONTUAL",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 300,
+      "motivo": "ESPANHOL FALTA 300 - FALTA 300",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 100,
+      "motivo": "CARDÁPIO DR ESPETO - PONTUAL",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -50.56,
+      "motivo": "CAMISA OAKLEY - PONTUAL",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 100,
+      "motivo": "MAE PAGOU AMAIS - PONTIUAL",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -350,
+      "motivo": "BET CONTA KAUANY - PONTUAL",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -130,
+      "motivo": "DOM TUGAS - DOM TUGAS VC POIIS ANUNCIO",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "PAGAMENTO SITE",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "FEVEREIRO",
+      "data": null,
+      "valor": -125.85,
+      "motivo": "MENSAL CHAT GPT - MENSAL CHAT GPT",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": -54.01,
+      "motivo": "LALA MOVE PARA KAU",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 990,
+      "motivo": "SOCCER PAGAMENTO - JANEIRO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 900,
+      "motivo": "REPASSA BRASIL - REPASSA BRASIL SITES DEMANDA",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": -270.84,
+      "motivo": "NU BANK CARTÃO - CARRO JAMPA + ICLOUD",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "JANEIRO",
+      "data": null,
+      "valor": 2350,
+      "motivo": "ENZO MENSAL - ENZO MENSAL + LOGO GESTÃO",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "FEVEREIRO",
+      "data": null,
+      "valor": 750,
+      "motivo": "JATOBAH - PONTUAL DRONE CARNANEJO",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "FEVEREIRO",
+      "data": null,
+      "valor": 200,
+      "motivo": "ESPANHOL FALTA 200 - ESPANHOL",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "FEVEREIRO",
+      "data": null,
+      "valor": 325,
+      "motivo": "REPASSA BRASIL CONTEÚDOS MENSAIS - MANDOU METADE PARA GUSTAVO 15*20",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "FEVEREIRO",
+      "data": null,
+      "valor": -5040.95,
+      "motivo": "INVESTIDO NO CDI DO ITAU - INVESTIMETNO",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": -35.9,
+      "motivo": "PAGAMENTO SITE - TURBO CLOUD",
+      "categoria": null
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": -120.21,
+      "motivo": "IA CARTAO - MENSAL",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": 1100,
+      "motivo": "DOM TUGAS FEVEREIRO - 200 P KAU OK",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": 1600,
+      "motivo": "ENZO FEVERERO - ENZO MENSAL OK",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": 912.5,
+      "motivo": "REPASSA - JA PAGOU GUSTAVO C6 - JA PAGOU NO C6",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": 990,
+      "motivo": "SOCCER FEV - DEMOROU",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "MARÇO",
+      "data": null,
+      "valor": -4000,
+      "motivo": "INVESTIDO NO CDI DO ITAU - INVESTIMETNO",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": -40,
+      "motivo": "registro de algo",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": -153.33,
+      "motivo": "fatura chat gpt",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 2700,
+      "motivo": "enzo pacces",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 1100,
+      "motivo": "dom tugas",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 1175,
+      "motivo": "repassa",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 990,
+      "motivo": "soccer",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 990,
+      "motivo": "soccer",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": -150,
+      "motivo": "freelas",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 1000,
+      "motivo": "pai do rato drone",
+      "categoria": "PONTUAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": -327.62,
+      "motivo": "mensal chat e claude",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 1050,
+      "motivo": "dom tugas",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 3790,
+      "motivo": "enzo pacces",
+      "categoria": "MENSAL"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": -12000,
+      "motivo": "INVESTIDO NO CDI DO ITAU",
+      "categoria": "INVESTIMENTO"
+    },
+    {
+      "mes": "ABRIL",
+      "data": null,
+      "valor": 587.5,
+      "motivo": "repassa",
+      "categoria": "MENSAL"
+    }
+  ],
+  "vamo_nessa": [
+    {
+      "data": "2026-05-17",
+      "valor": 805.28,
+      "motivo": "total anterior"
+    }
+  ]
+}
