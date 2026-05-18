@@ -20,7 +20,6 @@ import Config from './pages/Config'
 import Relatorios from './pages/Relatorios'
 import Historico from './pages/Historico'
 import Debug from "./pages/Debug"
-import Planilha from './pages/Planilha'
 import Onboarding from './pages/Onboarding'
 import { ShadcnDemo } from './components/ShadcnDemo'
 import './App.css'
@@ -71,7 +70,6 @@ function AppContent() {
           <Route path="/mobile" element={<Mobile />} />
           <Route path="/relatorios" element={<Relatorios />} />
           <Route path="/historico" element={<Historico />} />
-          <Route path="/planilha" element={<Planilha />} />
           <Route path="/debug" element={<Debug />} />
         </Routes>
       </main>

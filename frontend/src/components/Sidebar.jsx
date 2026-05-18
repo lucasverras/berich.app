@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import { Home, CreditCard, Wallet, TrendingUp, Eye, Settings, ChevronRight, X, Smartphone, Grid } from 'lucide-react'
+import { Home, CreditCard, Wallet, TrendingUp, Eye, Settings, ChevronRight, X, Smartphone } from 'lucide-react'
 import './Sidebar.css'
 
 function Sidebar() {
@@ -40,7 +40,6 @@ function Sidebar() {
     { path: '/fatura', icon: CreditCard, label: 'Fatura' },
     { path: '/conta', icon: Wallet, label: 'Conta' },
     { path: '/investimentos', icon: TrendingUp, label: 'Investimentos' },
-    { path: '/planilha', icon: Grid, label: 'Planilha' },
   ]
 
   const otherItems = [
