@@ -1,9 +1,5 @@
 {
-  "buildCommand": "cd frontend && pnpm run build",
-  "installCommand": "cd frontend && pnpm install",
-  "outputDirectory": "frontend/dist",
-  "env": {
-    "PNPM_HOME": "/pnpm",
-    "PATH": "$PNPM_HOME:$PATH"
-  }
+  "buildCommand": "cd frontend && pnpm install && pnpm run build",
+  "installCommand": "echo 'dependencies installed in buildCommand'",
+  "outputDirectory": "frontend/dist"
 }
